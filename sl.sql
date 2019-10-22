@@ -1,16 +1,18 @@
-DROP TABLE Factura
-DROP TABLE Carga
-DROP TABLE Canje
-DROP TABLE Cupon
-DROP TABLE Oferta
-DROP TABLE Cliente
-DROP TABLE Tipo_de_pago
-DROP TABLE Tarjeta
-DROP TABLE Proveedor
-DROP TABLE Rubro
-DROP TABLE RolxUsuario
-DROP TABLE Rol
-DROP TABLE Usuario
+DROP TABLE Factura;
+DROP TABLE Carga;
+DROP TABLE Canje;
+DROP TABLE Cupon;
+DROP TABLE Oferta;
+DROP TABLE Cliente;
+DROP TABLE Tipo_de_pago;
+DROP TABLE Tarjeta;
+DROP TABLE Proveedor;
+DROP TABLE Rubro;
+DROP TABLE RolxUsuario;
+DROP TABLE Rol;
+DROP TABLE Usuario;
+
+SET NOCOUNT ON;
 
 CREATE TABLE Cliente (
   clie_id int IDENTITY PRIMARY KEY,
@@ -142,3 +144,21 @@ ALTER TABLE Canje ADD FOREIGN KEY (canj_cupon_id) REFERENCES Cupon (cupon_id);
 ALTER TABLE Canje ADD FOREIGN KEY (canj_clie_id) REFERENCES Cliente (clie_id);
 
 ALTER TABLE Factura ADD FOREIGN KEY (fact_prov_id) REFERENCES Proveedor (prov_id);
+
+EXEC migracion_insert_rubros;
+EXEC migracion_insert_roles;
+EXEC migracion_insert_tipos_de_pago;
+EXEC migracion_insert_proveedores;
+EXEC migracion_insert_clientes;
+--EXEC migracion_
+
+/*
+SELECT *
+FROM Proveedor
+JOIN Rubro
+	ON Rubro.rubro_id = Proveedor.prov_rubro_id
+JOIN RolxUsuario
+	ON Proveedor.prov_user_id = RolxUsuario.user_id;
+
+SELECT * FROM RolxUsuario;
+*/

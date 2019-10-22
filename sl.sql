@@ -1,5 +1,19 @@
+DROP TABLE Factura
+DROP TABLE Carga
+DROP TABLE Canje
+DROP TABLE Cupon
+DROP TABLE Oferta
+DROP TABLE Cliente
+DROP TABLE Tipo_de_pago
+DROP TABLE Tarjeta
+DROP TABLE Proveedor
+DROP TABLE Rubro
+DROP TABLE RolxUsuario
+DROP TABLE Rol
+DROP TABLE Usuario
+
 CREATE TABLE Cliente (
-  clie_id int PRIMARY KEY,
+  clie_id int IDENTITY PRIMARY KEY,
   clie_user_id int,
   clie_nombre nvarchar(255),
   clie_apellido nvarchar(255),
@@ -14,7 +28,7 @@ CREATE TABLE Cliente (
 );
 
 CREATE TABLE Proveedor (
-  prov_id int PRIMARY KEY,
+  prov_id int IDENTITY PRIMARY KEY,
   prov_user_id int,
   prov_razon_social nvarchar(100),
   prov_email nvarchar(50),
@@ -27,7 +41,7 @@ CREATE TABLE Proveedor (
 );
 
 CREATE TABLE Carga (
-  carg_id int PRIMARY KEY,
+  carg_id int IDENTITY PRIMARY KEY,
   carg_fecha datetime,
   carg_clie_id int,
   carg_tipo_de_pago_id int,
@@ -36,12 +50,12 @@ CREATE TABLE Carga (
 );
 
 CREATE TABLE Rubro (
-  rubro_id int PRIMARY KEY,
+  rubro_id int IDENTITY PRIMARY KEY,
   rubro_descripcion nvarchar(100)
 );
 
 CREATE TABLE Tarjeta (
-  tarj_id int PRIMARY KEY,
+  tarj_id int IDENTITY PRIMARY KEY,
   tarj_numero int,
   tarj_vencimiento datetime,
   tarj_titular nvarchar(50)
@@ -60,7 +74,7 @@ CREATE TABLE Oferta (
 );
 
 CREATE TABLE Cupon (
-  cupon_id int PRIMARY KEY,
+  cupon_id int IDENTITY PRIMARY KEY,
   cupon_fecha_compra datetime,
   cupon_ofer_id nvarchar(50),
   cupon_clie_id int
@@ -79,21 +93,21 @@ CREATE TABLE Factura (
 );
 
 CREATE TABLE Usuario (
-  user_id int PRIMARY KEY,
+  [user_id] int IDENTITY PRIMARY KEY,
   user_username nvarchar(20),
   user_pass nvarchar(30),
-  user_intentos int
+  user_intentos int DEFAULT 0
 );
 
 CREATE TABLE Tipo_de_pago (
-  tipo_de_pago_id int PRIMARY KEY,
+  tipo_de_pago_id int IDENTITY PRIMARY KEY,
   tipo_de_pago_descripcion nvarchar(100)
 );
 
 CREATE TABLE RolxUsuario (
-  user_id int,
+  [user_id] int,
   rol_id int,
-  PRIMARY KEY (user_id, rol_id)
+  PRIMARY KEY ([user_id], rol_id)
 );
 
 CREATE TABLE Rol (

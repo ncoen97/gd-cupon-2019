@@ -97,4 +97,5 @@ END
 /*
 EXEC migracion_insert_clientes;
 SELECT * FROM gd_esquema.Maestra;
+SELECT * FROM Cliente;
 */

@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.AbmRol
+namespace FrbaOfertas.AbmProveedor
 {
-    public partial class Form1 : Form
+    public partial class AbmProveedor : Form
     {
-        public Form1()
+        public AbmProveedor()
         {
             InitializeComponent();
+        }
+
+        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

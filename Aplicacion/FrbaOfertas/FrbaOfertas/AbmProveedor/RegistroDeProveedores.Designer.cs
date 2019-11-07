@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas.AbmProveedor
 {
-    partial class Form1
+    partial class RegistroDeProveedores
     {
         /// <summary>
         /// Required designer variable.
@@ -97,9 +97,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(284, 59);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(141, 20);
+            this.label10.Size = new System.Drawing.Size(166, 20);
             this.label10.TabIndex = 28;
-            this.label10.Text = "Registro de cliente";
+            this.label10.Text = "Registro de proveedor";
             // 
             // label9
             // 
@@ -216,7 +216,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(678, 473);
+            this.ClientSize = new System.Drawing.Size(882, 584);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Provee_nombrecontacto);
             this.Controls.Add(this.label8);

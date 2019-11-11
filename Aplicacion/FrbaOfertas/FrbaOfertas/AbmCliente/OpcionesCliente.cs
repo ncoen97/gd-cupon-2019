@@ -19,7 +19,7 @@ namespace FrbaOfertas
 
         private void OpcionesCliente_Load(object sender, EventArgs e)
         {
-
+            //deberia recibir el cliente que entra aqui
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace FrbaOfertas.AbmProveedor
+﻿namespace FrbaOfertas
 {
     partial class OpcionesProveedor
     {
@@ -92,6 +92,7 @@
             this.Controls.Add(this.button1);
             this.Name = "OpcionesProveedor";
             this.Text = "OpcionesProveedor";
+            this.Load += new System.EventHandler(this.OpcionesProveedor_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

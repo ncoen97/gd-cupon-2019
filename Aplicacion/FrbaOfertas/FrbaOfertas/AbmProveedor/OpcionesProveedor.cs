@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.AbmProveedor
+namespace FrbaOfertas
 {
     public partial class OpcionesProveedor : Form
     {
         public OpcionesProveedor()
         {
             InitializeComponent();
+        }
+
+        private void OpcionesProveedor_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -163,6 +163,9 @@
     <EmbeddedResource Include="AbmRol\AbmRol.resx">
       <DependentUpon>AbmRol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CargaCredito\CargarCredito.resx">
+      <DependentUpon>CargarCredito.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

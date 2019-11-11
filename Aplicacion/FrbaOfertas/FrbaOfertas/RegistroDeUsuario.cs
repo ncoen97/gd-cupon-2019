@@ -16,5 +16,17 @@ namespace FrbaOfertas
         {
             InitializeComponent();
         }
+
+        private void Atras_Click(object sender, EventArgs e)
+        {
+            Login log = new Login();
+            log.Show();
+            this.Hide();
+        }
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            //validar datos de registro
+        }
     }
 }

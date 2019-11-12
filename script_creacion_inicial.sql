@@ -1,44 +1,80 @@
-/*
+IF OBJECT_ID('SOCORRO.Item', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Item;
+IF OBJECT_ID('SOCORRO.Factura', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Factura;
+IF OBJECT_ID('SOCORRO.Carga', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Carga;
+IF OBJECT_ID('SOCORRO.Cupon', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Cupon;
+IF OBJECT_ID('SOCORRO.Oferta', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Oferta;
+IF OBJECT_ID('SOCORRO.Cliente', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Cliente;
+IF OBJECT_ID('SOCORRO.Tipo_de_pago', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Tipo_de_pago;
+IF OBJECT_ID('SOCORRO.Tarjeta', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Tarjeta;
+IF OBJECT_ID('SOCORRO.Proveedor', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Proveedor;
+IF OBJECT_ID('SOCORRO.Rubro', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Rubro;
+IF OBJECT_ID('SOCORRO.Administrador', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Administrador;
+IF OBJECT_ID('SOCORRO.RolxUsuario', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.RolxUsuario;
+IF OBJECT_ID('SOCORRO.FuncionalidadxRol', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.FuncionalidadxRol;
+IF OBJECT_ID('SOCORRO.Rol', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Rol;
+IF OBJECT_ID('SOCORRO.Funcionalidad', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Funcionalidad;
+IF OBJECT_ID('SOCORRO.Usuario', 'U') IS NOT NULL
+	DROP TABLE SOCORRO.Usuario;
 
--- Ejecutar este comment
--- para empezar de cero.
 
-DROP TABLE Item;
-DROP TABLE Factura;
-DROP TABLE Carga;
-DROP TABLE Cupon;
-DROP TABLE Oferta;
-DROP TABLE Cliente;
-DROP TABLE Tipo_de_pago;
-DROP TABLE Tarjeta;
-DROP TABLE Proveedor;
-DROP TABLE Rubro;
-DROP TABLE Administrador;
-DROP TABLE RolxUsuario;
-DROP TABLE FuncionalidadxRol;
-DROP TABLE Rol;
-DROP TABLE Funcionalidad;
-DROP TABLE Usuario;
-
-DROP PROC migracion_insert_rubros;
-DROP PROC migracion_insert_roles;
-DROP PROC migracion_insert_funcionalidades;
-DROP PROC migracion_insert_funcionalidadesxrol;
-DROP PROC migracion_insert_tipos_de_pago;
-DROP PROC migracion_insert_proveedores;
-DROP PROC migracion_insert_clientes;
-DROP PROC migracion_insert_ofertas;
-DROP PROC migracion_insert_cargas;
-DROP PROC migracion_insert_cupones;
-DROP PROC migracion_insert_facturas;
-DROP PROC migracion_insert_items;
-
-*/
+IF OBJECT_ID('SOCORRO.migracion_insert_rubros') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_rubros;
+IF OBJECT_ID('SOCORRO.migracion_insert_roles') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_roles;
+IF OBJECT_ID('SOCORRO.migracion_insert_funcionalidades') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_funcionalidades;
+IF OBJECT_ID('SOCORRO.migracion_insert_funcionalidadesxrol') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_funcionalidadesxrol;
+IF OBJECT_ID('SOCORRO.migracion_insert_tipos_de_pago') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_tipos_de_pago;
+IF OBJECT_ID('SOCORRO.migracion_insert_proveedores') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_proveedores;
+IF OBJECT_ID('SOCORRO.migracion_insert_clientes') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_clientes;
+IF OBJECT_ID('SOCORRO.migracion_insert_ofertas') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_ofertas;
+IF OBJECT_ID('SOCORRO.migracion_insert_cargas') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_cargas;
+IF OBJECT_ID('SOCORRO.migracion_insert_cupones') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_cupones;
+IF OBJECT_ID('SOCORRO.migracion_insert_facturas') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_facturas; 
+IF OBJECT_ID('SOCORRO.migracion_insert_items') IS NOT NULL
+	DROP PROCEDURE SOCORRO.migracion_insert_items; 
+IF OBJECT_ID('SOCORRO.fn_is_blocked_user') IS NOT NULL
+	DROP PROCEDURE SOCORRO.fn_is_blocked_user; 
+IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
+	DROP PROCEDURE SOCORRO.validarLogin;
 
 USE GD2C2019;
 SET NOCOUNT ON;
+GO
 
-CREATE TABLE Cliente (
+IF NOT EXISTS
+	(SELECT *
+	FROM sys.schemas
+	WHERE name = 'SOCORRO')
+BEGIN
+	EXEC('CREATE SCHEMA SOCORRO AUTHORIZATION gd');
+END
+GO
+
+CREATE TABLE SOCORRO.Cliente (
   clie_id int IDENTITY PRIMARY KEY,
   clie_user_id int,
   clie_nombre nvarchar(255),
@@ -53,7 +89,7 @@ CREATE TABLE Cliente (
   clie_saldo numeric(18, 2)
 );
 
-CREATE TABLE Proveedor (
+CREATE TABLE SOCORRO.Proveedor (
   prov_id int IDENTITY PRIMARY KEY,
   prov_user_id int,
   prov_razon_social nvarchar(100),
@@ -66,7 +102,7 @@ CREATE TABLE Proveedor (
   prov_rubro_id int
 );
 
-CREATE TABLE Carga (
+CREATE TABLE SOCORRO.Carga (
   carg_id int IDENTITY PRIMARY KEY,
   carg_fecha datetime,
   carg_clie_id int,
@@ -75,19 +111,19 @@ CREATE TABLE Carga (
   carg_tarj_id int
 );
 
-CREATE TABLE Rubro (
+CREATE TABLE SOCORRO.Rubro (
   rubro_id int IDENTITY PRIMARY KEY,
   rubro_descripcion nvarchar(100)
 );
 
-CREATE TABLE Tarjeta (
+CREATE TABLE SOCORRO.Tarjeta (
   tarj_id int IDENTITY PRIMARY KEY,
   tarj_numero int,
   tarj_vencimiento datetime,
   tarj_titular nvarchar(50)
 );
 
-CREATE TABLE Oferta (
+CREATE TABLE SOCORRO.Oferta (
   ofer_id nvarchar(50) PRIMARY KEY,
   ofer_descripcion nvarchar(255),
   ofer_fecha_publicacion datetime,
@@ -99,7 +135,7 @@ CREATE TABLE Oferta (
   ofer_max_cupon_por_usuario int
 );
 
-CREATE TABLE Cupon (
+CREATE TABLE SOCORRO.Cupon (
   cupon_id int IDENTITY PRIMARY KEY,
   cupon_fecha_compra datetime,
   cupon_ofer_id nvarchar(50),
@@ -108,14 +144,14 @@ CREATE TABLE Cupon (
   cupon_clie_id_consumo int
 );
 
-CREATE TABLE Administrador (
+CREATE TABLE SOCORRO.Administrador (
 	admin_id int IDENTITY PRIMARY KEY,
 	admin_user_id int,
 	admin_nombre nvarchar(255),
 	admin_apellido nvarchar(255)
 );
 
-CREATE TABLE Factura (
+CREATE TABLE SOCORRO.Factura (
   fact_id numeric(18, 0) PRIMARY KEY,
   fact_fecha_desde datetime,
   fact_fecha_hasta datetime,
@@ -123,7 +159,7 @@ CREATE TABLE Factura (
   fact_prov_id int
 );
 
-CREATE TABLE Item (
+CREATE TABLE SOCORRO.Item (
   item_fact_id numeric(18, 0),
   item_id int,
   item_ofer_id nvarchar(50),
@@ -132,85 +168,85 @@ CREATE TABLE Item (
   PRIMARY KEY (item_fact_id, item_id)
 );
 
-CREATE TABLE Usuario (
+CREATE TABLE SOCORRO.Usuario (
   [user_id] int IDENTITY PRIMARY KEY,
   user_username nvarchar(20),
   user_pass nvarchar(30),
   user_intentos int DEFAULT 0
 );
 
-CREATE TABLE Tipo_de_pago (
+CREATE TABLE SOCORRO.Tipo_de_pago (
   tipo_de_pago_id int IDENTITY PRIMARY KEY,
   tipo_de_pago_descripcion nvarchar(100)
 );
 
-CREATE TABLE RolxUsuario (
+CREATE TABLE SOCORRO.RolxUsuario (
   [user_id] int,
   rol_id int,
   PRIMARY KEY ([user_id], rol_id)
 );
 
-CREATE TABLE Rol (
+CREATE TABLE SOCORRO.Rol (
   rol_id int PRIMARY KEY,
   rol_nombre nvarchar(20)
 );
 
-CREATE TABLE Funcionalidad (
+CREATE TABLE SOCORRO.Funcionalidad (
   func_id int PRIMARY KEY,
   func_descripcion nvarchar(255)
 );
 
-CREATE TABLE FuncionalidadxRol (
+CREATE TABLE SOCORRO.FuncionalidadxRol (
   func_id int,
   rol_id int,
   PRIMARY KEY (func_id, rol_id)
 );
 
-ALTER TABLE Cliente ADD FOREIGN KEY (clie_user_id) REFERENCES Usuario ([user_id]);
+ALTER TABLE SOCORRO.Cliente ADD FOREIGN KEY (clie_user_id) REFERENCES SOCORRO.Usuario ([user_id]);
 
-ALTER TABLE RolxUsuario ADD FOREIGN KEY ([user_id]) REFERENCES Usuario ([user_id]);
+ALTER TABLE SOCORRO.RolxUsuario ADD FOREIGN KEY ([user_id]) REFERENCES SOCORRO.Usuario ([user_id]);
 
-ALTER TABLE RolxUsuario ADD FOREIGN KEY (rol_id) REFERENCES Rol (rol_id);
+ALTER TABLE SOCORRO.RolxUsuario ADD FOREIGN KEY (rol_id) REFERENCES SOCORRO.Rol (rol_id);
 
-ALTER TABLE Administrador ADD FOREIGN KEY (admin_user_id) REFERENCES Usuario ([user_id]);
+ALTER TABLE SOCORRO.Administrador ADD FOREIGN KEY (admin_user_id) REFERENCES SOCORRO.Usuario ([user_id]);
 
-ALTER TABLE Proveedor ADD FOREIGN KEY (prov_user_id) REFERENCES Usuario ([user_id]);
+ALTER TABLE SOCORRO.Proveedor ADD FOREIGN KEY (prov_user_id) REFERENCES SOCORRO.Usuario ([user_id]);
 
-ALTER TABLE Proveedor ADD FOREIGN KEY (prov_rubro_id) REFERENCES Rubro (rubro_id);
+ALTER TABLE SOCORRO.Proveedor ADD FOREIGN KEY (prov_rubro_id) REFERENCES SOCORRO.Rubro (rubro_id);
 
-ALTER TABLE Carga ADD FOREIGN KEY (carg_clie_id) REFERENCES Cliente (clie_id);
+ALTER TABLE SOCORRO.Carga ADD FOREIGN KEY (carg_clie_id) REFERENCES SOCORRO.Cliente (clie_id);
 
-ALTER TABLE Carga ADD FOREIGN KEY (carg_tarj_id) REFERENCES Tarjeta (tarj_id);
+ALTER TABLE SOCORRO.Carga ADD FOREIGN KEY (carg_tarj_id) REFERENCES SOCORRO.Tarjeta (tarj_id);
 
-ALTER TABLE Carga ADD FOREIGN KEY (carg_tipo_de_pago_id) REFERENCES Tipo_de_pago (tipo_de_pago_id);
+ALTER TABLE SOCORRO.Carga ADD FOREIGN KEY (carg_tipo_de_pago_id) REFERENCES SOCORRO.Tipo_de_pago (tipo_de_pago_id);
 
-ALTER TABLE Oferta ADD FOREIGN KEY (ofer_prov_id) REFERENCES Proveedor (prov_id);
+ALTER TABLE SOCORRO.Oferta ADD FOREIGN KEY (ofer_prov_id) REFERENCES SOCORRO.Proveedor (prov_id);
 
-ALTER TABLE Cupon ADD FOREIGN KEY (cupon_clie_id_compra) REFERENCES Cliente (clie_id);
+ALTER TABLE SOCORRO.Cupon ADD FOREIGN KEY (cupon_clie_id_compra) REFERENCES SOCORRO.Cliente (clie_id);
 
-ALTER TABLE Cupon ADD FOREIGN KEY (cupon_clie_id_consumo) REFERENCES Cliente (clie_id);
+ALTER TABLE SOCORRO.Cupon ADD FOREIGN KEY (cupon_clie_id_consumo) REFERENCES SOCORRO.Cliente (clie_id);
 
-ALTER TABLE Cupon ADD FOREIGN KEY (cupon_ofer_id) REFERENCES Oferta (ofer_id);
+ALTER TABLE SOCORRO.Cupon ADD FOREIGN KEY (cupon_ofer_id) REFERENCES SOCORRO.Oferta (ofer_id);
 
-ALTER TABLE Factura ADD FOREIGN KEY (fact_prov_id) REFERENCES Proveedor (prov_id);
+ALTER TABLE SOCORRO.Factura ADD FOREIGN KEY (fact_prov_id) REFERENCES SOCORRO.Proveedor (prov_id);
 
-ALTER TABLE Factura ADD FOREIGN KEY (fact_admin_id) REFERENCES Administrador (admin_id);
+ALTER TABLE SOCORRO.Factura ADD FOREIGN KEY (fact_admin_id) REFERENCES SOCORRO.Administrador (admin_id);
 
-ALTER TABLE Item ADD FOREIGN KEY (item_fact_id) REFERENCES Factura (fact_id);
+ALTER TABLE SOCORRO.Item ADD FOREIGN KEY (item_fact_id) REFERENCES SOCORRO.Factura (fact_id);
 
-ALTER TABLE Item ADD FOREIGN KEY (item_ofer_id) REFERENCES Oferta (ofer_id);
+ALTER TABLE SOCORRO.Item ADD FOREIGN KEY (item_ofer_id) REFERENCES SOCORRO.Oferta (ofer_id);
 
-ALTER TABLE FuncionalidadxRol ADD FOREIGN KEY (rol_id) REFERENCES Rol (rol_id);
+ALTER TABLE SOCORRO.FuncionalidadxRol ADD FOREIGN KEY (rol_id) REFERENCES SOCORRO.Rol (rol_id);
 
-ALTER TABLE FuncionalidadxRol ADD FOREIGN KEY (func_id) REFERENCES Funcionalidad (func_id);
+ALTER TABLE SOCORRO.FuncionalidadxRol ADD FOREIGN KEY (func_id) REFERENCES SOCORRO.Funcionalidad (func_id);
 
 PRINT SYSDATETIME();
 PRINT '(1/13) - Tablas creadas.' + CHAR(13);
 
 GO
 
-CREATE TRIGGER trg_item_id
-ON Item
+CREATE TRIGGER SOCORRO.tr_item_id
+ON SOCORRO.Item
 INSTEAD OF INSERT
 AS
 BEGIN
@@ -236,18 +272,18 @@ BEGIN
 		@item_cantidad;
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
-		IF @item_fact_id IN (SELECT item_fact_id FROM Item)
+		IF @item_fact_id IN (SELECT item_fact_id FROM SOCORRO.Item)
 		BEGIN
 			SELECT
 				@item_id = MAX(item_id) + 1
-			FROM Item
+			FROM SOCORRO.Item
 			WHERE item_fact_id = @item_fact_id;
 		END
 		ELSE
 		BEGIN
 			SET @item_id = 1;
 		END
-		INSERT INTO Item (
+		INSERT INTO SOCORRO.Item (
 			item_id,
 			item_fact_id,
 			item_ofer_id,
@@ -271,9 +307,9 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_funcionalidades AS
+CREATE PROC SOCORRO.migracion_insert_funcionalidades AS
 BEGIN
-	INSERT INTO Funcionalidad (func_id, func_descripcion)
+	INSERT INTO SOCORRO.Funcionalidad (func_id, func_descripcion)
 	VALUES
 		(1, 'ABM de Rol'),
 		(2, 'ABM de Clientes'),
@@ -287,9 +323,9 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_funcionalidadesxrol AS
+CREATE PROC SOCORRO.migracion_insert_funcionalidadesxrol AS
 BEGIN
-	INSERT INTO FuncionalidadxRol (rol_id, func_id)
+	INSERT INTO SOCORRO.FuncionalidadxRol (rol_id, func_id)
 	VALUES
 		-- clientes:
 		(1, 2),
@@ -306,9 +342,9 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_rubros AS
+CREATE PROC SOCORRO.migracion_insert_rubros AS
 BEGIN
-	INSERT INTO Rubro (
+	INSERT INTO SOCORRO.Rubro (
 		rubro_descripcion
 	)
 	SELECT DISTINCT Provee_Rubro
@@ -317,9 +353,9 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_roles AS
+CREATE PROC SOCORRO.migracion_insert_roles AS
 BEGIN
-	INSERT INTO Rol (rol_id, rol_nombre)
+	INSERT INTO SOCORRO.Rol (rol_id, rol_nombre)
 	VALUES
 		(1, 'Cliente'),
 		(2, 'Proveedor'),
@@ -327,9 +363,9 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_tipos_de_pago AS
+CREATE PROC SOCORRO.migracion_insert_tipos_de_pago AS
 BEGIN
-	INSERT INTO Tipo_de_pago
+	INSERT INTO SOCORRO.Tipo_de_pago
 		(tipo_de_pago_descripcion)
 	SELECT DISTINCT Tipo_Pago_Desc
 	FROM gd_esquema.Maestra
@@ -337,7 +373,7 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_proveedores AS
+CREATE PROC SOCORRO.migracion_insert_proveedores AS
 BEGIN
 	DECLARE -- todos los campos que necesita la tabla
 		@prov_user_id int,
@@ -369,24 +405,24 @@ BEGIN
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		SELECT	-- selecciono el rubro_id correspondiente!
-			@prov_rubro_id = Rubro.rubro_id
-		FROM Rubro
-		WHERE Rubro.rubro_descripcion = @prov_rubro;
+			@prov_rubro_id = r.rubro_id
+		FROM Rubro r
+		WHERE r.rubro_descripcion = @prov_rubro;
 		-- creo un usuario para el proveedor
 		-- con los valores por defecto
 		-- (el user_id va autoincrementando y 
 		-- lo demás es null por no inventar datos)
-		INSERT INTO Usuario DEFAULT VALUES;
+		INSERT INTO SOCORRO.Usuario DEFAULT VALUES;
 		-- para tener el user_id recién usado:
 		SET @prov_user_id = SCOPE_IDENTITY();
-		INSERT INTO RolxUsuario (
+		INSERT INTO SOCORRO.RolxUsuario (
 			[user_id],
 			rol_id
 		) VALUES (
 			@prov_user_id,
 			2
 		);
-		INSERT INTO Proveedor (
+		INSERT INTO SOCORRO.Proveedor (
 			prov_user_id,
 			prov_razon_social,
 			prov_direccion,
@@ -416,7 +452,7 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_clientes AS
+CREATE PROC SOCORRO.migracion_insert_clientes AS
 BEGIN
 	DECLARE -- todos los campos que necesita la tabla
 		@clie_user_id int,
@@ -455,17 +491,17 @@ BEGIN
 		-- con los valores por defecto
 		-- (el user_id va autoincrementando y 
 		-- lo demás es null por no inventar datos)
-		INSERT INTO Usuario DEFAULT VALUES;
+		INSERT INTO SOCORRO.Usuario DEFAULT VALUES;
 		-- para tener el user_id recién usado:
 		SET @clie_user_id = SCOPE_IDENTITY();
-		INSERT INTO RolxUsuario (
+		INSERT INTO SOCORRO.RolxUsuario (
 			[user_id],
 			rol_id
 		) VALUES (
 			@clie_user_id,
 			1
 		);
-		INSERT INTO Cliente(
+		INSERT INTO SOCORRO.Cliente(
 			clie_user_id,
 			clie_nombre,
 			clie_apellido,
@@ -501,9 +537,9 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_ofertas AS
+CREATE PROC SOCORRO.migracion_insert_ofertas AS
 BEGIN
-	INSERT INTO Oferta (
+	INSERT INTO SOCORRO.Oferta (
 		ofer_id,
 		ofer_descripcion,
 		ofer_fecha_publicacion,
@@ -521,38 +557,38 @@ BEGIN
 		Oferta_Precio,
 		Oferta_Precio_Ficticio,
 		(SELECT
-			Proveedor.prov_id
-		FROM Proveedor
-		WHERE Proveedor.prov_cuit = maestra.Provee_CUIT) prov_id,
+			p.prov_id
+		FROM SOCORRO.Proveedor p
+		WHERE p.prov_cuit = maestra.Provee_CUIT) prov_id,
 		Oferta_Cantidad
 	FROM gd_esquema.Maestra maestra
 	WHERE Oferta_Codigo IS NOT NULL;
 END
 GO
 
-CREATE PROC migracion_insert_cargas AS
+CREATE PROC SOCORRO.migracion_insert_cargas AS
 BEGIN
-	INSERT INTO Carga (
+	INSERT INTO SOCORRO.Carga (
 		carg_clie_id,
 		carg_monto,
 		carg_fecha,
 		carg_tipo_de_pago_id
 	)
 	SELECT
-		(SELECT Cliente.clie_id
-		FROM Cliente
-		WHERE Cliente.clie_dni = maestra.Cli_Dni) clie_id,
+		(SELECT c.clie_id
+		FROM SOCORRO.Cliente c
+		WHERE c.clie_dni = maestra.Cli_Dni) clie_id,
 		Carga_Credito,
 		Carga_Fecha,
-		(SELECT Tipo_de_pago.tipo_de_pago_id
-		FROM Tipo_de_pago
-		WHERE Tipo_de_pago.tipo_de_pago_descripcion = maestra.Tipo_Pago_Desc) tipo_de_pago_id
+		(SELECT t.tipo_de_pago_id
+		FROM SOCORRO.Tipo_de_pago t
+		WHERE t.tipo_de_pago_descripcion = maestra.Tipo_Pago_Desc) tipo_de_pago_id
 	FROM gd_esquema.Maestra maestra
 	WHERE Carga_Credito IS NOT NULL;
 END
 GO
 
-CREATE PROC migracion_insert_cupones AS
+CREATE PROC SOCORRO.migracion_insert_cupones AS
 BEGIN
 	DECLARE
 		@cupon_clie_dni numeric(18, 0),
@@ -578,12 +614,12 @@ BEGIN
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		SELECT
-			@cupon_clie_id = Cliente.clie_id
-		FROM Cliente
-		WHERE Cliente.clie_dni = @cupon_clie_dni;
+			@cupon_clie_id = c.clie_id
+		FROM SOCORRO.Cliente c
+		WHERE c.clie_dni = @cupon_clie_dni;
 		IF @cupon_fecha_consumo IS NOT NULL
 		BEGIN
-			INSERT INTO Cupon (
+			INSERT INTO SOCORRO.Cupon (
 				cupon_clie_id_compra,
 				cupon_fecha_compra,
 				cupon_ofer_id,
@@ -604,7 +640,7 @@ BEGIN
 		END
 		ELSE
 		BEGIN
-			INSERT INTO Cupon (
+			INSERT INTO SOCORRO.Cupon (
 				cupon_clie_id_compra,
 				cupon_fecha_compra,
 				cupon_ofer_id
@@ -625,7 +661,7 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_facturas AS
+CREATE PROC SOCORRO.migracion_insert_facturas AS
 BEGIN
 	DECLARE
 		@fact_prov_id int,
@@ -648,10 +684,10 @@ BEGIN
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		SELECT
-			@fact_prov_id = Proveedor.prov_id
-		FROM Proveedor
-		WHERE Proveedor.prov_razon_social = @fact_prov_rs;
-		INSERT INTO Factura (
+			@fact_prov_id = p.prov_id
+		FROM SOCORRO.Proveedor p
+		WHERE p.prov_razon_social = @fact_prov_rs;
+		INSERT INTO SOCORRO.Factura (
 			fact_id,
 			fact_prov_id,
 			fact_fecha_hasta
@@ -670,9 +706,9 @@ BEGIN
 END
 GO
 
-CREATE PROC migracion_insert_items AS
+CREATE PROC SOCORRO.migracion_insert_items AS
 BEGIN
-	INSERT INTO Item (
+	INSERT INTO SOCORRO.Item (
 		item_fact_id,
 		item_ofer_id,
 		item_precio,
@@ -688,51 +724,88 @@ BEGIN
 END
 GO
 
-EXEC migracion_insert_rubros;
+EXEC SOCORRO.migracion_insert_rubros;
 PRINT SYSDATETIME();
 PRINT '(2/13) - Rubros insertados.' + CHAR(13);
 GO
-EXEC migracion_insert_roles;
+EXEC SOCORRO.migracion_insert_roles;
 PRINT SYSDATETIME();
 PRINT '(3/13) - Roles insertados.' + CHAR(13);
 GO
-EXEC migracion_insert_funcionalidades;
+EXEC SOCORRO.migracion_insert_funcionalidades;
 PRINT SYSDATETIME();
 PRINT '(4/13) - Funcionalidades insertadas.' + CHAR(13);
 GO
-EXEC migracion_insert_funcionalidadesxrol;
+EXEC SOCORRO.migracion_insert_funcionalidadesxrol;
 PRINT SYSDATETIME();
 PRINT '(5/13) - Funcionalidades por Rol insertadas.' + CHAR(13);
 GO
-EXEC migracion_insert_tipos_de_pago;
+EXEC SOCORRO.migracion_insert_tipos_de_pago;
 PRINT SYSDATETIME();
 PRINT '(6/13) - Tipos de Pago insertados.' + CHAR(13);
 GO
-EXEC migracion_insert_proveedores;
+EXEC SOCORRO.migracion_insert_proveedores;
 PRINT SYSDATETIME();
 PRINT '(7/13) - Proveedores insertados.' + CHAR(13);
 GO
-EXEC migracion_insert_clientes;
+EXEC SOCORRO.migracion_insert_clientes;
 PRINT SYSDATETIME();
 PRINT '(8/13) - Clientes insertados.' + CHAR(13);
 GO
-EXEC migracion_insert_ofertas;
+EXEC SOCORRO.migracion_insert_ofertas;
 PRINT SYSDATETIME();
 PRINT '(9/13) - Ofertas insertadas.' + CHAR(13);
 GO
-EXEC migracion_insert_cargas;
+EXEC SOCORRO.migracion_insert_cargas;
 PRINT SYSDATETIME();
 PRINT '(10/13) - Cargas insertadas.' + CHAR(13);
 GO
-EXEC migracion_insert_cupones;
+EXEC SOCORRO.migracion_insert_cupones;
 PRINT SYSDATETIME();
 PRINT '(11/13) - Cupones insertados.' + CHAR(13);
 GO
-EXEC migracion_insert_facturas;
+EXEC SOCORRO.migracion_insert_facturas;
 PRINT SYSDATETIME();
 PRINT '(12/13) - Facturas insertadas.' + CHAR(13);
 GO
-EXEC migracion_insert_items;
+EXEC SOCORRO.migracion_insert_items;
 PRINT SYSDATETIME();
 PRINT '(13/13) - Items insertados.' + CHAR(13);
 GO
+
+/*	PROCEDURE 	*/
+
+CREATE FUNCTION [SOCORRO].fn_is_blocked_user(@username nvarchar(50))
+RETURNS bit
+AS
+ BEGIN
+	IF ((SELECT user_intentos FROM [SOCORRO].Usuario WHERE user_username = @username) >= 3)
+		RETURN 1
+	RETURN 0
+ END	
+go
+
+create procedure [SOCORRO].validarLogin(@username nvarchar(20),@password nvarchar(20))
+as
+begin
+	IF ((SELECT SOCORRO.fn_is_blocked_user(@username)) = 1)
+			RETURN -2 /*Usuario bloqueado*/
+	DECLARE @hash nvarchar(255)
+	DECLARE @user_id int
+
+	SET @hash = HASHBYTES('SHA2_256', @password)
+	SET @user_id = (SELECT user FROM [SOCORRO].Usuario WHERE user_username = @username AND user_pass = @hash)
+
+	IF (@user_id IS NOT NULL)
+		BEGIN 
+		UPDATE [SOCORRO].Usuario SET user_intentos = 0 WHERE user_username = @username
+		RETURN @user_id /*Usuario ok*/
+		END
+	ELSE 	
+		BEGIN 
+		UPDATE [SOCORRO].Usuario SET user_intentos = user_intentos + 1 WHERE user_username = @username
+		RETURN -1 /*Usuario o Contraseña incorrecta*/
+		END
+
+end
+go

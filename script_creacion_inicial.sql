@@ -810,3 +810,78 @@ begin
 
 end
 go
+
+CREATE FUNCTION SOCORRO.fn_validar_nuevo_username (
+    @username nvarchar(20)
+) RETURNS int AS
+BEGIN
+    IF EXISTS (
+        SELECT user_username
+        FROM SOCORRO.Usuario u
+        WHERE u.user_username = @username
+    ) RETURN 1;
+    RETURN 0;
+END
+CREATE PROC SOCORRO.sp_registro_cliente (
+    @user_username nvarchar(20),
+    @user_pass nvarchar(30),
+    @clie_nombre nvarchar(255),
+    @clie_apellido nvarchar(255),
+    @clie_dni numeric(18,0),
+    @clie_email nvarchar(255),
+    @clie_telefono numeric(18,0),
+    @clie_direccion nvarchar(255),
+    @clie_codigo_postal char(5),
+    @clie_fecha_nacimiento datetime,
+    @clie_ciudad nvarchar(255)
+) AS
+BEGIN
+    SET XACT_ABORT ON;
+    BEGIN TRY
+        BEGIN TRANSACTION
+            IF (SOCORRO.fn_validar_nuevo_username(@user_username) = 1)
+                RETURN 1;
+            DECLARE
+                @user_id int,
+                @pass_hashed nvarchar(255);
+            INSERT INTO SOCORRO.Usuario (
+                user_username,
+                user_pass,
+                user_intentos
+            ) VALUES (
+                @user_username,
+                HASHBYTES('SHA2_256', @user_pass),
+                0
+            );
+            SET @user_id = SCOPE_IDENTITY();
+            INSERT INTO Cliente (
+                clie_user_id,
+                clie_nombre,
+                clie_apellido,
+                clie_dni,
+                clie_email,
+                clie_telefono,
+                clie_direccion,
+                clie_codigo_postal,
+                clie_fecha_nacimiento,
+                clie_ciudad
+            ) VALUES (
+                @user_id,
+                @clie_nombre,
+                @clie_apellido,
+                @clie_dni,
+                @clie_email,
+                @clie_telefono,
+                @clie_direccion,
+                @clie_codigo_postal,
+                @clie_fecha_nacimiento,
+                @clie_ciudad
+            );
+        COMMIT
+    END TRY
+    BEGIN CATCH
+        PRINT 'Algún error saltó.';
+        IF @@TRANCOUNT > 0
+            ROLLBACK
+    END CATCH
+END

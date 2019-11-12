@@ -56,6 +56,7 @@ IF OBJECT_ID('SOCORRO.migracion_insert_facturas') IS NOT NULL
 	DROP PROCEDURE SOCORRO.migracion_insert_facturas; 
 IF OBJECT_ID('SOCORRO.migracion_insert_items') IS NOT NULL
 	DROP PROCEDURE SOCORRO.migracion_insert_items; 
+<<<<<<< HEAD
 IF OBJECT_ID('SOCORRO.fn_is_blocked_user') IS NOT NULL
 	DROP PROCEDURE SOCORRO.fn_is_blocked_user; 
 IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL

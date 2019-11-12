@@ -33,25 +33,45 @@ namespace FrbaOfertas
             int respuesta = UsuarioDAO.logUsuario(usuario);
             if (respuesta == -1)
             {
-                MessageBox.Show("Error: usuario o contraseña incorrectos");
+                MessageBox.Show("Error: Usuario o contraseña incorrectos");
+            }
+            else if(respuesta == -2)
+            {
+                MessageBox.Show("Error: Usuario bloqueado, contactarse con el administrador");
             }
             else
             {
                 usuario.id = respuesta;
-                usuario.password = ""; //limpio contraseña por seguridad
+                usuario.password = ""; //limpiamos la pass por seguridad
                 MessageBox.Show("Bienvenido " + usuario.username + "!", "Login satisfactorio", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bool esCliente = false;
-                if (esCliente)
-                {
-                    OpcionesCliente oc = new OpcionesCliente();
-                    oc.Show();
-                    this.Hide();
-                }
-                else
-                {
 
-                    OpcionesProveedor op = new OpcionesProveedor();
-                    op.Show();
+                textbox_contraseña.Visible = false;
+                textbox_usuario.Visible = false;
+                buttonIniciarSesion.Visible = false;
+                buttonRegistrarse.Visible = false;
+                buttonCerrarSesion.Visible = true;
+                buttonSeleccionarRol.Visible = true;
+
+                UsuarioDAO.cargarRolesUsuario(usuario);
+                //agrego todas las views
+                foreach (Rol rol in usuario.roles)
+                {
+                    cboRoles.Items.Add(rol);
+                    cboRoles.DisplayMember = "nombre";
+                    cboRoles.ValueMember = "id";
+
+                }
+                if (usuario.roles.Count == 0)
+                {
+                    MessageBox.Show("Al parecer no tiene Roles asignados, porfavor contáctese con el Administrador", "Error Roles", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
+                    Application.Restart();
+                    return;
+                }
+                if (usuario.roles.Count == 1)
+                {
+                    Form form = new MenuPrincipalForm(usuario, usuario.roles.First());
+                    form.Show();
                     this.Hide();
                 }
             }
@@ -70,7 +90,7 @@ namespace FrbaOfertas
 
         private void Login_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

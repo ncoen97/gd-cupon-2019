@@ -28,102 +28,153 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonRegistrarse = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.textbox_contraseña = new System.Windows.Forms.TextBox();
+            this.buttonIniciarSesion = new System.Windows.Forms.Button();
+            this.buttonSalir = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textbox_usuario = new System.Windows.Forms.TextBox();
-            this.textbox_contraseña = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.cboRoles = new System.Windows.Forms.ComboBox();
+            this.buttonCerrarSesion = new System.Windows.Forms.Button();
+            this.buttonSeleccionarRol = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(310, 212);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(181, 36);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Iniciar sesión";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(234, 117);
+            this.label1.Location = new System.Drawing.Point(156, 76);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 20);
+            this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Usuario";
+            // 
+            // buttonRegistrarse
+            // 
+            this.buttonRegistrarse.Location = new System.Drawing.Point(207, 165);
+            this.buttonRegistrarse.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonRegistrarse.Name = "buttonRegistrarse";
+            this.buttonRegistrarse.Size = new System.Drawing.Size(121, 23);
+            this.buttonRegistrarse.TabIndex = 7;
+            this.buttonRegistrarse.Text = "Registrarse";
+            this.buttonRegistrarse.UseVisualStyleBackColor = true;
+            this.buttonRegistrarse.Click += new System.EventHandler(this.Button3_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(234, 169);
+            this.label2.Location = new System.Drawing.Point(156, 110);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(92, 20);
+            this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Contraseña";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // textbox_contraseña
+            // 
+            this.textbox_contraseña.Location = new System.Drawing.Point(226, 108);
+            this.textbox_contraseña.Margin = new System.Windows.Forms.Padding(2);
+            this.textbox_contraseña.Name = "textbox_contraseña";
+            this.textbox_contraseña.PasswordChar = '*';
+            this.textbox_contraseña.Size = new System.Drawing.Size(127, 20);
+            this.textbox_contraseña.TabIndex = 5;
+            // 
+            // buttonIniciarSesion
+            // 
+            this.buttonIniciarSesion.Location = new System.Drawing.Point(207, 138);
+            this.buttonIniciarSesion.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonIniciarSesion.Name = "buttonIniciarSesion";
+            this.buttonIniciarSesion.Size = new System.Drawing.Size(121, 23);
+            this.buttonIniciarSesion.TabIndex = 0;
+            this.buttonIniciarSesion.Text = "Iniciar sesión";
+            this.buttonIniciarSesion.UseVisualStyleBackColor = true;
+            this.buttonIniciarSesion.Click += new System.EventHandler(this.Button1_Click);
+            // 
+            // buttonSalir
+            // 
+            this.buttonSalir.Location = new System.Drawing.Point(207, 261);
+            this.buttonSalir.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonSalir.Name = "buttonSalir";
+            this.buttonSalir.Size = new System.Drawing.Size(121, 23);
+            this.buttonSalir.TabIndex = 6;
+            this.buttonSalir.Text = "Salir";
+            this.buttonSalir.UseVisualStyleBackColor = true;
+            this.buttonSalir.Click += new System.EventHandler(this.Button2_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(343, 69);
+            this.label3.Location = new System.Drawing.Point(229, 45);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 20);
+            this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 3;
             this.label3.Text = "Iniciar sesión";
             // 
             // textbox_usuario
             // 
-            this.textbox_usuario.Location = new System.Drawing.Point(339, 114);
+            this.textbox_usuario.Location = new System.Drawing.Point(226, 74);
+            this.textbox_usuario.Margin = new System.Windows.Forms.Padding(2);
             this.textbox_usuario.Name = "textbox_usuario";
-            this.textbox_usuario.Size = new System.Drawing.Size(189, 26);
+            this.textbox_usuario.Size = new System.Drawing.Size(127, 20);
             this.textbox_usuario.TabIndex = 4;
             // 
-            // textbox_contraseña
+            // menuStrip1
             // 
-            this.textbox_contraseña.Location = new System.Drawing.Point(339, 166);
-            this.textbox_contraseña.Name = "textbox_contraseña";
-            this.textbox_contraseña.PasswordChar = '*';
-            this.textbox_contraseña.Size = new System.Drawing.Size(189, 26);
-            this.textbox_contraseña.TabIndex = 5;
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(533, 24);
+            this.menuStrip1.TabIndex = 8;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // button2
+            // cboRoles
             // 
-            this.button2.Location = new System.Drawing.Point(310, 402);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(181, 36);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Salir";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            this.cboRoles.FormattingEnabled = true;
+            this.cboRoles.Location = new System.Drawing.Point(382, 140);
+            this.cboRoles.Name = "cboRoles";
+            this.cboRoles.Size = new System.Drawing.Size(121, 21);
+            this.cboRoles.TabIndex = 9;
             // 
-            // button3
+            // buttonCerrarSesion
             // 
-            this.button3.Location = new System.Drawing.Point(310, 254);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(181, 36);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Registrarse";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.Button3_Click);
+            this.buttonCerrarSesion.Location = new System.Drawing.Point(382, 209);
+            this.buttonCerrarSesion.Name = "buttonCerrarSesion";
+            this.buttonCerrarSesion.Size = new System.Drawing.Size(121, 23);
+            this.buttonCerrarSesion.TabIndex = 10;
+            this.buttonCerrarSesion.Text = "Cerrar sesión";
+            this.buttonCerrarSesion.UseVisualStyleBackColor = true;
+            // 
+            // buttonSeleccionarRol
+            // 
+            this.buttonSeleccionarRol.Location = new System.Drawing.Point(382, 180);
+            this.buttonSeleccionarRol.Name = "buttonSeleccionarRol";
+            this.buttonSeleccionarRol.Size = new System.Drawing.Size(121, 23);
+            this.buttonSeleccionarRol.TabIndex = 11;
+            this.buttonSeleccionarRol.Text = "Seleccionar rol";
+            this.buttonSeleccionarRol.UseVisualStyleBackColor = true;
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.ClientSize = new System.Drawing.Size(533, 292);
+            this.Controls.Add(this.buttonSeleccionarRol);
+            this.Controls.Add(this.buttonCerrarSesion);
+            this.Controls.Add(this.cboRoles);
+            this.Controls.Add(this.buttonRegistrarse);
+            this.Controls.Add(this.buttonSalir);
             this.Controls.Add(this.textbox_contraseña);
             this.Controls.Add(this.textbox_usuario);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonIniciarSesion);
+            this.Controls.Add(this.menuStrip1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Login";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);
@@ -134,13 +185,18 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonRegistrarse;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textbox_contraseña;
+        private System.Windows.Forms.Button buttonIniciarSesion;
+        private System.Windows.Forms.Button buttonSalir;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textbox_usuario;
-        private System.Windows.Forms.TextBox textbox_contraseña;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ComboBox cboRoles;
+        private System.Windows.Forms.Button buttonCerrarSesion;
+        private System.Windows.Forms.Button buttonSeleccionarRol;
+
     }
 }

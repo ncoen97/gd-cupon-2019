@@ -28,5 +28,10 @@ namespace FrbaOfertas
         {
             //validar datos de registro
         }
+
+        private void RegistroDeUsuario_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

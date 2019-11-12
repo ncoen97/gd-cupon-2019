@@ -503,130 +503,52 @@ GO
 
 CREATE PROC migracion_insert_ofertas AS
 BEGIN
-	DECLARE
-		@ofer_id nvarchar(50),
-		@ofer_descripcion nvarchar(255),
-		@ofer_fecha_publicacion datetime,
-		@ofer_fecha_vencimiento datetime,
-		@ofer_precio_oferta numeric(18, 2),
-		@ofer_precio_lista numeric(18, 2),
-		@ofer_prov_cuit nvarchar(20),
-		@ofer_prov_id int,
-		@ofer_stock numeric(18, 0);
-	DECLARE curs_ofertas CURSOR FOR
-		SELECT DISTINCT
-			Oferta_Codigo,
-			Oferta_Descripcion,
-			Oferta_Fecha,
-			Oferta_Fecha_Venc,
-			Oferta_Precio,
-			Oferta_Precio_Ficticio,
-			Provee_CUIT, --> para buscar el provee_id
-			Oferta_Cantidad
-		FROM gd_esquema.Maestra
-		WHERE Oferta_Codigo IS NOT NULL;
-	OPEN curs_ofertas;
-	FETCH NEXT FROM curs_ofertas INTO
-		@ofer_id,
-		@ofer_descripcion,
-		@ofer_fecha_publicacion,
-		@ofer_fecha_vencimiento,
-		@ofer_precio_oferta,
-		@ofer_precio_lista,
-		@ofer_prov_cuit,
-		@ofer_stock;
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		SELECT
-			@ofer_prov_id = Proveedor.prov_id
+	INSERT INTO Oferta (
+		ofer_id,
+		ofer_descripcion,
+		ofer_fecha_publicacion,
+		ofer_fecha_vencimiento,
+		ofer_precio_oferta,
+		ofer_precio_lista,
+		ofer_prov_id,
+		ofer_stock
+	)
+	SELECT DISTINCT
+		Oferta_Codigo,
+		Oferta_Descripcion,
+		Oferta_Fecha,
+		Oferta_Fecha_Venc,
+		Oferta_Precio,
+		Oferta_Precio_Ficticio,
+		(SELECT
+			Proveedor.prov_id
 		FROM Proveedor
-		WHERE Proveedor.prov_cuit = @ofer_prov_cuit;
-		INSERT INTO Oferta (
-			ofer_id,
-			ofer_descripcion,
-			ofer_fecha_publicacion,
-			ofer_fecha_vencimiento,
-			ofer_precio_oferta,
-			ofer_precio_lista,
-			ofer_prov_id,
-			ofer_stock
-		) VALUES (
-			@ofer_id,
-			@ofer_descripcion,
-			@ofer_fecha_publicacion,
-			@ofer_fecha_vencimiento,
-			@ofer_precio_oferta,
-			@ofer_precio_lista,
-			@ofer_prov_id,
-			@ofer_stock
-		);
-		FETCH NEXT FROM curs_ofertas INTO
-			@ofer_id,
-			@ofer_descripcion,
-			@ofer_fecha_publicacion,
-			@ofer_fecha_vencimiento,
-			@ofer_precio_oferta,
-			@ofer_precio_lista,
-			@ofer_prov_cuit,
-			@ofer_stock;
-	END
-	CLOSE curs_ofertas;
-	DEALLOCATE curs_ofertas;
+		WHERE Proveedor.prov_cuit = maestra.Provee_CUIT) prov_id,
+		Oferta_Cantidad
+	FROM gd_esquema.Maestra maestra
+	WHERE Oferta_Codigo IS NOT NULL;
 END
 GO
 
 CREATE PROC migracion_insert_cargas AS
 BEGIN
-	DECLARE
-		@carg_fecha datetime,
-		@carg_clie_dni numeric(18, 0),
-		@carg_clie_id int,
-		@carg_tipo_de_pago_desc nvarchar(100),
-		@carg_tipo_de_pago_id int,
-		@carg_monto numeric(18, 2);
-	DECLARE curs_cargas CURSOR FOR
-		SELECT
-			Cli_Dni,
-			Carga_Credito,
-			Carga_Fecha,
-			Tipo_Pago_Desc
-		FROM gd_esquema.Maestra
-		WHERE Carga_Credito IS NOT NULL;
-	OPEN curs_cargas;
-	FETCH NEXT FROM curs_cargas INTO
-		@carg_clie_dni,
-		@carg_monto,
-		@carg_fecha,
-		@carg_tipo_de_pago_desc;
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		SELECT
-			@carg_clie_id = Cliente.clie_id
+	INSERT INTO Carga (
+		carg_clie_id,
+		carg_monto,
+		carg_fecha,
+		carg_tipo_de_pago_id
+	)
+	SELECT
+		(SELECT Cliente.clie_id
 		FROM Cliente
-		WHERE Cliente.clie_dni = @carg_clie_dni;
-		SELECT
-			@carg_tipo_de_pago_id = Tipo_de_pago.tipo_de_pago_id
+		WHERE Cliente.clie_dni = maestra.Cli_Dni) clie_id,
+		Carga_Credito,
+		Carga_Fecha,
+		(SELECT Tipo_de_pago.tipo_de_pago_id
 		FROM Tipo_de_pago
-		WHERE Tipo_de_pago.tipo_de_pago_descripcion = @carg_tipo_de_pago_desc;
-		INSERT INTO Carga (
-			carg_clie_id,
-			carg_fecha,
-			carg_monto,
-			carg_tipo_de_pago_id
-		) VALUES (
-			@carg_clie_id,
-			@carg_fecha,
-			@carg_monto,
-			@carg_tipo_de_pago_id
-		);
-		FETCH NEXT FROM curs_cargas INTO
-			@carg_clie_dni,
-			@carg_monto,
-			@carg_fecha,
-			@carg_tipo_de_pago_desc;
-	END
-	CLOSE curs_cargas;
-	DEALLOCATE curs_cargas;
+		WHERE Tipo_de_pago.tipo_de_pago_descripcion = maestra.Tipo_Pago_Desc) tipo_de_pago_id
+	FROM gd_esquema.Maestra maestra
+	WHERE Carga_Credito IS NOT NULL;
 END
 GO
 

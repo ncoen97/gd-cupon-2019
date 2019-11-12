@@ -34,6 +34,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
+            this.Atras = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Provee_mail
@@ -85,12 +86,24 @@
             this.button5.TabIndex = 52;
             this.button5.Text = "Registrar";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.Button5_Click);
+            // 
+            // Atras
+            // 
+            this.Atras.Location = new System.Drawing.Point(196, 215);
+            this.Atras.Name = "Atras";
+            this.Atras.Size = new System.Drawing.Size(98, 40);
+            this.Atras.TabIndex = 53;
+            this.Atras.Text = "Atras";
+            this.Atras.UseVisualStyleBackColor = true;
+            this.Atras.Click += new System.EventHandler(this.Atras_Click);
             // 
             // RegistroDeUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 229);
+            this.ClientSize = new System.Drawing.Size(502, 284);
+            this.Controls.Add(this.Atras);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.Provee_mail);
             this.Controls.Add(this.Provee_rs);
@@ -112,5 +125,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button Atras;
     }
 }

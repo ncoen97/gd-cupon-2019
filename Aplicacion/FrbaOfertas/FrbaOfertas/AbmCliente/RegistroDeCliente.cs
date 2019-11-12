@@ -16,5 +16,10 @@ namespace FrbaOfertas
         {
             InitializeComponent();
         }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            //validar todos los campos
+        }
     }
 }

@@ -46,6 +46,7 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Cargar Credito";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // label1
             // 
@@ -109,6 +110,7 @@
             this.button4.TabIndex = 7;
             this.button4.Text = "Cerrar sesion";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
             // OpcionesCliente
             // 

@@ -62,7 +62,7 @@ IF OBJECT_ID('SOCORRO.fnIsBlockedUser') IS NOT NULL
 IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
 	DROP PROCEDURE SOCORRO.validarLogin;
 IF OBJECT_ID('SOCORRO.fnValidarNuevoUsername') IS NOT NULL
-	DROP FUNCTION SOCORRO.fn_validar_nuevo_username;
+	DROP FUNCTION SOCORRO.fnValidarNuevoUsername;
 IF OBJECT_ID('SOCORRO.getRolesUsuario') IS NOT NULL
 	DROP FUNCTION SOCORRO.getRolesUsuario
 IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL

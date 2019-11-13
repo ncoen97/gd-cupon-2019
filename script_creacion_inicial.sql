@@ -69,6 +69,18 @@ IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_cliente;
 IF OBJECT_ID('SOCORRO.sp_registro_proveedor') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_proveedor;
+IF OBJECT_ID('SOCORRO.sp_deshabilitar_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_deshabilitar_cliente;
+IF OBJECT_ID('SOCORRO.sp_rehabilitar_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_rehabilitar_cliente;
+IF OBJECT_ID('SOCORRO.sp_deshabilitar_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_deshabilitar_proveedor;
+IF OBJECT_ID('SOCORRO.sp_rehabilitar_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_rehabilitar_proveedor;
+IF OBJECT_ID('SOCORRO.sp_modificar_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_modificar_cliente;
+IF OBJECT_ID('SOCORRO.sp_modificar_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_modificar_proveedor;
 
 USE GD2C2019;
 SET NOCOUNT ON;
@@ -110,6 +122,7 @@ CREATE TABLE SOCORRO.Proveedor (
   prov_ciudad nvarchar(255),
   prov_cuit nvarchar(20),
   prov_rubro_id int,
+  prov_nombre_contacto nvarchar(255), --> TODO: revisar?
   prov_habilitado bit DEFAULT 1
 );
 
@@ -926,7 +939,7 @@ END
 GO
 
 --DROP PROC SOCORRO.sp_registro_proveedor;
-CREATE PROC [SOCORRO].sp_registro_proveedor ( --> TODO: ROTO POR AHORA!
+CREATE PROC [SOCORRO].sp_registro_proveedor (
     @user_username nvarchar(20),
     @user_pass nvarchar(255),
 	@prov_rs nvarchar(100),
@@ -936,7 +949,8 @@ CREATE PROC [SOCORRO].sp_registro_proveedor ( --> TODO: ROTO POR AHORA!
 	@prov_ciudad nvarchar(255),
 	@prov_telefono numeric(18, 0),
 	@prov_cuit nvarchar(20),
-	@prov_rubro_id int
+	@prov_rubro_id int,
+	@prov_nombre_contacto nvarchar(255)
 ) AS
 BEGIN
     SET XACT_ABORT ON;
@@ -985,7 +999,8 @@ BEGIN
 				prov_codigo_postal,
 				prov_ciudad,
 				prov_cuit,
-				prov_rubro_id
+				prov_rubro_id,
+				prov_nombre_contacto
             ) VALUES (
 				@user_id,
                 @prov_rs,
@@ -995,7 +1010,8 @@ BEGIN
                 @prov_cp,
                 @prov_ciudad,
                 @prov_cuit,
-                @prov_rubro_id
+                @prov_rubro_id,
+				@prov_nombre_contacto
             );
 			PRINT 'el proveedor se cargo';
         COMMIT;
@@ -1009,6 +1025,152 @@ BEGIN
 END
 GO
 
+CREATE PROC SOCORRO.sp_deshabilitar_cliente (
+	@clie_id int
+) AS
+BEGIN
+	IF NOT(@clie_id IN (SELECT clie_id FROM SOCORRO.Cliente))
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 1
+	END
+	UPDATE Cliente
+	SET clie_habilitado = 0
+	WHERE clie_id = @clie_id;
+	RETURN 0
+END
+GO
+
+CREATE PROC SOCORRO.sp_rehabilitar_cliente (
+	@clie_id int
+) AS
+BEGIN
+	IF NOT(@clie_id IN (SELECT clie_id FROM SOCORRO.Cliente))
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 1
+	END
+	UPDATE Cliente
+	SET clie_habilitado = 1
+	WHERE clie_id = @clie_id;
+	RETURN 0
+END
+GO
+
+CREATE PROC SOCORRO.sp_deshabilitar_proveedor (
+	@prov_id int
+) AS
+BEGIN
+	IF NOT(@prov_id IN (SELECT prov_id FROM SOCORRO.Proveedor))
+	BEGIN
+		PRINT 'no existe el proveedor';
+		RETURN 1
+	END
+	UPDATE SOCORRO.Proveedor
+	SET prov_habilitado = 0
+	WHERE prov_id = @prov_id;
+	RETURN 0
+END
+GO
+
+CREATE PROC SOCORRO.sp_rehabilitar_proveedor (
+	@prov_id int
+) AS
+BEGIN
+	IF NOT(@prov_id IN (SELECT prov_id FROM SOCORRO.Proveedor))
+	BEGIN
+		PRINT 'no existe el proveedor';
+		RETURN 1
+	END
+	UPDATE SOCORRO.Proveedor
+	SET prov_habilitado = 1
+	WHERE prov_id = @prov_id;
+	RETURN 0
+END
+GO
+
+CREATE PROC SOCORRO.sp_modificar_cliente (
+	@clie_id int,
+	@nuevo_nombre nvarchar(255),
+    @nuevo_apellido nvarchar(255),
+    @nuevo_dni numeric(18,0),
+    @nuevo_email nvarchar(255),
+    @nuevo_telefono numeric(18,0),
+    @nuevo_direccion nvarchar(255),
+    @nuevo_codigo_postal char(5),
+    @nuevo_fecha_nacimiento datetime,
+    @nuevo_ciudad nvarchar(255) --> duda, ver enunciado (ABM Cliente)
+) AS
+BEGIN
+	IF NOT(@clie_id IN (SELECT c.clie_id FROM SOCORRO.Cliente c))
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 1;
+	END
+	UPDATE SOCORRO.Cliente
+	SET
+		clie_nombre = @nuevo_nombre,
+		clie_apellido = @nuevo_apellido,
+		clie_dni = @nuevo_dni,
+		clie_email = @nuevo_email,
+		clie_telefono = @nuevo_telefono,
+		clie_direccion = @nuevo_direccion,
+		clie_codigo_postal = @nuevo_codigo_postal,
+		clie_fecha_nacimiento = @nuevo_fecha_nacimiento,
+		clie_ciudad = @nuevo_ciudad;
+	RETURN 0;
+END
+
+--==============================================
+--    DATOS DE TESTEO
+--==============================================
+
+EXEC SOCORRO.sp_registro_cliente
+	@user_username = 'admin',
+	@user_pass = 'admin',
+	@clie_nombre = 'Pepe',
+	@clie_apellido = 'Cualquiera',
+	@clie_dni = 12345678,
+	@clie_email = 'jaja_saludos@gmail.com',
+	@clie_telefono = 1109876543,
+	@clie_direccion = 'Calle Cualquiera 123',
+	@clie_codigo_postal = '4321',
+	@clie_fecha_nacimiento = '1995-05-05 00:00:00.000',
+	@clie_ciudad = 'Tranquilandia';
+GO
+
+CREATE PROC SOCORRO.sp_modificar_proveedor (
+	@prov_id int,
+	@nuevo_rs nvarchar(100),
+	@nuevo_email nvarchar(50),
+	@nuevo_dom nvarchar(100),
+	@nuevo_cp char(4),
+	@nuevo_ciudad nvarchar(255),
+	@nuevo_telefono numeric(18, 0),
+	@nuevo_cuit nvarchar(20),
+	@nuevo_rubro_id int,
+	@nuevo_nombre_contacto nvarchar(255)
+) AS
+BEGIN
+	IF NOT(@prov_id IN (SELECT p.prov_id FROM SOCORRO.Proveedor p))
+	BEGIN
+		PRINT 'no existe el proveedor';
+		RETURN 1;
+	END
+	UPDATE SOCORRO.Proveedor
+	SET
+		prov_razon_social = @nuevo_rs,
+		prov_email = @nuevo_email,
+		prov_direccion = @nuevo_dom,
+		prov_codigo_postal = @nuevo_cp,
+		prov_ciudad = @nuevo_ciudad,
+		prov_telefono = @nuevo_telefono,
+		prov_cuit = @nuevo_cuit,
+		prov_rubro_id = @nuevo_rubro_id,
+		prov_nombre_contacto = @nuevo_nombre_contacto;
+	RETURN 0;
+END
+GO
 
 --==============================================
 --    DATOS DE TESTEO
@@ -1038,7 +1200,20 @@ EXEC SOCORRO.sp_registro_proveedor
 	@prov_dom = 'Calle Cualquiera 124',
 	@prov_cp = '4321',
 	@prov_ciudad = 'Tranquilandia',
-	@prov_rubro_id = 2;
+	@prov_rubro_id = 2,
+	@prov_nombre_contacto = 'Sr. Fulano';
+GO
+
+EXEC SOCORRO.sp_deshabilitar_cliente 219; --> pepe
+GO
+
+EXEC SOCORRO.sp_rehabilitar_cliente 219; --> pepe
+GO
+
+EXEC SOCORRO.sp_deshabilitar_proveedor 38; --> fulanoide
+GO
+
+EXEC SOCORRO.sp_rehabilitar_proveedor 38; --> fulanoide
 GO
 
 /*
@@ -1064,4 +1239,43 @@ WHERE NOT (SOCORRO.Usuario.[user_id] IN
 
 -- trae los roles de admin:
 SELECT * FROM SOCORRO.getRolesUsuario('admin');
+*/
+
+
+
+/*
+
+--en duda:
+--indices para busqueda freetext?
+
+CREATE FULLTEXT CATALOG ct_cliente AS DEFAULT;
+CREATE FULLTEXT INDEX ON SOCORRO.Cliente (
+	clie_nombre,
+	clie_apellido,
+	clie_email
+) KEY INDEX PK__Cliente__EDD86EE04E27F602
+ON ct_cliente;
+GO
+
+--en duda:
+--busqueda freetext?
+
+CREATE PROC SOCORRO.sp_busqueda_clientes (
+	@nombre varchar(255),
+	@apellido varchar(255),
+	@dni int,
+	@email varchar(255)
+) AS
+BEGIN
+	SELECT
+		c.clie_nombre,
+		c.clie_apellido,
+		c.clie_dni,
+		c.clie_email
+	FROM SOCORRO.Cliente c
+	WHERE FREETEXT(c.clie_nombre, @nombre)
+		AND FREETEXT(c.clie_apellido, @apellido)
+		AND (CAST(c.clie_dni AS nvarchar(20)) LIKE '%'+CAST(@dni AS nvarchar(20))+'%')
+		AND FREETEXT(c.clie_email, @email);
+END
 */

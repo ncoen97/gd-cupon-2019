@@ -846,6 +846,7 @@ BEGIN
 END
 go
 
+--DROP PROC SOCORRO.sp_registro_cliente;
 CREATE PROC [SOCORRO].sp_registro_cliente (
     @user_username nvarchar(20),
     @user_pass nvarchar(255),
@@ -864,8 +865,10 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
             IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
+			BEGIN
 				ROLLBACK;
                 RETURN 1;
+			END
             DECLARE
                 @user_id int,
                 @pass_hashed nvarchar(255);
@@ -914,7 +917,89 @@ BEGIN
         COMMIT;
     END TRY
     BEGIN CATCH
-        PRINT 'Alg�n error salt�.';   --> TODO: Algo mal hay ac� (error BEGIN/COMMIT count)
+        PRINT 'Alg�n error salt�.';
+        ROLLBACK;
+    END CATCH
+END
+GO
+
+--DROP PROC SOCORRO.sp_registro_proveedor;
+CREATE PROC [SOCORRO].sp_registro_proveedor ( --> TODO: ROTO POR AHORA!
+    @user_username nvarchar(20),
+    @user_pass nvarchar(255),
+	@prov_rs nvarchar(100),
+	@prov_email nvarchar(50),
+	@prov_dom nvarchar(100),
+	@prov_cp char(4),
+	@prov_ciudad nvarchar(255),
+	@prov_telefono numeric(18, 0),
+	@prov_cuit nvarchar(20),
+	@prov_rubro_id int
+) AS
+BEGIN
+    SET XACT_ABORT ON;
+    BEGIN TRY --primero intento hacer la transaccion
+        BEGIN TRANSACTION
+			--si el user esta tomado, rollbackea y devuelve 1 (error)
+            IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
+			BEGIN
+				PRINT 'el usuario ya figura!';
+				ROLLBACK;
+                RETURN 1;
+            END
+			PRINT 'el usuario no figura';
+			DECLARE
+                @user_id int,
+                @pass_hashed nvarchar(255);
+			--inserto el usuario primero
+            INSERT INTO SOCORRO.Usuario (
+                user_username,
+                user_pass,
+                user_intentos
+            ) VALUES (
+                @user_username,
+                HASHBYTES('SHA2_256', @user_pass),
+                0
+            );
+			PRINT 'el usuario fue creado';
+			--busco el user_id recien asignado
+            SET @user_id = SCOPE_IDENTITY();
+			--asigno rol correspondiente a dicho usuario
+			INSERT INTO SOCORRO.RolxUsuario (
+				[user_id],
+				rol_id
+			) VALUES (
+				@user_id,
+				2
+			);
+			PRINT 'el rol fue asignado';
+			--cargo finalmente los datos de proveedor
+            INSERT INTO SOCORRO.Proveedor(
+                prov_razon_social,
+				prov_email,
+				prov_telefono,
+				prov_direccion,
+				prov_codigo_postal,
+				prov_ciudad,
+				prov_cuit,
+				prov_rubro_id
+            ) VALUES (
+                @prov_rs,
+                @prov_email,
+                @prov_telefono,
+                @prov_dom,
+                @prov_cp,
+                @prov_ciudad,
+                @prov_cuit,
+                @prov_rubro_id
+            );
+			PRINT 'el proveedor se cargo';
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+		--si algo inseperado sucede, se va a ver este print
+        PRINT 'Algun error salto.';
+		--y se rollbackean todos los inserts
         ROLLBACK;
     END CATCH
 END
@@ -938,6 +1023,25 @@ EXEC SOCORRO.sp_registro_cliente
 	@clie_fecha_nacimiento = '1995-05-05 00:00:00.000',
 	@clie_ciudad = 'Tranquilandia';
 GO
+
+EXEC SOCORRO.sp_registro_proveedor
+	@user_username = 'prov',
+	@user_pass = 'prov',
+	@prov_rs = 'Fulanoide SA',
+	@prov_cuit = 12123456792,
+	@prov_email = 'juass@gmail.com',
+	@prov_telefono = 1109876345,
+	@prov_dom = 'Calle Cualquiera 124',
+	@prov_cp = '4321',
+	@prov_ciudad = 'Tranquilandia',
+	@prov_rubro_id = 2;
+GO
+
+/*
+*/
+SELECT *
+FROM SOCORRO.Proveedor p
+WHERE p.prov_razon_social = 'Fulanoide SA';
 
 /*
 -- trae los datos de admin

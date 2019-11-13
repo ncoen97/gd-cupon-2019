@@ -864,6 +864,7 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
             IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
+				ROLLBACK;
                 RETURN 1;
             DECLARE
                 @user_id int,
@@ -910,11 +911,11 @@ BEGIN
                 @clie_ciudad,
 				200
             );
-        COMMIT
+        COMMIT;
     END TRY
     BEGIN CATCH
         PRINT 'Alg�n error salt�.';   --> TODO: Algo mal hay ac� (error BEGIN/COMMIT count)
-        ROLLBACK
+        ROLLBACK;
     END CATCH
 END
 GO

@@ -57,12 +57,14 @@ IF OBJECT_ID('SOCORRO.migracion_insert_facturas') IS NOT NULL
 	DROP PROCEDURE SOCORRO.migracion_insert_facturas; 
 IF OBJECT_ID('SOCORRO.migracion_insert_items') IS NOT NULL
 	DROP PROCEDURE SOCORRO.migracion_insert_items; 
-IF OBJECT_ID('SOCORRO.fn_is_blocked_user') IS NOT NULL
-	DROP FUNCTION SOCORRO.fn_is_blocked_user; 
+IF OBJECT_ID('SOCORRO.fnIsBlockedUser') IS NOT NULL
+	DROP FUNCTION SOCORRO.fnIsBlockedUser; 
 IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
 	DROP PROCEDURE SOCORRO.validarLogin;
-IF OBJECT_ID('SOCORRO.fn_validar_nuevo_username') IS NOT NULL
+IF OBJECT_ID('SOCORRO.fnValidarNuevoUsername') IS NOT NULL
 	DROP FUNCTION SOCORRO.fn_validar_nuevo_username;
+IF OBJECT_ID('SOCORRO.getRolesUsuario') IS NOT NULL
+	DROP FUNCTION SOCORRO.getRolesUsuario
 IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_cliente;
 
@@ -780,7 +782,7 @@ GO
 
 /*	PROCEDURE 	*/
 
-CREATE FUNCTION [SOCORRO].fn_is_blocked_user(@username nvarchar(50))
+CREATE FUNCTION [SOCORRO].fnIsBlockedUser(@username nvarchar(50))
 RETURNS bit
 AS
  BEGIN
@@ -790,10 +792,10 @@ AS
  END	
 go
 
-CREATE PROCEDURE [SOCORRO].validarLogin(@username nvarchar(20),@password nvarchar(20))
+create PROCEDURE [SOCORRO].validarLogin(@username nvarchar(20),@password nvarchar(20))
 as
 begin
-	IF ((SELECT SOCORRO.fn_is_blocked_user(@username)) = 1)
+	IF ((SELECT SOCORRO.fnIsBlockedUser(@username)) = 1)
 			RETURN -2 /*Usuario bloqueado*/
 	DECLARE @hash nvarchar(255)
 	DECLARE @user_id int
@@ -815,7 +817,17 @@ begin
 end
 go
 
-CREATE FUNCTION [SOCORRO].fn_validar_nuevo_username (
+CREATE FUNCTION [SOCORRO].getRolesUsuario(@username nvarchar(50))
+RETURNS table
+AS
+	 RETURN (SELECT r.rol_id, rol_nombre, r.rol_habilitado FROM [SOCORRO].Rol r
+             JOIN [SOCORRO].RolxUsuario rxu ON (rxu.rol_id = r.rol_id) 
+             JOIN [SOCORRO].Usuario u ON (u.user_id = rxu.user_id)
+             WHERE u.user_username = @username AND r.rol_habilitado = 1)
+GO
+
+
+CREATE FUNCTION [SOCORRO].fnValidarNuevoUsername (
     @username nvarchar(20)
 ) RETURNS int AS
 BEGIN
@@ -845,7 +857,7 @@ BEGIN
     SET XACT_ABORT ON;
     BEGIN TRY
         BEGIN TRANSACTION
-            IF (SOCORRO.fn_validar_nuevo_username(@user_username) = 1)
+            IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
                 RETURN 1;
             DECLARE
                 @user_id int,

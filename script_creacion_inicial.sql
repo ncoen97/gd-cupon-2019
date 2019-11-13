@@ -62,7 +62,7 @@ IF OBJECT_ID('SOCORRO.fnIsBlockedUser') IS NOT NULL
 IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
 	DROP PROCEDURE SOCORRO.validarLogin;
 IF OBJECT_ID('SOCORRO.fnValidarNuevoUsername') IS NOT NULL
-	DROP FUNCTION SOCORRO.fn_validar_nuevo_username;
+	DROP FUNCTION SOCORRO.fnValidarNuevoUsername;
 IF OBJECT_ID('SOCORRO.getRolesUsuario') IS NOT NULL
 	DROP FUNCTION SOCORRO.getRolesUsuario
 IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
@@ -878,7 +878,14 @@ BEGIN
                 0
             );
             SET @user_id = SCOPE_IDENTITY();
-            INSERT INTO Cliente (
+			INSERT INTO SOCORRO.RolxUsuario (
+				[user_id],
+				rol_id
+			) VALUES (
+				@user_id,
+				1
+			);
+            INSERT INTO SOCORRO.Cliente (
                 clie_user_id,
                 clie_nombre,
                 clie_apellido,
@@ -888,7 +895,8 @@ BEGIN
                 clie_direccion,
                 clie_codigo_postal,
                 clie_fecha_nacimiento,
-                clie_ciudad
+                clie_ciudad,
+				clie_saldo
             ) VALUES (
                 @user_id,
                 @clie_nombre,
@@ -899,13 +907,13 @@ BEGIN
                 @clie_direccion,
                 @clie_codigo_postal,
                 @clie_fecha_nacimiento,
-                @clie_ciudad
+                @clie_ciudad,
+				200
             );
         COMMIT
     END TRY
     BEGIN CATCH
         PRINT 'Algún error saltó.';
-        IF @@TRANCOUNT > 0
-            ROLLBACK
+        ROLLBACK
     END CATCH
 END

@@ -10,23 +10,28 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas
 {
-    public partial class RegistroDeCliente : Form
+    public partial class ModificacionDeProveedores : Form
     {
-        public RegistroDeCliente()
+        public ModificacionDeProveedores()
         {
             InitializeComponent();
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            //validar todos los campos
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            AbmCliente abmc = new AbmCliente();
-            abmc.Show();
+            AbmProveedor abmp = new AbmProveedor();
+            abmp.Show();
             this.Hide();
+        }
+
+        private void ModificacionDeProveedores_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

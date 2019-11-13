@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas
 {
-    partial class RegistroDeProveedores
+    partial class ModificacionDeProveedores
     {
         /// <summary>
         /// Required designer variable.
@@ -98,9 +98,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(284, 59);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(166, 20);
+            this.label10.Size = new System.Drawing.Size(194, 20);
             this.label10.TabIndex = 28;
-            this.label10.Text = "Registro de proveedor";
+            this.label10.Text = "Modificacion de proveedor";
             // 
             // label9
             // 
@@ -210,7 +210,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(224, 40);
             this.button1.TabIndex = 48;
-            this.button1.Text = "Registrar proveedor";
+            this.button1.Text = "Guardar cambios";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -224,7 +224,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // RegistroDeProveedores
+            // ModificacionDeProveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -250,9 +250,9 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
-            this.Name = "RegistroDeProveedores";
+            this.Name = "ModificacionDeProveedores";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.RegistroDeProveedores_Load);
+            this.Load += new System.EventHandler(this.ModificacionDeProveedores_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

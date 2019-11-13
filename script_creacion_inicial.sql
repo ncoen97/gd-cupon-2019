@@ -142,6 +142,7 @@ CREATE TABLE SOCORRO.Rubro (
 
 CREATE TABLE SOCORRO.Tarjeta (
   tarj_id int IDENTITY PRIMARY KEY,
+  tarj_clie_id int,
   tarj_numero int,
   tarj_vencimiento datetime,
   tarj_titular nvarchar(50)
@@ -267,6 +268,8 @@ ALTER TABLE SOCORRO.Item ADD FOREIGN KEY (item_ofer_id) REFERENCES SOCORRO.Ofert
 ALTER TABLE SOCORRO.FuncionalidadxRol ADD FOREIGN KEY (rol_id) REFERENCES SOCORRO.Rol (rol_id);
 
 ALTER TABLE SOCORRO.FuncionalidadxRol ADD FOREIGN KEY (func_id) REFERENCES SOCORRO.Funcionalidad (func_id);
+
+ALTER TABLE SOCORRO.Tarjeta ADD FOREIGN KEY (tarj_clie_id) REFERENCES SOCORRO.Cliente (clie_id);
 
 PRINT SYSDATETIME();
 PRINT '(1/13) - Tablas creadas.' + CHAR(13);
@@ -801,7 +804,9 @@ PRINT SYSDATETIME();
 PRINT '(13/13) - Items insertados.' + CHAR(13);
 GO
 
-/*	PROCEDURE 	*/
+--=====================================================
+--    PROCEDURES Y FUNCTIONS PARA LA APLICACION
+--=====================================================
 
 CREATE FUNCTION [SOCORRO].fnIsBlockedUser(@username nvarchar(50))
 RETURNS bit
@@ -846,7 +851,6 @@ AS
              JOIN [SOCORRO].Usuario u ON (u.user_id = rxu.user_id)
              WHERE u.user_username = @username AND r.rol_habilitado = 1)
 GO
-
 
 CREATE FUNCTION [SOCORRO].fnValidarNuevoUsername (
     @username nvarchar(20)
@@ -1172,8 +1176,82 @@ BEGIN
 END
 GO
 
+CREATE PROC SOCORRO.sp_cargar_credito (
+	@clie_id int,
+	@monto int,
+	@tarj_id int = NULL --> TODO: es int?
+) AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			--check si cliente existe
+			IF NOT(@clie_id IN (SELECT c.clie_id
+								FROM SOCORRO.Cliente c))
+			BEGIN
+				ROLLBACK;
+				PRINT 'no existe el cliente';
+				RETURN 1;
+			END
+			--check si cliente habilitado
+			IF (0 = (SELECT c.clie_habilitado
+					FROM SOCORRO.Cliente c
+					WHERE @clie_id = c.clie_id))
+			BEGIN
+				ROLLBACK;
+				PRINT 'cliente no habilitado';
+				RETURN 2;
+			END
+			--
+			IF (@monto < 1)
+			BEGIN
+				ROLLBACK;
+				PRINT 'monto menor a 1';
+				RETURN 3;
+			END
+			-- TODO: faltan checks?
+			IF (@tarj_id IN (SELECT t.tarj_id
+								FROM SOCORRO.Tarjeta t
+								WHERE t.tarj_clie_id = @clie_id))
+			BEGIN
+				INSERT INTO SOCORRO.Carga (
+					carg_clie_id,
+					carg_fecha,
+					carg_monto,
+					carg_tipo_de_pago_id,
+					carg_tarj_id
+				) VALUES (
+					@clie_id,
+					GETDATE(), --> TODO: esto esta mal! ver enunciado
+					@monto,
+					2,
+					@tarj_id
+				);
+			END
+			ELSE
+			BEGIN
+				INSERT INTO SOCORRO.Carga (
+					carg_clie_id,
+					carg_fecha,
+					carg_monto,
+					carg_tipo_de_pago_id
+				) VALUES (
+					@clie_id,
+					GETDATE(), --> TODO: esto esta mal! ver enunciado
+					@monto,
+					1
+				);
+			END
+		COMMIT;
+	END TRY
+	BEGIN CATCH
+		PRINT 'algun error loco hay';
+		ROLLBACK;
+	END CATCH
+END
+GO
+
 --==============================================
---    DATOS DE TESTEO
+--            DATOS DE TESTEO
 --==============================================
 
 EXEC SOCORRO.sp_registro_cliente

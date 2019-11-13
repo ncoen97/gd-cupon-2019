@@ -67,6 +67,8 @@ IF OBJECT_ID('SOCORRO.getRolesUsuario') IS NOT NULL
 	DROP FUNCTION SOCORRO.getRolesUsuario
 IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_cliente;
+IF OBJECT_ID('SOCORRO.sp_registro_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_registro_proveedor;
 
 USE GD2C2019;
 SET NOCOUNT ON;
@@ -975,6 +977,7 @@ BEGIN
 			PRINT 'el rol fue asignado';
 			--cargo finalmente los datos de proveedor
             INSERT INTO SOCORRO.Proveedor(
+				prov_user_id,
                 prov_razon_social,
 				prov_email,
 				prov_telefono,
@@ -984,6 +987,7 @@ BEGIN
 				prov_cuit,
 				prov_rubro_id
             ) VALUES (
+				@user_id,
                 @prov_rs,
                 @prov_email,
                 @prov_telefono,
@@ -1038,12 +1042,10 @@ EXEC SOCORRO.sp_registro_proveedor
 GO
 
 /*
-*/
 SELECT *
 FROM SOCORRO.Proveedor p
 WHERE p.prov_razon_social = 'Fulanoide SA';
 
-/*
 -- trae los datos de admin
 SELECT *
 FROM SOCORRO.Cliente c

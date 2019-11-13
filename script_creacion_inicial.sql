@@ -56,11 +56,12 @@ IF OBJECT_ID('SOCORRO.migracion_insert_facturas') IS NOT NULL
 	DROP PROCEDURE SOCORRO.migracion_insert_facturas; 
 IF OBJECT_ID('SOCORRO.migracion_insert_items') IS NOT NULL
 	DROP PROCEDURE SOCORRO.migracion_insert_items; 
-<<<<<<< HEAD
 IF OBJECT_ID('SOCORRO.fn_is_blocked_user') IS NOT NULL
-	DROP PROCEDURE SOCORRO.fn_is_blocked_user; 
+	DROP FUNCTION SOCORRO.fn_is_blocked_user; 
 IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
 	DROP PROCEDURE SOCORRO.validarLogin;
+IF OBJECT_ID('SOCORRO.fn_validar_nuevo_username') IS NOT NULL
+	DROP FUNCTION SOCORRO.fn_validar_nuevo_username;
 
 USE GD2C2019;
 SET NOCOUNT ON;

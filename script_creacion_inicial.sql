@@ -878,7 +878,14 @@ BEGIN
                 0
             );
             SET @user_id = SCOPE_IDENTITY();
-            INSERT INTO Cliente (
+			INSERT INTO SOCORRO.RolxUsuario (
+				[user_id],
+				rol_id
+			) VALUES (
+				@user_id,
+				1
+			);
+            INSERT INTO SOCORRO.Cliente (
                 clie_user_id,
                 clie_nombre,
                 clie_apellido,
@@ -888,7 +895,8 @@ BEGIN
                 clie_direccion,
                 clie_codigo_postal,
                 clie_fecha_nacimiento,
-                clie_ciudad
+                clie_ciudad,
+				clie_saldo
             ) VALUES (
                 @user_id,
                 @clie_nombre,
@@ -899,13 +907,13 @@ BEGIN
                 @clie_direccion,
                 @clie_codigo_postal,
                 @clie_fecha_nacimiento,
-                @clie_ciudad
+                @clie_ciudad,
+				200
             );
         COMMIT
     END TRY
     BEGIN CATCH
         PRINT 'Algún error saltó.';
-        IF @@TRANCOUNT > 0
-            ROLLBACK
+        ROLLBACK
     END CATCH
 END

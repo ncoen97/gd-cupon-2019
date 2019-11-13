@@ -812,7 +812,7 @@ begin
 end
 go
 
-CREATE FUNCTION SOCORRO.fn_validar_nuevo_username (
+CREATE FUNCTION [SOCORRO].fn_validar_nuevo_username (
     @username nvarchar(20)
 ) RETURNS int AS
 BEGIN
@@ -823,7 +823,9 @@ BEGIN
     ) RETURN 1;
     RETURN 0;
 END
-CREATE PROC SOCORRO.sp_registro_cliente (
+go
+
+CREATE PROC [SOCORRO].sp_registro_cliente (
     @user_username nvarchar(20),
     @user_pass nvarchar(30),
     @clie_nombre nvarchar(255),

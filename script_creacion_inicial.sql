@@ -906,7 +906,7 @@ BEGIN
                 @clie_telefono,
                 @clie_direccion,
                 @clie_codigo_postal,
-                @clie_fecha_nacimiento,
+                CAST(@clie_fecha_nacimiento AS datetime),
                 @clie_ciudad,
 				200
             );
@@ -917,3 +917,4 @@ BEGIN
         ROLLBACK
     END CATCH
 END
+GO

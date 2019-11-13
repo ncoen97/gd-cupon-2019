@@ -50,11 +50,23 @@
     <Compile Include="AbmCliente\AbmCliente.Designer.cs">
       <DependentUpon>AbmCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCliente\ModificacionDeCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\ModificacionDeCliente.Designer.cs">
+      <DependentUpon>ModificacionDeCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmProveedor\AbmProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmProveedor\AbmProveedor.Designer.cs">
       <DependentUpon>AbmProveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmProveedor\ModificacionDeProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmProveedor\ModificacionDeProveedores.Designer.cs">
+      <DependentUpon>ModificacionDeProveedores.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmProveedor\OpcionesProveedor.cs">
       <SubType>Form</SubType>
@@ -153,8 +165,14 @@
     <EmbeddedResource Include="AbmCliente\AbmCliente.resx">
       <DependentUpon>AbmCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\ModificacionDeCliente.resx">
+      <DependentUpon>ModificacionDeCliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\AbmProveedor.resx">
       <DependentUpon>AbmProveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\ModificacionDeProveedores.resx">
+      <DependentUpon>ModificacionDeProveedores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\OpcionesProveedor.resx">
       <DependentUpon>OpcionesProveedor.cs</DependentUpon>

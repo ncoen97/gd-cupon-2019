@@ -93,7 +93,8 @@ CREATE TABLE SOCORRO.Cliente (
   clie_codigo_postal char(5),
   clie_fecha_nacimiento datetime,
   clie_ciudad nvarchar(255),
-  clie_saldo numeric(18, 2)
+  clie_saldo numeric(18, 2),
+  clie_habilitado bit DEFAULT 1
 );
 
 CREATE TABLE SOCORRO.Proveedor (
@@ -106,7 +107,8 @@ CREATE TABLE SOCORRO.Proveedor (
   prov_codigo_postal char(4),
   prov_ciudad nvarchar(255),
   prov_cuit nvarchar(20),
-  prov_rubro_id int
+  prov_rubro_id int,
+  prov_habilitado bit DEFAULT 1
 );
 
 CREATE TABLE SOCORRO.Carga (
@@ -139,7 +141,8 @@ CREATE TABLE SOCORRO.Oferta (
   ofer_precio_lista numeric(18, 2),
   ofer_prov_id int,
   ofer_stock numeric(18, 0),
-  ofer_max_cupon_por_usuario int
+  ofer_max_cupon_por_usuario int,
+  ofer_habilitada bit DEFAULT 1
 );
 
 CREATE TABLE SOCORRO.Cupon (
@@ -179,12 +182,14 @@ CREATE TABLE SOCORRO.Usuario (
   user_id int IDENTITY PRIMARY KEY,
   user_username nvarchar(20),
   user_pass nvarchar(255),
-  user_intentos int DEFAULT 0
+  user_intentos int DEFAULT 0,
+  user_habilitado bit DEFAULT 1
 );
 
 CREATE TABLE SOCORRO.Tipo_de_pago (
   tipo_de_pago_id int IDENTITY PRIMARY KEY,
-  tipo_de_pago_descripcion nvarchar(100)
+  tipo_de_pago_descripcion nvarchar(100),
+  tipo_de_pago_habilitado bit DEFAULT 1
 );
 
 CREATE TABLE SOCORRO.RolxUsuario (
@@ -195,7 +200,8 @@ CREATE TABLE SOCORRO.RolxUsuario (
 
 CREATE TABLE SOCORRO.Rol (
   rol_id int PRIMARY KEY,
-  rol_nombre nvarchar(20)
+  rol_nombre nvarchar(20),
+  rol_habilitado bit DEFAULT 1
 );
 
 CREATE TABLE SOCORRO.Funcionalidad (

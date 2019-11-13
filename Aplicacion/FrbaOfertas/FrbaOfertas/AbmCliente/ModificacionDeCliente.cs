@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas
 {
-    public partial class RegistroDeCliente : Form
+    public partial class ModificacionDeCliente: Form
     {
-        public RegistroDeCliente()
+        public ModificacionDeCliente()
         {
             InitializeComponent();
         }
@@ -20,6 +20,11 @@ namespace FrbaOfertas
         private void Button1_Click(object sender, EventArgs e)
         {
             //validar todos los campos
+        }
+
+        private void RegistroDeCliente_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void button2_Click(object sender, EventArgs e)

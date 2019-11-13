@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas
 {
-    partial class RegistroDeCliente
+    partial class ModificacionDeCliente
     {
         /// <summary>
         /// Required designer variable.
@@ -57,7 +57,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(214, 40);
             this.button1.TabIndex = 68;
-            this.button1.Text = "Crear cliente";
+            this.button1.Text = "Guardar cambios";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
@@ -122,9 +122,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(361, 28);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(141, 20);
+            this.label10.Size = new System.Drawing.Size(169, 20);
             this.label10.TabIndex = 58;
-            this.label10.Text = "Registro de cliente";
+            this.label10.Text = "Modificacion de cliente";
             // 
             // label9
             // 
@@ -216,15 +216,15 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(648, 383);
+            this.button2.Location = new System.Drawing.Point(651, 383);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(140, 40);
+            this.button2.Size = new System.Drawing.Size(137, 40);
             this.button2.TabIndex = 70;
             this.button2.Text = "Atras";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // RegistroDeCliente
+            // ModificacionDeCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -250,8 +250,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "RegistroDeCliente";
+            this.Name = "ModificacionDeCliente";
             this.Text = "RegistroDeUsuario";
+            this.Load += new System.EventHandler(this.RegistroDeCliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

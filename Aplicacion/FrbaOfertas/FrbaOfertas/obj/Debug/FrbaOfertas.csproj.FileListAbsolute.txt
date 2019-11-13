@@ -1,6 +1,4 @@
 C:\Users\Matias\Desktop\Groupon2019\src\FrbaOfertas\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
-C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.csprojAssemblyReference.cache
-C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.AbmCliente.AbmCliente.resources
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.AbmProveedor.AbmProveedor.resources
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.AbmProveedor.RegistroDeProveedores.resources
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.AbmRol.AbmRol.resources
@@ -14,7 +12,6 @@ C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.RegistroDeCliente.resources
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.RegistroDeUsuario.resources
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.csproj.GenerateResource.cache
-C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.csproj.CoreCompileInputs.cache
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.exe
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.pdb
 C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
@@ -66,3 +63,6 @@ C:\Users\juan-lenovo\Desktop\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\ob
 C:\Users\juan-lenovo\Desktop\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.RegistroDeCliente.resources
 C:\Users\juan-lenovo\Desktop\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.RegistroDeUsuario.resources
 C:\Users\juan-lenovo\Desktop\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.csproj.GenerateResource.Cache
+C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.csprojResolveAssemblyReference.cache
+C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.AbmCliente.resources
+C:\Users\FLOR\Documents\GUI\gd-cupon-2019\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.ModificacionDeCliente.resources

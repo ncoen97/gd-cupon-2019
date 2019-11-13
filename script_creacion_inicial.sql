@@ -67,6 +67,20 @@ IF OBJECT_ID('SOCORRO.getRolesUsuario') IS NOT NULL
 	DROP FUNCTION SOCORRO.getRolesUsuario
 IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_cliente;
+IF OBJECT_ID('SOCORRO.sp_registro_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_registro_proveedor;
+IF OBJECT_ID('SOCORRO.sp_deshabilitar_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_deshabilitar_cliente;
+IF OBJECT_ID('SOCORRO.sp_rehabilitar_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_rehabilitar_cliente;
+IF OBJECT_ID('SOCORRO.sp_deshabilitar_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_deshabilitar_proveedor;
+IF OBJECT_ID('SOCORRO.sp_rehabilitar_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_rehabilitar_proveedor;
+IF OBJECT_ID('SOCORRO.sp_modificar_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_modificar_cliente;
+IF OBJECT_ID('SOCORRO.sp_modificar_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_modificar_proveedor;
 
 USE GD2C2019;
 SET NOCOUNT ON;
@@ -108,6 +122,7 @@ CREATE TABLE SOCORRO.Proveedor (
   prov_ciudad nvarchar(255),
   prov_cuit nvarchar(20),
   prov_rubro_id int,
+  prov_nombre_contacto nvarchar(255), --> TODO: revisar?
   prov_habilitado bit DEFAULT 1
 );
 
@@ -127,6 +142,7 @@ CREATE TABLE SOCORRO.Rubro (
 
 CREATE TABLE SOCORRO.Tarjeta (
   tarj_id int IDENTITY PRIMARY KEY,
+  tarj_clie_id int,
   tarj_numero int,
   tarj_vencimiento datetime,
   tarj_titular nvarchar(50)
@@ -252,6 +268,8 @@ ALTER TABLE SOCORRO.Item ADD FOREIGN KEY (item_ofer_id) REFERENCES SOCORRO.Ofert
 ALTER TABLE SOCORRO.FuncionalidadxRol ADD FOREIGN KEY (rol_id) REFERENCES SOCORRO.Rol (rol_id);
 
 ALTER TABLE SOCORRO.FuncionalidadxRol ADD FOREIGN KEY (func_id) REFERENCES SOCORRO.Funcionalidad (func_id);
+
+ALTER TABLE SOCORRO.Tarjeta ADD FOREIGN KEY (tarj_clie_id) REFERENCES SOCORRO.Cliente (clie_id);
 
 PRINT SYSDATETIME();
 PRINT '(1/13) - Tablas creadas.' + CHAR(13);
@@ -786,7 +804,9 @@ PRINT SYSDATETIME();
 PRINT '(13/13) - Items insertados.' + CHAR(13);
 GO
 
-/*	PROCEDURE 	*/
+--=====================================================
+--    PROCEDURES Y FUNCTIONS PARA LA APLICACION
+--=====================================================
 
 CREATE FUNCTION [SOCORRO].fnIsBlockedUser(@username nvarchar(50))
 RETURNS bit
@@ -832,7 +852,6 @@ AS
              WHERE u.user_username = @username AND r.rol_habilitado = 1)
 GO
 
-
 CREATE FUNCTION [SOCORRO].fnValidarNuevoUsername (
     @username nvarchar(20)
 ) RETURNS int AS
@@ -846,6 +865,7 @@ BEGIN
 END
 go
 
+--DROP PROC SOCORRO.sp_registro_cliente;
 CREATE PROC [SOCORRO].sp_registro_cliente (
     @user_username nvarchar(20),
     @user_pass nvarchar(255),
@@ -864,7 +884,10 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
             IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
+			BEGIN
+				ROLLBACK;
                 RETURN 1;
+			END
             DECLARE
                 @user_id int,
                 @pass_hashed nvarchar(255);
@@ -910,15 +933,197 @@ BEGIN
                 @clie_ciudad,
 				200
             );
-        COMMIT
+        COMMIT;
     END TRY
     BEGIN CATCH
-        PRINT 'Alg�n error salt�.';   --> TODO: Algo mal hay ac� (error BEGIN/COMMIT count)
-        ROLLBACK
+        PRINT 'Alg�n error salt�.';
+        ROLLBACK;
     END CATCH
 END
 GO
 
+--DROP PROC SOCORRO.sp_registro_proveedor;
+CREATE PROC [SOCORRO].sp_registro_proveedor (
+    @user_username nvarchar(20),
+    @user_pass nvarchar(255),
+	@prov_rs nvarchar(100),
+	@prov_email nvarchar(50),
+	@prov_dom nvarchar(100),
+	@prov_cp char(4),
+	@prov_ciudad nvarchar(255),
+	@prov_telefono numeric(18, 0),
+	@prov_cuit nvarchar(20),
+	@prov_rubro_id int,
+	@prov_nombre_contacto nvarchar(255)
+) AS
+BEGIN
+    SET XACT_ABORT ON;
+    BEGIN TRY --primero intento hacer la transaccion
+        BEGIN TRANSACTION
+			--si el user esta tomado, rollbackea y devuelve 1 (error)
+            IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
+			BEGIN
+				PRINT 'el usuario ya figura!';
+				ROLLBACK;
+                RETURN 1;
+            END
+			PRINT 'el usuario no figura';
+			DECLARE
+                @user_id int,
+                @pass_hashed nvarchar(255);
+			--inserto el usuario primero
+            INSERT INTO SOCORRO.Usuario (
+                user_username,
+                user_pass,
+                user_intentos
+            ) VALUES (
+                @user_username,
+                HASHBYTES('SHA2_256', @user_pass),
+                0
+            );
+			PRINT 'el usuario fue creado';
+			--busco el user_id recien asignado
+            SET @user_id = SCOPE_IDENTITY();
+			--asigno rol correspondiente a dicho usuario
+			INSERT INTO SOCORRO.RolxUsuario (
+				[user_id],
+				rol_id
+			) VALUES (
+				@user_id,
+				2
+			);
+			PRINT 'el rol fue asignado';
+			--cargo finalmente los datos de proveedor
+            INSERT INTO SOCORRO.Proveedor(
+				prov_user_id,
+                prov_razon_social,
+				prov_email,
+				prov_telefono,
+				prov_direccion,
+				prov_codigo_postal,
+				prov_ciudad,
+				prov_cuit,
+				prov_rubro_id,
+				prov_nombre_contacto
+            ) VALUES (
+				@user_id,
+                @prov_rs,
+                @prov_email,
+                @prov_telefono,
+                @prov_dom,
+                @prov_cp,
+                @prov_ciudad,
+                @prov_cuit,
+                @prov_rubro_id,
+				@prov_nombre_contacto
+            );
+			PRINT 'el proveedor se cargo';
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+		--si algo inseperado sucede, se va a ver este print
+        PRINT 'Algun error salto.';
+		--y se rollbackean todos los inserts
+        ROLLBACK;
+    END CATCH
+END
+GO
+
+CREATE PROC SOCORRO.sp_deshabilitar_cliente (
+	@clie_id int
+) AS
+BEGIN
+	IF NOT(@clie_id IN (SELECT clie_id FROM SOCORRO.Cliente))
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 1
+	END
+	UPDATE Cliente
+	SET clie_habilitado = 0
+	WHERE clie_id = @clie_id;
+	RETURN 0
+END
+GO
+
+CREATE PROC SOCORRO.sp_rehabilitar_cliente (
+	@clie_id int
+) AS
+BEGIN
+	IF NOT(@clie_id IN (SELECT clie_id FROM SOCORRO.Cliente))
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 1
+	END
+	UPDATE Cliente
+	SET clie_habilitado = 1
+	WHERE clie_id = @clie_id;
+	RETURN 0
+END
+GO
+
+CREATE PROC SOCORRO.sp_deshabilitar_proveedor (
+	@prov_id int
+) AS
+BEGIN
+	IF NOT(@prov_id IN (SELECT prov_id FROM SOCORRO.Proveedor))
+	BEGIN
+		PRINT 'no existe el proveedor';
+		RETURN 1
+	END
+	UPDATE SOCORRO.Proveedor
+	SET prov_habilitado = 0
+	WHERE prov_id = @prov_id;
+	RETURN 0
+END
+GO
+
+CREATE PROC SOCORRO.sp_rehabilitar_proveedor (
+	@prov_id int
+) AS
+BEGIN
+	IF NOT(@prov_id IN (SELECT prov_id FROM SOCORRO.Proveedor))
+	BEGIN
+		PRINT 'no existe el proveedor';
+		RETURN 1
+	END
+	UPDATE SOCORRO.Proveedor
+	SET prov_habilitado = 1
+	WHERE prov_id = @prov_id;
+	RETURN 0
+END
+GO
+
+CREATE PROC SOCORRO.sp_modificar_cliente (
+	@clie_id int,
+	@nuevo_nombre nvarchar(255),
+    @nuevo_apellido nvarchar(255),
+    @nuevo_dni numeric(18,0),
+    @nuevo_email nvarchar(255),
+    @nuevo_telefono numeric(18,0),
+    @nuevo_direccion nvarchar(255),
+    @nuevo_codigo_postal char(5),
+    @nuevo_fecha_nacimiento datetime,
+    @nuevo_ciudad nvarchar(255) --> duda, ver enunciado (ABM Cliente)
+) AS
+BEGIN
+	IF NOT(@clie_id IN (SELECT c.clie_id FROM SOCORRO.Cliente c))
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 1;
+	END
+	UPDATE SOCORRO.Cliente
+	SET
+		clie_nombre = @nuevo_nombre,
+		clie_apellido = @nuevo_apellido,
+		clie_dni = @nuevo_dni,
+		clie_email = @nuevo_email,
+		clie_telefono = @nuevo_telefono,
+		clie_direccion = @nuevo_direccion,
+		clie_codigo_postal = @nuevo_codigo_postal,
+		clie_fecha_nacimiento = @nuevo_fecha_nacimiento,
+		clie_ciudad = @nuevo_ciudad;
+	RETURN 0;
+END
 
 --==============================================
 --    DATOS DE TESTEO
@@ -938,7 +1143,162 @@ EXEC SOCORRO.sp_registro_cliente
 	@clie_ciudad = 'Tranquilandia';
 GO
 
+CREATE PROC SOCORRO.sp_modificar_proveedor (
+	@prov_id int,
+	@nuevo_rs nvarchar(100),
+	@nuevo_email nvarchar(50),
+	@nuevo_dom nvarchar(100),
+	@nuevo_cp char(4),
+	@nuevo_ciudad nvarchar(255),
+	@nuevo_telefono numeric(18, 0),
+	@nuevo_cuit nvarchar(20),
+	@nuevo_rubro_id int,
+	@nuevo_nombre_contacto nvarchar(255)
+) AS
+BEGIN
+	IF NOT(@prov_id IN (SELECT p.prov_id FROM SOCORRO.Proveedor p))
+	BEGIN
+		PRINT 'no existe el proveedor';
+		RETURN 1;
+	END
+	UPDATE SOCORRO.Proveedor
+	SET
+		prov_razon_social = @nuevo_rs,
+		prov_email = @nuevo_email,
+		prov_direccion = @nuevo_dom,
+		prov_codigo_postal = @nuevo_cp,
+		prov_ciudad = @nuevo_ciudad,
+		prov_telefono = @nuevo_telefono,
+		prov_cuit = @nuevo_cuit,
+		prov_rubro_id = @nuevo_rubro_id,
+		prov_nombre_contacto = @nuevo_nombre_contacto;
+	RETURN 0;
+END
+GO
+
+CREATE PROC SOCORRO.sp_cargar_credito (
+	@clie_id int,
+	@monto int,
+	@tarj_id int = NULL --> TODO: es int?
+) AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			--check si cliente existe
+			IF NOT(@clie_id IN (SELECT c.clie_id
+								FROM SOCORRO.Cliente c))
+			BEGIN
+				ROLLBACK;
+				PRINT 'no existe el cliente';
+				RETURN 1;
+			END
+			--check si cliente habilitado
+			IF (0 = (SELECT c.clie_habilitado
+					FROM SOCORRO.Cliente c
+					WHERE @clie_id = c.clie_id))
+			BEGIN
+				ROLLBACK;
+				PRINT 'cliente no habilitado';
+				RETURN 2;
+			END
+			--
+			IF (@monto < 1)
+			BEGIN
+				ROLLBACK;
+				PRINT 'monto menor a 1';
+				RETURN 3;
+			END
+			-- TODO: faltan checks?
+			IF (@tarj_id IN (SELECT t.tarj_id
+								FROM SOCORRO.Tarjeta t
+								WHERE t.tarj_clie_id = @clie_id))
+			BEGIN
+				INSERT INTO SOCORRO.Carga (
+					carg_clie_id,
+					carg_fecha,
+					carg_monto,
+					carg_tipo_de_pago_id,
+					carg_tarj_id
+				) VALUES (
+					@clie_id,
+					GETDATE(), --> TODO: esto esta mal! ver enunciado
+					@monto,
+					2,
+					@tarj_id
+				);
+			END
+			ELSE
+			BEGIN
+				INSERT INTO SOCORRO.Carga (
+					carg_clie_id,
+					carg_fecha,
+					carg_monto,
+					carg_tipo_de_pago_id
+				) VALUES (
+					@clie_id,
+					GETDATE(), --> TODO: esto esta mal! ver enunciado
+					@monto,
+					1
+				);
+			END
+		COMMIT;
+	END TRY
+	BEGIN CATCH
+		PRINT 'algun error loco hay';
+		ROLLBACK;
+	END CATCH
+END
+GO
+
+--==============================================
+--            DATOS DE TESTEO
+--==============================================
+
+EXEC SOCORRO.sp_registro_cliente
+	@user_username = 'admin',
+	@user_pass = 'admin',
+	@clie_nombre = 'Pepe',
+	@clie_apellido = 'Cualquiera',
+	@clie_dni = 12345678,
+	@clie_email = 'jaja_saludos@gmail.com',
+	@clie_telefono = 1109876543,
+	@clie_direccion = 'Calle Cualquiera 123',
+	@clie_codigo_postal = '4321',
+	@clie_fecha_nacimiento = '1995-05-05 00:00:00.000',
+	@clie_ciudad = 'Tranquilandia';
+GO
+
+EXEC SOCORRO.sp_registro_proveedor
+	@user_username = 'prov',
+	@user_pass = 'prov',
+	@prov_rs = 'Fulanoide SA',
+	@prov_cuit = 12123456792,
+	@prov_email = 'juass@gmail.com',
+	@prov_telefono = 1109876345,
+	@prov_dom = 'Calle Cualquiera 124',
+	@prov_cp = '4321',
+	@prov_ciudad = 'Tranquilandia',
+	@prov_rubro_id = 2,
+	@prov_nombre_contacto = 'Sr. Fulano';
+GO
+
+EXEC SOCORRO.sp_deshabilitar_cliente 219; --> pepe
+GO
+
+EXEC SOCORRO.sp_rehabilitar_cliente 219; --> pepe
+GO
+
+EXEC SOCORRO.sp_deshabilitar_proveedor 38; --> fulanoide
+GO
+
+EXEC SOCORRO.sp_rehabilitar_proveedor 38; --> fulanoide
+GO
+
 /*
+SELECT *
+FROM SOCORRO.Proveedor p
+WHERE p.prov_razon_social = 'Fulanoide SA';
+
 -- trae los datos de admin
 SELECT *
 FROM SOCORRO.Cliente c
@@ -957,4 +1317,43 @@ WHERE NOT (SOCORRO.Usuario.[user_id] IN
 
 -- trae los roles de admin:
 SELECT * FROM SOCORRO.getRolesUsuario('admin');
+*/
+
+
+
+/*
+
+--en duda:
+--indices para busqueda freetext?
+
+CREATE FULLTEXT CATALOG ct_cliente AS DEFAULT;
+CREATE FULLTEXT INDEX ON SOCORRO.Cliente (
+	clie_nombre,
+	clie_apellido,
+	clie_email
+) KEY INDEX PK__Cliente__EDD86EE04E27F602
+ON ct_cliente;
+GO
+
+--en duda:
+--busqueda freetext?
+
+CREATE PROC SOCORRO.sp_busqueda_clientes (
+	@nombre varchar(255),
+	@apellido varchar(255),
+	@dni int,
+	@email varchar(255)
+) AS
+BEGIN
+	SELECT
+		c.clie_nombre,
+		c.clie_apellido,
+		c.clie_dni,
+		c.clie_email
+	FROM SOCORRO.Cliente c
+	WHERE FREETEXT(c.clie_nombre, @nombre)
+		AND FREETEXT(c.clie_apellido, @apellido)
+		AND (CAST(c.clie_dni AS nvarchar(20)) LIKE '%'+CAST(@dni AS nvarchar(20))+'%')
+		AND FREETEXT(c.clie_email, @email);
+END
 */

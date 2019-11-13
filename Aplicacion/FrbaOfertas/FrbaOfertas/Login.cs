@@ -90,6 +90,12 @@ namespace FrbaOfertas
 
         private void Login_Load(object sender, EventArgs e)
         {
+            textbox_contraseña.Visible = true;
+            textbox_usuario.Visible = true;
+            buttonIniciarSesion.Visible = true;
+            buttonRegistrarse.Visible = true;
+            buttonCerrarSesion.Visible = false;
+            buttonSeleccionarRol.Visible = false;
             
         }
     }

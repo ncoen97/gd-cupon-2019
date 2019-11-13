@@ -45,7 +45,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(156, 76);
+            this.label1.Location = new System.Drawing.Point(125, 76);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(43, 13);
@@ -54,7 +54,7 @@
             // 
             // buttonRegistrarse
             // 
-            this.buttonRegistrarse.Location = new System.Drawing.Point(207, 165);
+            this.buttonRegistrarse.Location = new System.Drawing.Point(176, 165);
             this.buttonRegistrarse.Margin = new System.Windows.Forms.Padding(2);
             this.buttonRegistrarse.Name = "buttonRegistrarse";
             this.buttonRegistrarse.Size = new System.Drawing.Size(121, 23);
@@ -66,7 +66,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(156, 110);
+            this.label2.Location = new System.Drawing.Point(125, 110);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
@@ -76,7 +76,7 @@
             // 
             // textbox_contraseña
             // 
-            this.textbox_contraseña.Location = new System.Drawing.Point(226, 108);
+            this.textbox_contraseña.Location = new System.Drawing.Point(195, 108);
             this.textbox_contraseña.Margin = new System.Windows.Forms.Padding(2);
             this.textbox_contraseña.Name = "textbox_contraseña";
             this.textbox_contraseña.PasswordChar = '*';
@@ -85,7 +85,7 @@
             // 
             // buttonIniciarSesion
             // 
-            this.buttonIniciarSesion.Location = new System.Drawing.Point(207, 138);
+            this.buttonIniciarSesion.Location = new System.Drawing.Point(176, 138);
             this.buttonIniciarSesion.Margin = new System.Windows.Forms.Padding(2);
             this.buttonIniciarSesion.Name = "buttonIniciarSesion";
             this.buttonIniciarSesion.Size = new System.Drawing.Size(121, 23);
@@ -108,7 +108,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(229, 45);
+            this.label3.Location = new System.Drawing.Point(198, 45);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 13);
@@ -117,7 +117,7 @@
             // 
             // textbox_usuario
             // 
-            this.textbox_usuario.Location = new System.Drawing.Point(226, 74);
+            this.textbox_usuario.Location = new System.Drawing.Point(195, 74);
             this.textbox_usuario.Margin = new System.Windows.Forms.Padding(2);
             this.textbox_usuario.Name = "textbox_usuario";
             this.textbox_usuario.Size = new System.Drawing.Size(127, 20);
@@ -134,14 +134,14 @@
             // cboRoles
             // 
             this.cboRoles.FormattingEnabled = true;
-            this.cboRoles.Location = new System.Drawing.Point(382, 140);
+            this.cboRoles.Location = new System.Drawing.Point(380, 79);
             this.cboRoles.Name = "cboRoles";
             this.cboRoles.Size = new System.Drawing.Size(121, 21);
             this.cboRoles.TabIndex = 9;
             // 
             // buttonCerrarSesion
             // 
-            this.buttonCerrarSesion.Location = new System.Drawing.Point(382, 209);
+            this.buttonCerrarSesion.Location = new System.Drawing.Point(380, 148);
             this.buttonCerrarSesion.Name = "buttonCerrarSesion";
             this.buttonCerrarSesion.Size = new System.Drawing.Size(121, 23);
             this.buttonCerrarSesion.TabIndex = 10;
@@ -150,7 +150,7 @@
             // 
             // buttonSeleccionarRol
             // 
-            this.buttonSeleccionarRol.Location = new System.Drawing.Point(382, 180);
+            this.buttonSeleccionarRol.Location = new System.Drawing.Point(380, 119);
             this.buttonSeleccionarRol.Name = "buttonSeleccionarRol";
             this.buttonSeleccionarRol.Size = new System.Drawing.Size(121, 23);
             this.buttonSeleccionarRol.TabIndex = 11;

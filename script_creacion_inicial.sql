@@ -913,8 +913,48 @@ BEGIN
         COMMIT
     END TRY
     BEGIN CATCH
-        PRINT 'Algún error saltó.';
+        PRINT 'Algún error saltó.';   --> TODO: Algo mal hay acá (error BEGIN/COMMIT count)
         ROLLBACK
     END CATCH
 END
 GO
+
+
+--==============================================
+--    DATOS DE TESTEO
+--==============================================
+
+EXEC SOCORRO.sp_registro_cliente
+	@user_username = 'admin',
+	@user_pass = 'admin',
+	@clie_nombre = 'Pepe',
+	@clie_apellido = 'Cualquiera',
+	@clie_dni = 12345678,
+	@clie_email = 'jaja_saludos@gmail.com',
+	@clie_telefono = 1109876543,
+	@clie_direccion = 'Calle Cualquiera 123',
+	@clie_codigo_postal = '4321',
+	@clie_fecha_nacimiento = '1995-05-05 00:00:00.000',
+	@clie_ciudad = 'Tranquilandia';
+GO
+
+/*
+-- trae los datos de admin
+SELECT *
+FROM SOCORRO.Cliente c
+JOIN SOCORRO.RolxUsuario rxu
+	ON rxu.user_id = c.clie_user_id
+WHERE clie_nombre = 'Pepe';
+
+-- borra todo lo de admin de la db:
+DELETE FROM SOCORRO.Cliente WHERE clie_nombre = 'Pepe';
+DELETE FROM SOCORRO.RolxUsuario WHERE [user_id] = 256;
+DELETE FROM SOCORRO.Usuario
+WHERE NOT (SOCORRO.Usuario.[user_id] IN
+	(SELECT DISTINCT c.clie_user_id FROM SOCORRO.Cliente c
+	UNION
+	SELECT DISTINCT p.prov_user_id FROM SOCORRO.Proveedor p));
+
+-- trae los roles de admin:
+SELECT * FROM SOCORRO.getRolesUsuario('admin');
+*/

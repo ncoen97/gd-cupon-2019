@@ -12,9 +12,15 @@ namespace FrbaOfertas
 {
     public partial class RegistroDeProveedores : Form
     {
+        Usuario usuario;
         public RegistroDeProveedores()
         {
             InitializeComponent();
+        }
+        public RegistroDeProveedores(Usuario usu)
+        {
+            InitializeComponent();
+            usuario = usu;
         }
 
         private void button1_Click(object sender, EventArgs e)

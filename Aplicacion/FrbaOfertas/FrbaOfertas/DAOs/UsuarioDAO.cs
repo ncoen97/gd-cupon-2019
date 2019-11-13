@@ -51,5 +51,27 @@ namespace FrbaOfertas.DAOs
             conexion.Close();
             conexion.Dispose();
         }
+        public static Boolean validarNuevoUsername(string username)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.fnValidarNuevoUsername", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@username", username);
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            if ((int)ret.Value == 1)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+
     }
 }

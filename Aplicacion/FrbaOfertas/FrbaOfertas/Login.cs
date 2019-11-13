@@ -80,24 +80,24 @@ namespace FrbaOfertas
                     }
                 }
                 cboRoles.Visible = true;
-                    foreach (Rol rol in usuario.roles)
-                    {
-                        cboRoles.Items.Add(rol);
-                        cboRoles.DisplayMember = "nombre";
-                        cboRoles.ValueMember = "id";
+                foreach (Rol rol in usuario.roles)
+                {
+                    cboRoles.Items.Add(rol);
+                    cboRoles.DisplayMember = "nombre";
+                    cboRoles.ValueMember = "id";
 
-                    }
-
-                    if (usuario.roles.Count == 0)
-                    {
-                        MessageBox.Show("Al parecer no tiene Roles asignados, porfavor contáctese con el Administrador", "Error Roles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Application.Exit();
-                        Application.Restart();
-                        return;
-                    }   
-                    
                 }
+
+                if (usuario.roles.Count == 0)
+                {
+                    MessageBox.Show("Al parecer no tiene Roles asignados, porfavor contáctese con el Administrador", "Error Roles", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
+                    Application.Restart();
+                    return;
+                }   
+                    
             }
+        }
         
         private void Button2_Click(object sender, EventArgs e)
         {

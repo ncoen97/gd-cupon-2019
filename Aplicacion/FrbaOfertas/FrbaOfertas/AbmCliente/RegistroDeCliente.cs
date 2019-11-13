@@ -8,24 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using FrbaOfertas.DAOs;
+
 namespace FrbaOfertas
 {
     public partial class RegistroDeCliente : Form
     {
+        Usuario usuario;
         public RegistroDeCliente()
         {
             InitializeComponent();
+        }
+        public RegistroDeCliente(Usuario usu)
+        {
+            InitializeComponent();
+            usuario = usu;
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
             //validar todos los campos
+
+            Cliente cli = new Cliente(Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text, true);
+            ClienteDAO.insertarCliente(cli,usuario);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            AbmCliente abmc = new AbmCliente();
-            abmc.Show();
+            RegistroDeUsuario reg = new RegistroDeUsuario();
+            reg.Show();
             this.Hide();
         }
     }

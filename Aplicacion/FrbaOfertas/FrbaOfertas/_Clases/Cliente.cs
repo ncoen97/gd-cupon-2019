@@ -8,7 +8,6 @@ namespace FrbaOfertas
 {
     public class Cliente
     {
-        public int id { get; set; }
         public string nombre { get; set; }
         public string apellido { get; set; }
         public long dni { get; set; }
@@ -22,9 +21,8 @@ namespace FrbaOfertas
         public List<Tarjeta> tarjetas_asociadas { get; set; }
         public List<Cupon> cupones { get; set; }
 
-        public Cliente(int _id, string _nombre, string _apellido, long _dni, DateTime _fechaNac, string _direccion, string _cod_postal, string _mail, string _telefono, bool _habilitado)
+        public Cliente(string _nombre, string _apellido, long _dni, DateTime _fechaNac, string _direccion, string _cod_postal, string _mail, string _telefono, bool _habilitado)
         {
-            this.id = _id;
             this.nombre = _nombre;
             this.apellido = _apellido;
             this.dni = _dni;

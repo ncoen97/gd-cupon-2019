@@ -86,6 +86,7 @@
     <Compile Include="AbmRol\AbmRol.Designer.cs">
       <DependentUpon>AbmRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAOs\ClienteDAO.cs" />
     <Compile Include="DAOs\DBConnection.cs" />
     <Compile Include="DAOs\UsuarioDAO.cs" />
     <Compile Include="_Clases\Canje.cs" />

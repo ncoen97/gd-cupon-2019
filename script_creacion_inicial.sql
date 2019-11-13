@@ -1,35 +1,36 @@
-IF OBJECT_ID('SOCORRO.Item', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Item;
-IF OBJECT_ID('SOCORRO.Factura', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Factura;
-IF OBJECT_ID('SOCORRO.Carga', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Carga;
-IF OBJECT_ID('SOCORRO.Cupon', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Cupon;
-IF OBJECT_ID('SOCORRO.Oferta', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Oferta;
-IF OBJECT_ID('SOCORRO.Cliente', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Cliente;
-IF OBJECT_ID('SOCORRO.Tipo_de_pago', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Tipo_de_pago;
-IF OBJECT_ID('SOCORRO.Tarjeta', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Tarjeta;
-IF OBJECT_ID('SOCORRO.Proveedor', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Proveedor;
-IF OBJECT_ID('SOCORRO.Rubro', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Rubro;
-IF OBJECT_ID('SOCORRO.Administrador', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Administrador;
-IF OBJECT_ID('SOCORRO.RolxUsuario', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.RolxUsuario;
-IF OBJECT_ID('SOCORRO.FuncionalidadxRol', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.FuncionalidadxRol;
-IF OBJECT_ID('SOCORRO.Rol', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Rol;
-IF OBJECT_ID('SOCORRO.Funcionalidad', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Funcionalidad;
-IF OBJECT_ID('SOCORRO.Usuario', 'U') IS NOT NULL
-	DROP TABLE SOCORRO.Usuario;
+IF OBJECT_ID('[SOCORRO].Item', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Item;
+IF OBJECT_ID('[SOCORRO].Factura', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Factura;
+IF OBJECT_ID('[SOCORRO].Carga', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Carga;
+IF OBJECT_ID('[SOCORRO].Cupon', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Cupon;
+IF OBJECT_ID('[SOCORRO].Oferta', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Oferta;
+IF OBJECT_ID('[SOCORRO].Cliente', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Cliente;
+IF OBJECT_ID('[SOCORRO].Tipo_de_pago', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Tipo_de_pago;
+IF OBJECT_ID('[SOCORRO].Tarjeta', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Tarjeta;
+IF OBJECT_ID('[SOCORRO].Proveedor', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Proveedor;
+IF OBJECT_ID('[SOCORRO].Rubro', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Rubro;
+IF OBJECT_ID('[SOCORRO].Administrador', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Administrador;
+IF OBJECT_ID('[SOCORRO].RolxUsuario', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].RolxUsuario;
+IF OBJECT_ID('[SOCORRO].FuncionalidadxRol', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].FuncionalidadxRol;
+IF OBJECT_ID('[SOCORRO].Rol', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Rol;
+IF OBJECT_ID('[SOCORRO].Funcionalidad', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Funcionalidad;
+IF OBJECT_ID('[SOCORRO].Usuario', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Usuario;
+
 
 
 IF OBJECT_ID('SOCORRO.migracion_insert_rubros') IS NOT NULL
@@ -62,6 +63,8 @@ IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
 	DROP PROCEDURE SOCORRO.validarLogin;
 IF OBJECT_ID('SOCORRO.fn_validar_nuevo_username') IS NOT NULL
 	DROP FUNCTION SOCORRO.fn_validar_nuevo_username;
+IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_registro_cliente;
 
 USE GD2C2019;
 SET NOCOUNT ON;
@@ -171,9 +174,9 @@ CREATE TABLE SOCORRO.Item (
 );
 
 CREATE TABLE SOCORRO.Usuario (
-  [user_id] int IDENTITY PRIMARY KEY,
+  user_id int IDENTITY PRIMARY KEY,
   user_username nvarchar(20),
-  user_pass nvarchar(30),
+  user_pass nvarchar(255),
   user_intentos int DEFAULT 0
 );
 
@@ -787,7 +790,7 @@ AS
  END	
 go
 
-create procedure [SOCORRO].validarLogin(@username nvarchar(20),@password nvarchar(20))
+CREATE PROCEDURE [SOCORRO].validarLogin(@username nvarchar(20),@password nvarchar(20))
 as
 begin
 	IF ((SELECT SOCORRO.fn_is_blocked_user(@username)) = 1)
@@ -795,9 +798,9 @@ begin
 	DECLARE @hash nvarchar(255)
 	DECLARE @user_id int
 
-	SET @hash = HASHBYTES('SHA2_256', @password)
-	SET @user_id = (SELECT user FROM [SOCORRO].Usuario WHERE user_username = @username AND user_pass = @hash)
-
+	SET @hash = HASHBYTES('SHA2_256', CONVERT(nvarchar(32),@password))
+	SET @user_id = (SELECT user_id FROM [SOCORRO].Usuario WHERE user_username = @username AND user_pass = @hash)
+	
 	IF (@user_id IS NOT NULL)
 		BEGIN 
 		UPDATE [SOCORRO].Usuario SET user_intentos = 0 WHERE user_username = @username
@@ -827,7 +830,7 @@ go
 
 CREATE PROC [SOCORRO].sp_registro_cliente (
     @user_username nvarchar(20),
-    @user_pass nvarchar(30),
+    @user_pass nvarchar(255),
     @clie_nombre nvarchar(255),
     @clie_apellido nvarchar(255),
     @clie_dni numeric(18,0),

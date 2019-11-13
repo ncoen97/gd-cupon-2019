@@ -54,11 +54,11 @@ IF OBJECT_ID('SOCORRO.migracion_insert_cargas') IS NOT NULL
 IF OBJECT_ID('SOCORRO.migracion_insert_cupones') IS NOT NULL
 	DROP PROCEDURE SOCORRO.migracion_insert_cupones;
 IF OBJECT_ID('SOCORRO.migracion_insert_facturas') IS NOT NULL
-	DROP PROCEDURE SOCORRO.migracion_insert_facturas; 
+	DROP PROCEDURE SOCORRO.migracion_insert_facturas;
 IF OBJECT_ID('SOCORRO.migracion_insert_items') IS NOT NULL
-	DROP PROCEDURE SOCORRO.migracion_insert_items; 
+	DROP PROCEDURE SOCORRO.migracion_insert_items;
 IF OBJECT_ID('SOCORRO.fnIsBlockedUser') IS NOT NULL
-	DROP FUNCTION SOCORRO.fnIsBlockedUser; 
+	DROP FUNCTION SOCORRO.fnIsBlockedUser;
 IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
 	DROP PROCEDURE SOCORRO.validarLogin;
 IF OBJECT_ID('SOCORRO.fnValidarNuevoUsername') IS NOT NULL
@@ -327,12 +327,12 @@ BEGIN
 		(1, 'ABM de Rol'),
 		(2, 'ABM de Clientes'),
 		(3, 'ABM de Proveedor'),
-		(4, 'Carga de Crédito'),
-		(5, 'Confección y Publicación de Ofertas'),
+		(4, 'Carga de Crï¿½dito'),
+		(5, 'Confecciï¿½n y Publicaciï¿½n de Ofertas'),
 		(6, 'Comprar Oferta'),
 		(7, 'Consumo de Oferta'),
-		(8, 'Facturación a Proveedor'),
-		(9, 'Listado Estadístico');
+		(8, 'Facturaciï¿½n a Proveedor'),
+		(9, 'Listado Estadï¿½stico');
 END
 GO
 
@@ -423,10 +423,10 @@ BEGIN
 		WHERE r.rubro_descripcion = @prov_rubro;
 		-- creo un usuario para el proveedor
 		-- con los valores por defecto
-		-- (el user_id va autoincrementando y 
-		-- lo demás es null por no inventar datos)
+		-- (el user_id va autoincrementando y
+		-- lo demï¿½s es null por no inventar datos)
 		INSERT INTO SOCORRO.Usuario DEFAULT VALUES;
-		-- para tener el user_id recién usado:
+		-- para tener el user_id reciï¿½n usado:
 		SET @prov_user_id = SCOPE_IDENTITY();
 		INSERT INTO SOCORRO.RolxUsuario (
 			[user_id],
@@ -497,15 +497,15 @@ BEGIN
 		@clie_telefono,
 		@clie_email,
 		@clie_fecha_nacimiento,
-		@clie_ciudad;	
+		@clie_ciudad;
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		-- creo un usuario para el cliente
 		-- con los valores por defecto
-		-- (el user_id va autoincrementando y 
-		-- lo demás es null por no inventar datos)
+		-- (el user_id va autoincrementando y
+		-- lo demï¿½s es null por no inventar datos)
 		INSERT INTO SOCORRO.Usuario DEFAULT VALUES;
-		-- para tener el user_id recién usado:
+		-- para tener el user_id reciï¿½n usado:
 		SET @clie_user_id = SCOPE_IDENTITY();
 		INSERT INTO SOCORRO.RolxUsuario (
 			[user_id],
@@ -543,7 +543,7 @@ BEGIN
 			@clie_telefono,
 			@clie_email,
 			@clie_fecha_nacimiento,
-			@clie_ciudad;	
+			@clie_ciudad;
 	END
 	CLOSE curs_cliente;
 	DEALLOCATE curs_cliente;
@@ -795,7 +795,7 @@ AS
 	IF ((SELECT user_intentos FROM [SOCORRO].Usuario WHERE user_username = @username) >= 3)
 		RETURN 1
 	RETURN 0
- END	
+ END
 go
 
 create PROCEDURE [SOCORRO].validarLogin(@username nvarchar(20),@password nvarchar(20))
@@ -808,16 +808,16 @@ begin
 
 	SET @hash = HASHBYTES('SHA2_256', CONVERT(nvarchar(32),@password))
 	SET @user_id = (SELECT user_id FROM [SOCORRO].Usuario WHERE user_username = @username AND user_pass = @hash)
-	
+
 	IF (@user_id IS NOT NULL)
-		BEGIN 
+		BEGIN
 		UPDATE [SOCORRO].Usuario SET user_intentos = 0 WHERE user_username = @username
 		RETURN @user_id /*Usuario ok*/
 		END
-	ELSE 	
-		BEGIN 
+	ELSE
+		BEGIN
 		UPDATE [SOCORRO].Usuario SET user_intentos = user_intentos + 1 WHERE user_username = @username
-		RETURN -1 /*Usuario o Contraseña incorrecta*/
+		RETURN -1 /*Usuario o Contraseï¿½a incorrecta*/
 		END
 
 end
@@ -827,7 +827,7 @@ CREATE FUNCTION [SOCORRO].getRolesUsuario(@username nvarchar(50))
 RETURNS table
 AS
 	 RETURN (SELECT r.rol_id, rol_nombre, r.rol_habilitado FROM [SOCORRO].Rol r
-             JOIN [SOCORRO].RolxUsuario rxu ON (rxu.rol_id = r.rol_id) 
+             JOIN [SOCORRO].RolxUsuario rxu ON (rxu.rol_id = r.rol_id)
              JOIN [SOCORRO].Usuario u ON (u.user_id = rxu.user_id)
              WHERE u.user_username = @username AND r.rol_habilitado = 1)
 GO
@@ -906,14 +906,55 @@ BEGIN
                 @clie_telefono,
                 @clie_direccion,
                 @clie_codigo_postal,
-                @clie_fecha_nacimiento,
+                CAST(@clie_fecha_nacimiento AS datetime),
                 @clie_ciudad,
 				200
             );
         COMMIT
     END TRY
     BEGIN CATCH
-        PRINT 'Algún error saltó.';
+        PRINT 'Algï¿½n error saltï¿½.';   --> TODO: Algo mal hay acï¿½ (error BEGIN/COMMIT count)
         ROLLBACK
     END CATCH
 END
+GO
+
+
+--==============================================
+--    DATOS DE TESTEO
+--==============================================
+
+EXEC SOCORRO.sp_registro_cliente
+	@user_username = 'admin',
+	@user_pass = 'admin',
+	@clie_nombre = 'Pepe',
+	@clie_apellido = 'Cualquiera',
+	@clie_dni = 12345678,
+	@clie_email = 'jaja_saludos@gmail.com',
+	@clie_telefono = 1109876543,
+	@clie_direccion = 'Calle Cualquiera 123',
+	@clie_codigo_postal = '4321',
+	@clie_fecha_nacimiento = '1995-05-05 00:00:00.000',
+	@clie_ciudad = 'Tranquilandia';
+GO
+
+/*
+-- trae los datos de admin
+SELECT *
+FROM SOCORRO.Cliente c
+JOIN SOCORRO.RolxUsuario rxu
+	ON rxu.user_id = c.clie_user_id
+WHERE clie_nombre = 'Pepe';
+
+-- borra todo lo de admin de la db:
+DELETE FROM SOCORRO.Cliente WHERE clie_nombre = 'Pepe';
+DELETE FROM SOCORRO.RolxUsuario WHERE [user_id] = 256;
+DELETE FROM SOCORRO.Usuario
+WHERE NOT (SOCORRO.Usuario.[user_id] IN
+	(SELECT DISTINCT c.clie_user_id FROM SOCORRO.Cliente c
+	UNION
+	SELECT DISTINCT p.prov_user_id FROM SOCORRO.Proveedor p));
+
+-- trae los roles de admin:
+SELECT * FROM SOCORRO.getRolesUsuario('admin');
+*/

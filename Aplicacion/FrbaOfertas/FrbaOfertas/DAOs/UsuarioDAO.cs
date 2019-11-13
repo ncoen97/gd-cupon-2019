@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace FrbaOfertas.DAOs
 {
@@ -13,7 +14,6 @@ namespace FrbaOfertas.DAOs
         public static int logUsuario(Usuario usuario)
         {
             SqlConnection conexion = DBConnection.getConnection();
-            //aca se ejecuta una stored procedure de logear usuario y devuelve el id
             SqlCommand command = new SqlCommand("SOCORRO.validarLogin", conexion);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@username", usuario.username);
@@ -25,7 +25,7 @@ namespace FrbaOfertas.DAOs
             command.Dispose();
             conexion.Close();
             conexion.Dispose();
-            return 1;//devuelve el id de usuario
+            return (int)ret.Value;
         }
         public static void cargarRolesUsuario(Usuario usuario)
         {

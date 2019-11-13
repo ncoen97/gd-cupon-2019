@@ -70,9 +70,9 @@ namespace FrbaOfertas
                 }
                 if (usuario.roles.Count == 1)
                 {
-                    Form form = new MenuPrincipalForm(usuario, usuario.roles.First());
-                    form.Show();
-                    this.Hide();
+                 //   Form form = new MenuPrincipalForm(usuario, usuario.roles.First());
+               //     form.Show();
+             //       this.Hide();
                 }
             }
         }

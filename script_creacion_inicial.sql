@@ -1,3 +1,6 @@
+USE [GD2C2019]
+GO
+-------------------------------------------------------------------
 IF OBJECT_ID('[SOCORRO].Item', 'U') IS NOT NULL
 	DROP TABLE [SOCORRO].Item;
 IF OBJECT_ID('[SOCORRO].Factura', 'U') IS NOT NULL

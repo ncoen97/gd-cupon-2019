@@ -813,6 +813,7 @@ GO
 --    PROCEDURES Y FUNCTIONS PARA LA APLICACION
 --=====================================================
 
+
 CREATE FUNCTION [SOCORRO].fnIsBlockedUser(@username nvarchar(50))
 RETURNS bit
 AS
@@ -1113,7 +1114,7 @@ CREATE PROC SOCORRO.sp_modificar_cliente (
     @nuevo_direccion nvarchar(255),
     @nuevo_codigo_postal char(5),
     @nuevo_fecha_nacimiento datetime,
-    @nuevo_ciudad nvarchar(255) --> duda, ver enunciado (ABM Cliente)
+    @nuevo_ciudad nvarchar(255) --> TODO: duda, ver enunciado (ABM Cliente)
 ) AS
 BEGIN
 	IF NOT(@clie_id IN (SELECT c.clie_id FROM SOCORRO.Cliente c))
@@ -1264,6 +1265,63 @@ BEGIN
 END
 GO
 
+CREATE PROC SOCORRO.sp_consumir_cupon (
+	@prov_id int,
+	@fecha_consumo datetime,
+	@codigo_cupon int, --> TODO: que tipo era?
+	@clie_id_consumo int
+) AS
+BEGIN
+	--check es el proveedor que emitio el cupon?
+	IF NOT(@prov_id IN (SELECT p.prov_id
+						FROM SOCORRO.Cupon c
+						JOIN SOCORRO.Oferta o
+							ON o.ofer_id = c.cupon_ofer_id
+						JOIN SOCORRO.Proveedor p
+							ON p.prov_id = o.ofer_prov_id
+						WHERE c.cupon_id = @codigo_cupon))
+	BEGIN
+		PRINT 'proveedores no coinciden';
+		RETURN 1;
+	END
+	--check el cupon esta vencido?
+	IF (@fecha_consumo >	(SELECT o.ofer_fecha_vencimiento
+							FROM SOCORRO.Cupon c
+							JOIN SOCORRO.Oferta o
+								ON o.ofer_id = c.cupon_ofer_id
+							WHERE c.cupon_id = @codigo_cupon))
+	BEGIN
+		PRINT 'cupon vencido';
+		RETURN 2;
+	END
+	--check el cupon ya fue canjeado?
+	IF (SELECT o.ofer_fecha_vencimiento
+		FROM SOCORRO.Cupon c
+		JOIN SOCORRO.Oferta o
+			ON o.ofer_id = c.cupon_ofer_id
+		WHERE c.cupon_id = @codigo_cupon) IS NOT NULL
+	BEGIN
+		PRINT 'cupon ya canjeado';
+		RETURN 3;
+	END
+	--check existe el cliente?
+	IF NOT EXISTS	(SELECT *
+					FROM SOCORRO.Cliente c
+					WHERE c.clie_id = @clie_id_consumo)
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 4;
+	END
+	UPDATE SOCORRO.Cupon
+	SET
+		cupon_clie_id_consumo = @clie_id_consumo,
+		cupon_fecha_consumo = @fecha_consumo
+	WHERE cupon_id = @codigo_cupon;
+	PRINT 'exito!';
+	RETURN 0;
+END
+GO
+
 -- <ADMINISTRADOR PEDIDO EN PAG 14>
 BEGIN
 	DECLARE
@@ -1372,7 +1430,7 @@ JOIN SOCORRO.RolxUsuario rxu
 	ON rxu.user_id = u.user_id
 JOIN SOCORRO.Rol r
 	ON r.rol_id = rxu.rol_id
-WHERE u.user_id = 256;
+WHERE u.user_id = 257;
 
 
 SELECT *

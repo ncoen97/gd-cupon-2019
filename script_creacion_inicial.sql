@@ -890,9 +890,11 @@ BEGIN
         BEGIN TRANSACTION
             IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
 			BEGIN
+				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el username ya existe';
 				ROLLBACK;
                 RETURN 1;
 			END
+			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el username no existia; es valido';
             DECLARE
                 @user_id int,
                 @pass_hashed nvarchar(255);
@@ -905,6 +907,7 @@ BEGIN
                 HASHBYTES('SHA2_256', @user_pass),
                 0
             );
+			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': usuario creado';
             SET @user_id = SCOPE_IDENTITY();
 			INSERT INTO SOCORRO.RolxUsuario (
 				[user_id],
@@ -913,6 +916,7 @@ BEGIN
 				@user_id,
 				1
 			);
+			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': rol asignado';
             INSERT INTO SOCORRO.Cliente (
                 clie_user_id,
                 clie_nombre,
@@ -938,10 +942,11 @@ BEGIN
                 @clie_ciudad,
 				200
             );
+			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': datos de cliente registrados';
         COMMIT;
     END TRY
     BEGIN CATCH
-        PRINT 'Alg�n error salt�.';
+        PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': Alg�n error salt�.';
         ROLLBACK;
     END CATCH
 END
@@ -968,11 +973,11 @@ BEGIN
 			--si el user esta tomado, rollbackea y devuelve 1 (error)
             IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
 			BEGIN
-				PRINT 'el usuario ya figura!';
+				PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el usuario ya figura!';
 				ROLLBACK;
                 RETURN 1;
             END
-			PRINT 'el usuario no figura';
+			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el usuario no figura';
 			DECLARE
                 @user_id int,
                 @pass_hashed nvarchar(255);
@@ -986,7 +991,7 @@ BEGIN
                 HASHBYTES('SHA2_256', @user_pass),
                 0
             );
-			PRINT 'el usuario fue creado';
+			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el usuario fue creado';
 			--busco el user_id recien asignado
             SET @user_id = SCOPE_IDENTITY();
 			--asigno rol correspondiente a dicho usuario
@@ -997,7 +1002,7 @@ BEGIN
 				@user_id,
 				2
 			);
-			PRINT 'el rol fue asignado';
+			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el rol fue asignado';
 			--cargo finalmente los datos de proveedor
             INSERT INTO SOCORRO.Proveedor(
 				prov_user_id,
@@ -1022,12 +1027,12 @@ BEGIN
                 @prov_rubro_id,
 				@prov_nombre_contacto
             );
-			PRINT 'el proveedor se cargo';
+			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el proveedor se cargo';
         COMMIT;
     END TRY
     BEGIN CATCH
 		--si algo inseperado sucede, se va a ver este print
-        PRINT 'Algun error salto.';
+        PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': Algun error salto.';
 		--y se rollbackean todos los inserts
         ROLLBACK;
     END CATCH
@@ -1238,6 +1243,7 @@ BEGIN
 END
 GO
 
+-- DROP PROC SOCORRO.sp_buscar_clientes
 CREATE PROC SOCORRO.sp_buscar_clientes (
 	@nombre varchar(255) = NULL,
 	@apellido varchar(255) = NULL,
@@ -1296,8 +1302,8 @@ GO
 --==============================================
 
 EXEC SOCORRO.sp_registro_cliente
-	@user_username = 'admin',
-	@user_pass = 'admin',
+	@user_username = 'cliente',
+	@user_pass = 'cliente',
 	@clie_nombre = 'Pepe',
 	@clie_apellido = 'Cualquiera',
 	@clie_dni = 12345678,
@@ -1335,6 +1341,7 @@ GO
 EXEC SOCORRO.sp_rehabilitar_proveedor 38; --> fulanoide
 GO
 
+
 /*
 
 --cosas para probar usuario con rol doble
@@ -1364,9 +1371,8 @@ JOIN SOCORRO.RolxUsuario rxu
 JOIN SOCORRO.Rol r
 	ON r.rol_id = rxu.rol_id
 WHERE u.user_id = 256;
-*/
 
-/*
+
 SELECT *
 FROM SOCORRO.Proveedor p
 WHERE p.prov_razon_social = 'Fulanoide SA';
@@ -1392,40 +1398,3 @@ SELECT * FROM SOCORRO.getRolesUsuario('admin');
 */
 
 
-
-/*
-
---en duda:
---indices para busqueda freetext?
-
-CREATE FULLTEXT CATALOG ct_cliente AS DEFAULT;
-CREATE FULLTEXT INDEX ON SOCORRO.Cliente (
-	clie_nombre,
-	clie_apellido,
-	clie_email
-) KEY INDEX PK__Cliente__EDD86EE04E27F602
-ON ct_cliente;
-GO
-
---en duda:
---busqueda freetext?
-
-CREATE PROC SOCORRO.sp_busqueda_clientes (
-	@nombre varchar(255),
-	@apellido varchar(255),
-	@dni int,
-	@email varchar(255)
-) AS
-BEGIN
-	SELECT
-		c.clie_nombre,
-		c.clie_apellido,
-		c.clie_dni,
-		c.clie_email
-	FROM SOCORRO.Cliente c
-	WHERE FREETEXT(c.clie_nombre, @nombre)
-		AND FREETEXT(c.clie_apellido, @apellido)
-		AND (CAST(c.clie_dni AS nvarchar(20)) LIKE '%'+CAST(@dni AS nvarchar(20))+'%')
-		AND FREETEXT(c.clie_email, @email);
-END
-*/

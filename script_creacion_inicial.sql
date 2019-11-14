@@ -1345,6 +1345,25 @@ GO
 EXEC SOCORRO.sp_rehabilitar_proveedor 38; --> fulanoide
 GO
 
+BEGIN
+    INSERT INTO SOCORRO.Administrador (
+        admin_nombre,
+        admin_apellido,
+        admin_user_id
+    ) VALUES (
+        'Pepe',
+        'Cualquiera',
+        257
+    );
+    INSERT INTO SOCORRO.RolxUsuario (
+        rol_id,
+        [user_id]
+    ) VALUES (
+        3,
+        257
+    );
+END
+
 /*
 --cosas para probar usuario con rol doble
 BEGIN

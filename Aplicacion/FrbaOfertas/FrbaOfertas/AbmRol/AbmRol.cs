@@ -26,5 +26,12 @@ namespace FrbaOfertas
         {
 
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            MenuAdministrador oc = new MenuAdministrador();
+            oc.Show();
+            this.Hide();
+        }
     }
 }

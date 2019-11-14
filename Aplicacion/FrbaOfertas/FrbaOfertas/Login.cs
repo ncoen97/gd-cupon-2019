@@ -61,8 +61,10 @@ namespace FrbaOfertas
                     switch (rol.nombre)
                     {
                         case "Administrador":
-
+                            MenuAdministrador ma = new MenuAdministrador();
+                            ma.Show();
                             break;
+                         
 
                         case "Cliente":
                             OpcionesCliente oc = new OpcionesCliente();
@@ -133,9 +135,9 @@ namespace FrbaOfertas
             switch (rol.nombre)
             {
                 case "Administrador":
-
+                    MenuAdministrador ma = new MenuAdministrador();
+                    ma.Show();
                     break;
-
                 case "Cliente":
                     OpcionesCliente oc = new OpcionesCliente();
                     oc.Show();

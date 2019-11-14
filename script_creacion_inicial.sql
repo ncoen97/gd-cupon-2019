@@ -350,12 +350,12 @@ BEGIN
 		(1, 'ABM de Rol'),
 		(2, 'ABM de Clientes'),
 		(3, 'ABM de Proveedor'),
-		(4, 'Carga de Cr�dito'),
-		(5, 'Confecci�n y Publicaci�n de Ofertas'),
+		(4, 'Carga de Credito'),
+		(5, 'Confeccion y Publicacion de Ofertas'),
 		(6, 'Comprar Oferta'),
 		(7, 'Consumo de Oferta'),
-		(8, 'Facturaci�n a Proveedor'),
-		(9, 'Listado Estad�stico');
+		(8, 'Facturacion a Proveedor'),
+		(9, 'Listado Estadistico');
 END
 GO
 
@@ -1171,9 +1171,10 @@ END
 GO
 
 CREATE PROC SOCORRO.sp_cargar_credito (
+	@fecha_operacion datetime,
 	@clie_id int,
 	@monto int,
-	@tarj_id int = NULL --> TODO: es int?
+	@tarj_id int = NULL
 ) AS
 BEGIN
 	BEGIN TRY
@@ -1195,7 +1196,7 @@ BEGIN
 				PRINT 'cliente no habilitado';
 				RETURN 2;
 			END
-			--
+			--check si monto = 0 o negativo
 			IF (@monto < 1)
 			BEGIN
 				ROLLBACK;
@@ -1215,7 +1216,7 @@ BEGIN
 					carg_tarj_id
 				) VALUES (
 					@clie_id,
-					GETDATE(), --> TODO: esto esta mal! ver enunciado
+					@fecha_operacion,
 					@monto,
 					2,
 					@tarj_id
@@ -1230,7 +1231,7 @@ BEGIN
 					carg_tipo_de_pago_id
 				) VALUES (
 					@clie_id,
-					GETDATE(), --> TODO: esto esta mal! ver enunciado
+					@fecha_operacion,
 					@monto,
 					1
 				);
@@ -1247,7 +1248,7 @@ GO
 -- DROP PROC SOCORRO.sp_buscar_clientes
 CREATE PROC SOCORRO.sp_buscar_clientes (
 	@nombre varchar(255) = NULL,
-	@apellido varchar(255) = NULL,
+	@apellido varchar(255) = NULL,  --> TODO: me pasan NULL o '' ??
 	@dni int = NULL,
 	@email varchar(255) = NULL
 ) AS
@@ -1268,7 +1269,7 @@ GO
 CREATE PROC SOCORRO.sp_consumir_cupon (
 	@prov_id int,
 	@fecha_consumo datetime,
-	@codigo_cupon int, --> TODO: que tipo era?
+	@codigo_cupon int,
 	@clie_id_consumo int
 ) AS
 BEGIN

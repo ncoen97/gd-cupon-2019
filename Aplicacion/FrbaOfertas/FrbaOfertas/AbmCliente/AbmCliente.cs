@@ -40,5 +40,10 @@ namespace FrbaOfertas
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //if cualquiera de los campos no está vacio, se aplica esa busqueda
+        }
     }
 }

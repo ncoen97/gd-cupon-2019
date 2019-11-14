@@ -91,6 +91,12 @@ IF OBJECT_ID('SOCORRO.sp_buscar_clientes') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_buscar_clientes;
 IF OBJECT_ID('SOCORRO.sp_consumir_cupon') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_consumir_cupon;
+IF OBJECT_ID('SOCORRO.sp_publicar_oferta') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_publicar_oferta;
+IF OBJECT_ID('SOCORRO.sp_lista_prov_mayor_descuento') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_lista_prov_mayor_descuento;
+IF OBJECT_ID('SOCORRO.sp_lista_prov_mayor_facturacion') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_lista_prov_mayor_facturacion;
 	
 IF NOT EXISTS
 	(SELECT *
@@ -370,10 +376,14 @@ BEGIN
 		-- proveedores:
 		(2, 5),
 		(2, 7),
-		-- admins: TODO: todas???? qué pasa si publico oferta como admin???
+		-- admins:
 		(3, 1),
 		(3, 2),
 		(3, 3),
+		(3, 4), --> TODO: hecho?
+		(3, 5), --> TODO: hecho?
+		(3, 6), --> TODO: hecho?
+		(3, 7), --> tODO: hecho?
 		(3, 8),
 		(3, 9);
 END
@@ -1324,6 +1334,66 @@ BEGIN
 END
 GO
 
+
+CREATE PROC SOCORRO.sp_publicar_oferta (
+	@prov_id int,
+	@fecha_publicacion datetime, --> mayor o igual a la actual!
+	@fecha_vencimiento datetime,
+	@precio_rebajado numeric(18, 2),
+	@precio_original numeric(18, 2),
+	@stock_disponible int,
+	@max_cantidad_compra_por_cliente int, --> no obligatorio! no?
+	@descripcion nvarchar(255)
+) AS
+BEGIN
+	PRINT 'no sta hecho weii';
+END
+GO
+
+--DROP PROC SOCORRO.sp_lista_prov_mayor_descuento;
+CREATE PROC SOCORRO.sp_lista_prov_mayor_descuento /*(
+	@semestre (??) - TODO: falta seleccion de semestre!
+)*/ AS
+BEGIN
+	SELECT TOP 5
+		p.prov_razon_social [Razon social],
+		r.rubro_descripcion [Rubro],
+		100*AVG((o.ofer_precio_lista - o.ofer_precio_oferta)/o.ofer_precio_lista) [Descuento promedio]  --> TODO: 2 decimales
+	FROM SOCORRO.Proveedor p
+	JOIN SOCORRO.Oferta o
+		ON o.ofer_prov_id = p.prov_id
+	JOIN SOCORRO.Rubro r
+		ON p.prov_rubro_id = r.rubro_id
+	GROUP BY
+		p.prov_razon_social,
+		r.rubro_descripcion
+	ORDER BY [Descuento promedio] DESC;
+END
+GO
+
+--DROP PROC SOCORRO.sp_lista_prov_mayor_facturacion;
+CREATE PROC SOCORRO.sp_lista_prov_mayor_facturacion /*(
+	@semestre (??) - TODO: falta seleccion de semestre!
+)*/ AS
+BEGIN
+	SELECT TOP 5
+		p.prov_razon_social [Razon social],
+		r.rubro_descripcion [Rubro],
+		SUM(i.item_precio * i.item_cantidad) [Facturacion] --> TODO: 2 decimales
+	FROM SOCORRO.Proveedor p
+	JOIN SOCORRO.Factura f
+		ON f.fact_prov_id = p.prov_id
+	JOIN SOCORRO.Item i
+		ON i.item_fact_id = f.fact_id
+	JOIN SOCORRO.Rubro r
+		ON p.prov_rubro_id = r.rubro_id
+	GROUP BY
+		p.prov_razon_social,
+		r.rubro_descripcion
+	ORDER BY [Facturacion] DESC;
+END
+GO
+
 -- <ADMINISTRADOR PEDIDO EN PAG 14>
 BEGIN
 	DECLARE
@@ -1356,8 +1426,6 @@ BEGIN
 	);
 END
 GO
-
-
 -- </ADMINISTRADOR PEDIDO EN PAG 14>
 
 

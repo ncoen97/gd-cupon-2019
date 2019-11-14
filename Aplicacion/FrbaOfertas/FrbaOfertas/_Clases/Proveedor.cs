@@ -14,7 +14,23 @@ namespace FrbaOfertas
         public string direccion { get; set; }
         public string codigo_postal { get; set; }
         public string ciudad { get; set; }
+        public string cuit { get; set; }
+        public int rubro_id{ get; set; }
+        public string nombre_de_contacto { get; set; }
         public bool habilitada { get; set; }
-        //public rubro;
+        public string telefono { get; set; }
+
+        public Proveedor(string rs, string email, string direc, string cp, string ciud, string cuitt, int rubid, string nombre, string tel)
+        {
+            razon_social = rs;
+            mail = email;
+            direccion = direc;
+            codigo_postal = cp;
+            ciudad = ciud;
+            cuit = cuitt;
+            rubro_id = rubid;
+            nombre_de_contacto = nombre;
+            telefono = tel;
+        }
     }
 }

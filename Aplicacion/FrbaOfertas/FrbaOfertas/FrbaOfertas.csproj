@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="DAOs\ClienteDAO.cs" />
     <Compile Include="DAOs\DBConnection.cs" />
+    <Compile Include="DAOs\ProveedorDAO.cs" />
     <Compile Include="DAOs\UsuarioDAO.cs" />
     <Compile Include="_Clases\Canje.cs" />
     <Compile Include="_Clases\Carga.cs" />

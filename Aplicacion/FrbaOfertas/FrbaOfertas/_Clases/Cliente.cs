@@ -32,7 +32,7 @@ namespace FrbaOfertas
             this.cod_postal = _cod_postal;
             this.fecha_nacimiento = _fechaNac;
             this.habilitado = _habilitado;
-            this.monto = 200; //monto inicial
+            this.monto = 0;
         }
     }
 }

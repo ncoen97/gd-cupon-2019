@@ -31,6 +31,9 @@ namespace FrbaOfertas
 
             Cliente cli = new Cliente(Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text, true);
             ClienteDAO.insertarCliente(cli,usuario);
+            Login login = new Login();
+            login.Show();
+            this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -24,7 +24,16 @@ namespace FrbaOfertas
 
         private void button2_Click(object sender, EventArgs e)
         {
+            ConsumoOferta co = new ConsumoOferta();
+            co.Show();
+            this.Hide();
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CrearOferta co = new CrearOferta();
+            co.Show();
+            this.Hide();
         }
     }
 }

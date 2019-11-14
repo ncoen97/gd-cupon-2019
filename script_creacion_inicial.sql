@@ -1267,13 +1267,15 @@ GO
 -- <ADMINISTRADOR PEDIDO EN PAG 14>
 BEGIN
 	DECLARE
-		@user_id int;
+		@user_id int,
+		@pass nvarchar(20);
+	SET @pass = 'w23e';
 	INSERT INTO SOCORRO.Usuario (
 		user_username,
 		user_pass
 	) VALUES (
 		'admin',
-		HASHBYTES('SHA2_256', 'w23e')
+		HASHBYTES('SHA2_256', @pass)
 	);
 	SET @user_id = SCOPE_IDENTITY();
 	INSERT INTO SOCORRO.Administrador (
@@ -1294,6 +1296,8 @@ BEGIN
 	);
 END
 GO
+
+
 -- </ADMINISTRADOR PEDIDO EN PAG 14>
 
 
@@ -1341,9 +1345,7 @@ GO
 EXEC SOCORRO.sp_rehabilitar_proveedor 38; --> fulanoide
 GO
 
-
 /*
-
 --cosas para probar usuario con rol doble
 BEGIN
 	INSERT INTO SOCORRO.Administrador (
@@ -1371,6 +1373,11 @@ JOIN SOCORRO.RolxUsuario rxu
 JOIN SOCORRO.Rol r
 	ON r.rol_id = rxu.rol_id
 WHERE u.user_id = 256;
+
+
+SELECT *
+FROM SOCORRO.Usuario u
+ORDER BY u.user_id DESC
 
 
 SELECT *

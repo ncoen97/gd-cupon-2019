@@ -1,4 +1,5 @@
 USE [GD2C2019]
+SET NOCOUNT ON;
 GO
 -------------------------------------------------------------------
 IF OBJECT_ID('[SOCORRO].Item', 'U') IS NOT NULL
@@ -9,14 +10,14 @@ IF OBJECT_ID('[SOCORRO].Carga', 'U') IS NOT NULL
 	DROP TABLE [SOCORRO].Carga;
 IF OBJECT_ID('[SOCORRO].Cupon', 'U') IS NOT NULL
 	DROP TABLE [SOCORRO].Cupon;
+IF OBJECT_ID('[SOCORRO].Tarjeta', 'U') IS NOT NULL
+	DROP TABLE [SOCORRO].Tarjeta;
 IF OBJECT_ID('[SOCORRO].Oferta', 'U') IS NOT NULL
 	DROP TABLE [SOCORRO].Oferta;
 IF OBJECT_ID('[SOCORRO].Cliente', 'U') IS NOT NULL
 	DROP TABLE [SOCORRO].Cliente;
 IF OBJECT_ID('[SOCORRO].Tipo_de_pago', 'U') IS NOT NULL
 	DROP TABLE [SOCORRO].Tipo_de_pago;
-IF OBJECT_ID('[SOCORRO].Tarjeta', 'U') IS NOT NULL
-	DROP TABLE [SOCORRO].Tarjeta;
 IF OBJECT_ID('[SOCORRO].Proveedor', 'U') IS NOT NULL
 	DROP TABLE [SOCORRO].Proveedor;
 IF OBJECT_ID('[SOCORRO].Rubro', 'U') IS NOT NULL
@@ -84,10 +85,11 @@ IF OBJECT_ID('SOCORRO.sp_modificar_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_modificar_cliente;
 IF OBJECT_ID('SOCORRO.sp_modificar_proveedor') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_modificar_proveedor;
+IF OBJECT_ID('SOCORRO.sp_cargar_credito') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_cargar_credito;
+IF OBJECT_ID('SOCORRO.sp_buscar_clientes') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_buscar_clientes;
 
-USE GD2C2019;
-SET NOCOUNT ON;
-GO
 
 IF NOT EXISTS
 	(SELECT *
@@ -362,15 +364,15 @@ BEGIN
 	INSERT INTO SOCORRO.FuncionalidadxRol (rol_id, func_id)
 	VALUES
 		-- clientes:
-		(1, 2),
 		(1, 4),
 		(1, 6),
 		-- proveedores:
-		(2, 3),
 		(2, 5),
 		(2, 7),
-		-- admins:
+		-- admins: TODO: todas???? qué pasa si publico oferta como admin???
 		(3, 1),
+		(3, 2),
+		(3, 3),
 		(3, 8),
 		(3, 9);
 END
@@ -1127,23 +1129,6 @@ BEGIN
 		clie_ciudad = @nuevo_ciudad;
 	RETURN 0;
 END
-
---==============================================
---    DATOS DE TESTEO
---==============================================
-
-EXEC SOCORRO.sp_registro_cliente
-	@user_username = 'admin',
-	@user_pass = 'admin',
-	@clie_nombre = 'Pepe',
-	@clie_apellido = 'Cualquiera',
-	@clie_dni = 12345678,
-	@clie_email = 'jaja_saludos@gmail.com',
-	@clie_telefono = 1109876543,
-	@clie_direccion = 'Calle Cualquiera 123',
-	@clie_codigo_postal = '4321',
-	@clie_fecha_nacimiento = '1995-05-05 00:00:00.000',
-	@clie_ciudad = 'Tranquilandia';
 GO
 
 CREATE PROC SOCORRO.sp_modificar_proveedor (
@@ -1253,6 +1238,59 @@ BEGIN
 END
 GO
 
+CREATE PROC SOCORRO.sp_buscar_clientes (
+	@nombre varchar(255) = NULL,
+	@apellido varchar(255) = NULL,
+	@dni int = NULL,
+	@email varchar(255) = NULL
+) AS
+BEGIN
+	SELECT
+		c.clie_nombre,
+		c.clie_apellido,
+		c.clie_dni,
+		c.clie_email
+	FROM SOCORRO.Cliente c
+	WHERE ((c.clie_nombre LIKE '%'+@nombre+'%') OR (@nombre IS NULL))
+		AND ((c.clie_apellido LIKE '%'+@apellido+'%') OR (@apellido IS NULL))
+		AND ((c.clie_dni = @dni) OR (@dni IS NULL))
+		AND ((c.clie_email LIKE '%'+@email+'%') OR (@email IS NULL));
+END
+GO
+
+-- <ADMINISTRADOR PEDIDO EN PAG 14>
+BEGIN
+	DECLARE
+		@user_id int;
+	INSERT INTO SOCORRO.Usuario (
+		user_username,
+		user_pass
+	) VALUES (
+		'admin',
+		'w23e'
+	);
+	SET @user_id = SCOPE_IDENTITY();
+	INSERT INTO SOCORRO.Administrador (
+		admin_nombre,
+		admin_apellido,
+		admin_user_id
+	) VALUES (
+		'Administrador General',
+		'',
+		 @user_id
+	);
+	INSERT INTO SOCORRO.RolxUsuario (
+		rol_id,
+		[user_id]
+	) VALUES (
+		3,
+		@user_id
+	);
+END
+GO
+-- </ADMINISTRADOR PEDIDO EN PAG 14>
+
+
 --==============================================
 --            DATOS DE TESTEO
 --==============================================
@@ -1296,6 +1334,37 @@ GO
 
 EXEC SOCORRO.sp_rehabilitar_proveedor 38; --> fulanoide
 GO
+
+/*
+
+--cosas para probar usuario con rol doble
+BEGIN
+	INSERT INTO SOCORRO.Administrador (
+		admin_nombre,
+		admin_apellido,
+		admin_user_id
+	) VALUES (
+		'Pepe',
+		'Cualquiera',
+		256
+	);
+	INSERT INTO SOCORRO.RolxUsuario (
+		rol_id,
+		[user_id]
+	) VALUES (
+		3,
+		256
+	);
+END
+
+SELECT *
+FROM SOCORRO.Usuario u
+JOIN SOCORRO.RolxUsuario rxu
+	ON rxu.user_id = u.user_id
+JOIN SOCORRO.Rol r
+	ON r.rol_id = rxu.rol_id
+WHERE u.user_id = 256;
+*/
 
 /*
 SELECT *

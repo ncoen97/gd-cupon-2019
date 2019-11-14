@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.AbmRol
+namespace FrbaOfertas
 {
     public partial class AbmRol : Form
     {
@@ -18,6 +18,11 @@ namespace FrbaOfertas.AbmRol
         }
 
         private void Button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AbmRol_Load(object sender, EventArgs e)
         {
 
         }

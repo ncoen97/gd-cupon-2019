@@ -1,4 +1,4 @@
-﻿namespace FrbaOfertas.AbmRol
+﻿namespace FrbaOfertas
 {
     partial class AbmRol
     {
@@ -32,19 +32,19 @@
             this.label = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.button5 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -74,7 +74,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(327, 40);
             this.button1.TabIndex = 47;
-            this.button1.Text = "Agregar funcionalidad";
+            this.button1.Text = "Crear rol con funcionalidad";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
@@ -92,6 +92,21 @@
             this.groupBox1.TabIndex = 51;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(199, 128);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(172, 28);
+            this.comboBox2.TabIndex = 63;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(90, 75);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(181, 26);
+            this.textBox2.TabIndex = 63;
             // 
             // label1
             // 
@@ -119,6 +134,41 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(47, 347);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(409, 39);
+            this.button4.TabIndex = 67;
+            this.button4.Text = "Cambiar estado del ROL";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(47, 219);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(172, 28);
+            this.comboBox3.TabIndex = 66;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(47, 302);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(409, 39);
+            this.button3.TabIndex = 65;
+            this.button3.Text = "Quitar funcionalidad";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(47, 256);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(409, 39);
+            this.button2.TabIndex = 64;
+            this.button2.Text = "Agregar funcionalidad";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -136,6 +186,14 @@
             this.label6.Size = new System.Drawing.Size(113, 20);
             this.label6.TabIndex = 59;
             this.label6.Text = "Seleccionar rol";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(252, 219);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(204, 28);
+            this.comboBox1.TabIndex = 58;
             // 
             // dataGridView1
             // 
@@ -155,64 +213,6 @@
             this.button5.Text = "Atras";
             this.button5.UseVisualStyleBackColor = true;
             // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(90, 75);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(181, 26);
-            this.textBox2.TabIndex = 63;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(252, 219);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(204, 28);
-            this.comboBox1.TabIndex = 58;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(199, 128);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(172, 28);
-            this.comboBox2.TabIndex = 63;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(47, 256);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(409, 39);
-            this.button2.TabIndex = 64;
-            this.button2.Text = "Agregar funcionalidad";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(47, 302);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(409, 39);
-            this.button3.TabIndex = 65;
-            this.button3.Text = "Quitar funcionalidad";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(47, 219);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(172, 28);
-            this.comboBox3.TabIndex = 66;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(47, 347);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(409, 39);
-            this.button4.TabIndex = 67;
-            this.button4.Text = "Cambiar estado del ROL";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
             // AbmRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -223,6 +223,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "AbmRol";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.AbmRol_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.CrearOferta
+namespace FrbaOfertas
 {
     public partial class CrearOferta : Form
     {
         public CrearOferta()
         {
             InitializeComponent();
+        }
+
+        private void CrearOferta_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

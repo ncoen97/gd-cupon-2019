@@ -1,4 +1,4 @@
-﻿namespace FrbaOfertas.CrearOferta
+﻿namespace FrbaOfertas
 {
     partial class CrearOferta
     {
@@ -151,7 +151,7 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 26);
             this.dateTimePicker1.TabIndex = 70;
             // 
-            // Form1
+            // CrearOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -169,8 +169,9 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
+            this.Name = "CrearOferta";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.CrearOferta_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

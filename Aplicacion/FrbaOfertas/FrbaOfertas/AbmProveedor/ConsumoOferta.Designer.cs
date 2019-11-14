@@ -1,4 +1,4 @@
-﻿namespace FrbaOfertas.AbmProveedor
+﻿namespace FrbaOfertas
 {
     partial class ConsumoOferta
     {

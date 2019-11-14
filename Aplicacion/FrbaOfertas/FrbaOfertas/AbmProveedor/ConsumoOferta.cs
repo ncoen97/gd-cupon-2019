@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.AbmProveedor
+namespace FrbaOfertas
 {
     public partial class ConsumoOferta : Form
     {

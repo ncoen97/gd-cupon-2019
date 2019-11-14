@@ -108,6 +108,7 @@
     <Compile Include="MenuAdministrador.Designer.cs">
       <DependentUpon>MenuAdministrador.cs</DependentUpon>
     </Compile>
+    <Compile Include="utils.cs" />
     <Compile Include="_Clases\Canje.cs" />
     <Compile Include="_Clases\Carga.cs" />
     <Compile Include="_Clases\Cliente.cs" />

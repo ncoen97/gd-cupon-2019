@@ -61,7 +61,9 @@ namespace FrbaOfertas
                     switch (rol.nombre)
                     {
                         case "Administrador":
-
+                            MenuAdministrador menu = new MenuAdministrador();
+                            menu.Show();
+                            this.Hide();
                             break;
 
                         case "Cliente":
@@ -118,8 +120,7 @@ namespace FrbaOfertas
             textbox_usuario.Visible = true;
             buttonIniciarSesion.Visible = true;
             buttonRegistrarse.Visible = true;
-            buttonSeleccionarRol.Visible = false;
-            
+            buttonSeleccionarRol.Visible = false;            
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -133,7 +134,9 @@ namespace FrbaOfertas
             switch (rol.nombre)
             {
                 case "Administrador":
-
+                    MenuAdministrador menu = new MenuAdministrador();
+                    menu.Show();
+                    this.Hide();
                     break;
 
                 case "Cliente":

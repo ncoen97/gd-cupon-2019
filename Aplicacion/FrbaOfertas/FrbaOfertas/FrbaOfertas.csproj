@@ -96,6 +96,18 @@
     <Compile Include="DAOs\DBConnection.cs" />
     <Compile Include="DAOs\ProveedorDAO.cs" />
     <Compile Include="DAOs\UsuarioDAO.cs" />
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuAdministrador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuAdministrador.Designer.cs">
+      <DependentUpon>MenuAdministrador.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Clases\Canje.cs" />
     <Compile Include="_Clases\Carga.cs" />
     <Compile Include="_Clases\Cliente.cs" />
@@ -126,12 +138,6 @@
     <Compile Include="_Clases\Cupon.cs" />
     <Compile Include="_Clases\Factura.cs" />
     <Compile Include="_Clases\Funcionalidad.cs" />
-    <Compile Include="ListadoEstadistico\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ListadoEstadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,14 +206,17 @@
     <EmbeddedResource Include="Facturar\Facturar.resx">
       <DependentUpon>Facturar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListadoEstadistico\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\OpcionesCliente.resx">
       <DependentUpon>OpcionesCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuAdministrador.resx">
+      <DependentUpon>MenuAdministrador.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

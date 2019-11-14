@@ -47,12 +47,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.Provee_nombrecontacto = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-<<<<<<< HEAD
             this.buttonRegistrarProveedor = new System.Windows.Forms.Button();
             this.buttonAtras = new System.Windows.Forms.Button();
-=======
+
             this.button1 = new System.Windows.Forms.Button();
->>>>>>> b0ee019258191c0182fcad112d2edee008c6c67f
+
             this.SuspendLayout();
             // 
             // Provee_ciudad
@@ -227,7 +226,7 @@
             this.label8.TabIndex = 42;
             this.label8.Text = "Nombre de contacto";
             // 
-<<<<<<< HEAD
+
             // buttonRegistrarProveedor
             // 
             this.buttonRegistrarProveedor.Location = new System.Drawing.Point(192, 274);
@@ -250,7 +249,7 @@
             this.buttonAtras.UseCompatibleTextRendering = true;
             this.buttonAtras.UseVisualStyleBackColor = true;
             this.buttonAtras.Click += new System.EventHandler(this.button2_Click);
-=======
+
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(288, 421);
@@ -260,20 +259,20 @@
             this.button1.Text = "Registrar proveedor";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
->>>>>>> b0ee019258191c0182fcad112d2edee008c6c67f
+
             // 
             // RegistroDeProveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-<<<<<<< HEAD
+
             this.ClientSize = new System.Drawing.Size(588, 380);
             this.Controls.Add(this.buttonAtras);
             this.Controls.Add(this.buttonRegistrarProveedor);
-=======
+
             this.ClientSize = new System.Drawing.Size(882, 584);
             this.Controls.Add(this.button1);
->>>>>>> b0ee019258191c0182fcad112d2edee008c6c67f
+
             this.Controls.Add(this.Provee_nombrecontacto);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.Provee_rubro);
@@ -323,11 +322,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox Provee_nombrecontacto;
         private System.Windows.Forms.Label label8;
-<<<<<<< HEAD
+
         private System.Windows.Forms.Button buttonRegistrarProveedor;
         private System.Windows.Forms.Button buttonAtras;
-=======
+
         private System.Windows.Forms.Button button1;
->>>>>>> b0ee019258191c0182fcad112d2edee008c6c67f
+
     }
 }

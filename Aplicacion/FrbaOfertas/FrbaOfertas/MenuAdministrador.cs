@@ -72,5 +72,10 @@ namespace FrbaOfertas
             login.Show();
             this.Hide();
         }
+
+        private void MenuAdministrador_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

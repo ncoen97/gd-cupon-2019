@@ -27,7 +27,7 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
+
             //registrar proveedor
             int prov_id;
             if(Provee_rubro.Text.Equals("Comestibles", StringComparison.InvariantCultureIgnoreCase))
@@ -51,10 +51,9 @@ namespace FrbaOfertas
             ProveedorDAO.insertarProveedor(prov, usuario);
             Login login = new Login();
             login.Show();
-=======
+
             OpcionesProveedor reg = new OpcionesProveedor();
             reg.Show();
->>>>>>> b0ee019258191c0182fcad112d2edee008c6c67f
             this.Hide();
         }
 

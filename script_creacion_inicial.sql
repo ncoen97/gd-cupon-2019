@@ -89,8 +89,9 @@ IF OBJECT_ID('SOCORRO.sp_cargar_credito') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_cargar_credito;
 IF OBJECT_ID('SOCORRO.sp_buscar_clientes') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_buscar_clientes;
-
-
+IF OBJECT_ID('SOCORRO.sp_consumir_cupon') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_consumir_cupon;
+	
 IF NOT EXISTS
 	(SELECT *
 	FROM sys.schemas

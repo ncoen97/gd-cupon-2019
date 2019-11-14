@@ -26,7 +26,9 @@ namespace FrbaOfertas
 
         private void button5_Click(object sender, EventArgs e)
         {
-           //menu?
+            MenuAdministrador reg = new MenuAdministrador();
+            reg.Show();
+            this.Hide();
         }
 
         private void button6_Click(object sender, EventArgs e)

@@ -25,7 +25,9 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            OpcionesProveedor reg = new OpcionesProveedor();
+            reg.Show();
+            this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)

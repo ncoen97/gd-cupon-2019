@@ -10,19 +10,19 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas
 {
-    public partial class Facturar : Form
+    public partial class ListadoEstadistico : Form
     {
-        public Facturar()
+        public ListadoEstadistico()
         {
             InitializeComponent();
         }
 
-        private void Facturar_Load(object sender, EventArgs e)
+        private void ListadoEstadistico_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             MenuAdministrador reg = new MenuAdministrador();
             reg.Show();

@@ -1273,7 +1273,7 @@ BEGIN
 		user_pass
 	) VALUES (
 		'admin',
-		'w23e'
+		HASHBYTES('SHA2_256', 'w23e')
 	);
 	SET @user_id = SCOPE_IDENTITY();
 	INSERT INTO SOCORRO.Administrador (
@@ -1377,14 +1377,14 @@ SELECT *
 FROM SOCORRO.Proveedor p
 WHERE p.prov_razon_social = 'Fulanoide SA';
 
--- trae los datos de admin
+-- trae los datos de pepe
 SELECT *
 FROM SOCORRO.Cliente c
 JOIN SOCORRO.RolxUsuario rxu
 	ON rxu.user_id = c.clie_user_id
 WHERE clie_nombre = 'Pepe';
 
--- borra todo lo de admin de la db:
+-- borra todo lo de pepe de la db:
 DELETE FROM SOCORRO.Cliente WHERE clie_nombre = 'Pepe';
 DELETE FROM SOCORRO.RolxUsuario WHERE [user_id] = 256;
 DELETE FROM SOCORRO.Usuario

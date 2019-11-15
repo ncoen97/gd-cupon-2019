@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using FrbaOfertas.DAOs;
 
 namespace FrbaOfertas
 {
@@ -40,12 +42,61 @@ namespace FrbaOfertas
 
         private void AbmCliente_Load(object sender, EventArgs e)
         {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente", conexion);
+            command.CommandType = CommandType.Text;
 
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+         
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             //if cualquiera de los campos no está vacio, se aplica esa busqueda
+            string nom = "", ap = "", email = "";
+            int dni = 0;
+            if (!string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                nom = textBox1.Text;
+            }
+            if (!string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                ap = textBox2.Text;
+            }
+            if (!string.IsNullOrWhiteSpace(textBox3.Text))
+            {
+                 Int32.TryParse(textBox3.Text, out dni);
+            }
+            if (!string.IsNullOrWhiteSpace(textBox4.Text))
+            {
+                email = textBox4.Text;
+            }
+
+            ClienteDAO.filtros_clientes(dataGridView1, nom, ap, dni, email);
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente", conexion);
+            command.CommandType = CommandType.Text;
+
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+            textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = ""; textBox4.Text = "";
         }
     }
 }

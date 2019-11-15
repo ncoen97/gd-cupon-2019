@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Data.SqlClient;
-using System.Data;
+using FrbaOfertas.DAOs;
 
-namespace FrbaOfertas.DAOs
+namespace FrbaOfertas
 {
-    class ClienteDAO
+    public class ClienteDAO
     {
         public static Boolean insertarCliente(Cliente cli,Usuario usu)
         {
@@ -40,5 +44,25 @@ namespace FrbaOfertas.DAOs
             }
             return true;
         }
+
+        public static void filtros_clientes(DataGridView grid, string filtroNombre, string filtroApellido, int filtroDNI, string filtroemail)
+        {
+            
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand comando = new SqlCommand("SOCORRO.sp_buscar_clientes", conn);
+            comando.CommandType = CommandType.StoredProcedure;
+            
+            comando.Parameters.AddWithValue("@apellido", filtroApellido);
+            comando.Parameters.AddWithValue("@email", filtroemail);
+            comando.Parameters.AddWithValue("@dni", filtroDNI);
+            comando.Parameters.AddWithValue("@nombre", filtroNombre);
+
+            DBConnection.fill_grid(grid, comando);
+            comando.Dispose();
+            conn.Close();
+            conn.Dispose();
+
+        }
+
     }
 }

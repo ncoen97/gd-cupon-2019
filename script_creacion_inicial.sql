@@ -89,6 +89,8 @@ IF OBJECT_ID('SOCORRO.sp_cargar_credito') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_cargar_credito;
 IF OBJECT_ID('SOCORRO.sp_buscar_clientes') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_buscar_clientes;
+IF OBJECT_ID('SOCORRO.sp_buscar_proveedores') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_buscar_proveedores;
 
 
 IF NOT EXISTS
@@ -1245,22 +1247,45 @@ GO
 
 -- DROP PROC SOCORRO.sp_buscar_clientes
 CREATE PROC SOCORRO.sp_buscar_clientes (
-	@nombre varchar(255) = NULL,
-	@apellido varchar(255) = NULL,
-	@dni int = NULL,
-	@email varchar(255) = NULL
+    @nombre varchar(255) = '',
+    @apellido varchar(255) = '',
+    @dni int = 0,
+    @email varchar(255) = ''
 ) AS
 BEGIN
 	SELECT
-		c.clie_nombre,
-		c.clie_apellido,
-		c.clie_dni,
-		c.clie_email
-	FROM SOCORRO.Cliente c
-	WHERE ((c.clie_nombre LIKE '%'+@nombre+'%') OR (@nombre IS NULL))
-		AND ((c.clie_apellido LIKE '%'+@apellido+'%') OR (@apellido IS NULL))
-		AND ((c.clie_dni = @dni) OR (@dni IS NULL))
-		AND ((c.clie_email LIKE '%'+@email+'%') OR (@email IS NULL));
+		 clie_id,
+  clie_user_id,
+  clie_nombre,
+  clie_apellido,
+  clie_dni,
+  clie_email,
+  clie_telefono,
+  clie_direccion,
+  clie_codigo_postal,
+  clie_fecha_nacimiento,
+  clie_ciudad,
+  clie_saldo,
+  clie_habilitado		
+	   FROM SOCORRO.Cliente c
+    WHERE (c.clie_nombre LIKE '%'+@nombre+'%')
+        AND (c.clie_apellido LIKE '%'+@apellido+'%')
+        AND ((c.clie_dni = @dni) OR (@dni = 0))
+        AND (c.clie_email LIKE '%'+@email+'%');
+END
+GO
+
+CREATE PROC SOCORRO.sp_buscar_proveedores (
+    @rs varchar(255) = '',
+    @mail varchar(255) = '',
+    @cuit varchar(255) = ''
+) AS
+BEGIN
+	SELECT*		
+       FROM SOCORRO.Proveedor p
+    WHERE (p.prov_razon_social LIKE '%'+@rs+'%' OR @rs='')
+        AND (p.prov_cuit LIKE '%'+@cuit+'%'OR @cuit='')
+        AND (p.prov_email LIKE '%'+@mail+'%'OR @mail='');
 END
 GO
 

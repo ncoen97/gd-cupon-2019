@@ -91,7 +91,15 @@ IF OBJECT_ID('SOCORRO.sp_buscar_clientes') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_buscar_clientes;
 IF OBJECT_ID('SOCORRO.sp_buscar_proveedores') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_buscar_proveedores;
-
+IF OBJECT_ID('SOCORRO.sp_consumir_cupon') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_consumir_cupon;
+IF OBJECT_ID('SOCORRO.sp_publicar_oferta') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_publicar_oferta;
+IF OBJECT_ID('SOCORRO.sp_lista_prov_mayor_descuento') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_lista_prov_mayor_descuento;
+IF OBJECT_ID('SOCORRO.sp_lista_prov_mayor_facturacion') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_lista_prov_mayor_facturacion;
+	
 
 IF NOT EXISTS
 	(SELECT *
@@ -352,12 +360,12 @@ BEGIN
 		(1, 'ABM de Rol'),
 		(2, 'ABM de Clientes'),
 		(3, 'ABM de Proveedor'),
-		(4, 'Carga de Cr�dito'),
-		(5, 'Confecci�n y Publicaci�n de Ofertas'),
+		(4, 'Carga de Credito'),
+		(5, 'Confeccion y Publicacion de Ofertas'),
 		(6, 'Comprar Oferta'),
 		(7, 'Consumo de Oferta'),
-		(8, 'Facturaci�n a Proveedor'),
-		(9, 'Listado Estad�stico');
+		(8, 'Facturacion a Proveedor'),
+		(9, 'Listado Estadistico');
 END
 GO
 
@@ -371,10 +379,14 @@ BEGIN
 		-- proveedores:
 		(2, 5),
 		(2, 7),
-		-- admins: TODO: todas???? qué pasa si publico oferta como admin???
+		-- admins:
 		(3, 1),
 		(3, 2),
 		(3, 3),
+		(3, 4), --> TODO: hecho?
+		(3, 5), --> TODO: hecho?
+		(3, 6), --> TODO: hecho?
+		(3, 7), --> tODO: hecho?
 		(3, 8),
 		(3, 9);
 END
@@ -815,6 +827,7 @@ GO
 --    PROCEDURES Y FUNCTIONS PARA LA APLICACION
 --=====================================================
 
+
 CREATE FUNCTION [SOCORRO].fnIsBlockedUser(@username nvarchar(50))
 RETURNS bit
 AS
@@ -1115,7 +1128,7 @@ CREATE PROC SOCORRO.sp_modificar_cliente (
     @nuevo_direccion nvarchar(255),
     @nuevo_codigo_postal char(5),
     @nuevo_fecha_nacimiento datetime,
-    @nuevo_ciudad nvarchar(255) --> duda, ver enunciado (ABM Cliente)
+    @nuevo_ciudad nvarchar(255) --> TODO: duda, ver enunciado (ABM Cliente)
 ) AS
 BEGIN
 	IF NOT(@clie_id IN (SELECT c.clie_id FROM SOCORRO.Cliente c))
@@ -1172,9 +1185,10 @@ END
 GO
 
 CREATE PROC SOCORRO.sp_cargar_credito (
+	@fecha_operacion datetime,
 	@clie_id int,
 	@monto int,
-	@tarj_id int = NULL --> TODO: es int?
+	@tarj_id int = NULL
 ) AS
 BEGIN
 	BEGIN TRY
@@ -1196,7 +1210,7 @@ BEGIN
 				PRINT 'cliente no habilitado';
 				RETURN 2;
 			END
-			--
+			--check si monto = 0 o negativo
 			IF (@monto < 1)
 			BEGIN
 				ROLLBACK;
@@ -1216,7 +1230,7 @@ BEGIN
 					carg_tarj_id
 				) VALUES (
 					@clie_id,
-					GETDATE(), --> TODO: esto esta mal! ver enunciado
+					@fecha_operacion,
 					@monto,
 					2,
 					@tarj_id
@@ -1231,7 +1245,7 @@ BEGIN
 					carg_tipo_de_pago_id
 				) VALUES (
 					@clie_id,
-					GETDATE(), --> TODO: esto esta mal! ver enunciado
+					@fecha_operacion,
 					@monto,
 					1
 				);
@@ -1289,6 +1303,123 @@ BEGIN
 END
 GO
 
+CREATE PROC SOCORRO.sp_consumir_cupon (
+	@prov_id int,
+	@fecha_consumo datetime,
+	@codigo_cupon int,
+	@clie_id_consumo int
+) AS
+BEGIN
+	--check es el proveedor que emitio el cupon?
+	IF NOT(@prov_id IN (SELECT p.prov_id
+						FROM SOCORRO.Cupon c
+						JOIN SOCORRO.Oferta o
+							ON o.ofer_id = c.cupon_ofer_id
+						JOIN SOCORRO.Proveedor p
+							ON p.prov_id = o.ofer_prov_id
+						WHERE c.cupon_id = @codigo_cupon))
+	BEGIN
+		PRINT 'proveedores no coinciden';
+		RETURN 1;
+	END
+	--check el cupon esta vencido?
+	IF (@fecha_consumo >	(SELECT o.ofer_fecha_vencimiento
+							FROM SOCORRO.Cupon c
+							JOIN SOCORRO.Oferta o
+								ON o.ofer_id = c.cupon_ofer_id
+							WHERE c.cupon_id = @codigo_cupon))
+	BEGIN
+		PRINT 'cupon vencido';
+		RETURN 2;
+	END
+	--check el cupon ya fue canjeado?
+	IF (SELECT o.ofer_fecha_vencimiento
+		FROM SOCORRO.Cupon c
+		JOIN SOCORRO.Oferta o
+			ON o.ofer_id = c.cupon_ofer_id
+		WHERE c.cupon_id = @codigo_cupon) IS NOT NULL
+	BEGIN
+		PRINT 'cupon ya canjeado';
+		RETURN 3;
+	END
+	--check existe el cliente?
+	IF NOT EXISTS	(SELECT *
+					FROM SOCORRO.Cliente c
+					WHERE c.clie_id = @clie_id_consumo)
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 4;
+	END
+	UPDATE SOCORRO.Cupon
+	SET
+		cupon_clie_id_consumo = @clie_id_consumo,
+		cupon_fecha_consumo = @fecha_consumo
+	WHERE cupon_id = @codigo_cupon;
+	PRINT 'exito!';
+	RETURN 0;
+END
+GO
+
+
+CREATE PROC SOCORRO.sp_publicar_oferta (
+	@prov_id int,
+	@fecha_publicacion datetime, --> mayor o igual a la actual!
+	@fecha_vencimiento datetime,
+	@precio_rebajado numeric(18, 2),
+	@precio_original numeric(18, 2),
+	@stock_disponible int,
+	@max_cantidad_compra_por_cliente int, --> no obligatorio! no?
+	@descripcion nvarchar(255)
+) AS
+BEGIN
+	PRINT 'no sta hecho weii';
+END
+GO
+
+--DROP PROC SOCORRO.sp_lista_prov_mayor_descuento;
+CREATE PROC SOCORRO.sp_lista_prov_mayor_descuento /*(
+	@semestre (??) - TODO: falta seleccion de semestre!
+)*/ AS
+BEGIN
+	SELECT TOP 5
+		p.prov_razon_social [Razon social],
+		r.rubro_descripcion [Rubro],
+		100*AVG((o.ofer_precio_lista - o.ofer_precio_oferta)/o.ofer_precio_lista) [Descuento promedio]  --> TODO: 2 decimales
+	FROM SOCORRO.Proveedor p
+	JOIN SOCORRO.Oferta o
+		ON o.ofer_prov_id = p.prov_id
+	JOIN SOCORRO.Rubro r
+		ON p.prov_rubro_id = r.rubro_id
+	GROUP BY
+		p.prov_razon_social,
+		r.rubro_descripcion
+	ORDER BY [Descuento promedio] DESC;
+END
+GO
+
+--DROP PROC SOCORRO.sp_lista_prov_mayor_facturacion;
+CREATE PROC SOCORRO.sp_lista_prov_mayor_facturacion /*(
+	@semestre (??) - TODO: falta seleccion de semestre!
+)*/ AS
+BEGIN
+	SELECT TOP 5
+		p.prov_razon_social [Razon social],
+		r.rubro_descripcion [Rubro],
+		SUM(i.item_precio * i.item_cantidad) [Facturacion] --> TODO: 2 decimales
+	FROM SOCORRO.Proveedor p
+	JOIN SOCORRO.Factura f
+		ON f.fact_prov_id = p.prov_id
+	JOIN SOCORRO.Item i
+		ON i.item_fact_id = f.fact_id
+	JOIN SOCORRO.Rubro r
+		ON p.prov_rubro_id = r.rubro_id
+	GROUP BY
+		p.prov_razon_social,
+		r.rubro_descripcion
+	ORDER BY [Facturacion] DESC;
+END
+GO
+
 -- <ADMINISTRADOR PEDIDO EN PAG 14>
 BEGIN
 	DECLARE
@@ -1321,8 +1452,6 @@ BEGIN
 	);
 END
 GO
-
-
 -- </ADMINISTRADOR PEDIDO EN PAG 14>
 
 
@@ -1416,7 +1545,7 @@ JOIN SOCORRO.RolxUsuario rxu
 	ON rxu.user_id = u.user_id
 JOIN SOCORRO.Rol r
 	ON r.rol_id = rxu.rol_id
-WHERE u.user_id = 256;
+WHERE u.user_id = 257;
 
 
 SELECT *

@@ -12,9 +12,11 @@ namespace FrbaOfertas
 {
     public partial class AbmRol : Form
     {
-        public AbmRol()
+        Usuario usuario;
+        public AbmRol(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -29,7 +31,7 @@ namespace FrbaOfertas
 
         private void button5_Click(object sender, EventArgs e)
         {
-            MenuAdministrador oc = new MenuAdministrador();
+            MenuAdministrador oc = new MenuAdministrador(usuario);
             oc.Show();
             this.Hide();
         }

@@ -62,20 +62,20 @@ namespace FrbaOfertas
                     {
                         case "Administrador":
 
-                            MenuAdministrador menu = new MenuAdministrador();
+                            MenuAdministrador menu = new MenuAdministrador(usuario);
                             menu.Show();
                             this.Hide();
                             break;
                          
 
                         case "Cliente":
-                            OpcionesCliente oc = new OpcionesCliente();
+                            OpcionesCliente oc = new OpcionesCliente(usuario);
                             oc.Show();
                             this.Hide();
                             break;
 
                         case "Proveedor":
-                            OpcionesProveedor op = new OpcionesProveedor();
+                            OpcionesProveedor op = new OpcionesProveedor(usuario);
                             op.Show();
                             this.Hide();
 
@@ -137,17 +137,17 @@ namespace FrbaOfertas
             {
                 case "Administrador":
 
-                    MenuAdministrador menu = new MenuAdministrador();
+                    MenuAdministrador menu = new MenuAdministrador(usuario);
                     menu.Show();
                     this.Hide();
                     break;
                 case "Cliente":
-                    OpcionesCliente oc = new OpcionesCliente();
+                    OpcionesCliente oc = new OpcionesCliente(usuario);
                     oc.Show();
                     break;
 
                 case "Proveedor":
-                    OpcionesProveedor op = new OpcionesProveedor();
+                    OpcionesProveedor op = new OpcionesProveedor(usuario);
                     op.Show();
 
                     break;

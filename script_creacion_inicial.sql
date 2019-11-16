@@ -97,8 +97,12 @@ IF OBJECT_ID('SOCORRO.sp_publicar_oferta') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_publicar_oferta;
 IF OBJECT_ID('SOCORRO.sp_lista_prov_mayor_descuento') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_lista_prov_mayor_descuento;
+IF OBJECT_ID('SOCORRO.sp_montoUsuario') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_montoUsuario;
 IF OBJECT_ID('SOCORRO.sp_lista_prov_mayor_facturacion') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_lista_prov_mayor_facturacion;
+IF OBJECT_ID('SOCORRO.sp_cargarTarjeta') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_cargarTarjeta;
 	
 
 IF NOT EXISTS
@@ -1118,6 +1122,16 @@ BEGIN
 END
 GO
 
+create procedure [SOCORRO].sp_montoUsuario(@user_name nvarchar(20))
+as
+begin
+	declare @monto numeric(18,2)
+	set @monto = (select c.clie_saldo
+					from SOCORRO.Usuario u join SOCORRO.Cliente c on (c.clie_user_id = u.user_id) 
+					where u.user_username = @user_name)
+	return @monto
+end
+GO
 CREATE PROC SOCORRO.sp_modificar_cliente (
 	@clie_id int,
 	@nuevo_nombre nvarchar(255),
@@ -1360,7 +1374,29 @@ BEGIN
 END
 GO
 
+create proc SOCORRO.sp_cargarTarjeta(@user_name nvarchar(20),@numero_tarjeta int,@mes_vencimiento int,@anio_vencimiento int, @titular nvarchar(50))
+as 
+begin
+	declare @datetime datetime
+	declare @clie_id int
 
+	set @clie_id = (select c.clie_id from SOCORRO.Cliente c join SOCORRO.Usuario 
+		u on (c.clie_user_id = u.user_id) where u.user_username= @user_name)
+	set @datetime = DATETIMEFROMPARTS(@anio_vencimiento,@mes_vencimiento,1,0,0,0,0)
+	
+	insert into SOCORRO.Tarjeta(
+		tarj_clie_id,
+		tarj_numero,
+		tarj_vencimiento,
+		tarj_titular
+	)values(
+		@clie_id,
+		@numero_tarjeta,
+		@datetime,
+		@titular
+	)
+end
+go
 CREATE PROC SOCORRO.sp_publicar_oferta (
 	@prov_id int,
 	@fecha_publicacion datetime, --> mayor o igual a la actual!
@@ -1577,4 +1613,6 @@ WHERE NOT (SOCORRO.Usuario.[user_id] IN
 SELECT * FROM SOCORRO.getRolesUsuario('admin');
 */
 
+
+--falta el if drop
 

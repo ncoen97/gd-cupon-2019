@@ -14,9 +14,11 @@ namespace FrbaOfertas
 {
     public partial class AbmCliente : Form
     {
-        public AbmCliente()
+        Usuario usuario;
+        public AbmCliente(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -28,14 +30,14 @@ namespace FrbaOfertas
 
         private void button5_Click(object sender, EventArgs e)
         {
-            MenuAdministrador reg = new MenuAdministrador();
+            MenuAdministrador reg = new MenuAdministrador(usuario);
             reg.Show();
             this.Hide();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            ModificacionDeCliente mod = new ModificacionDeCliente();
+            ModificacionDeCliente mod = new ModificacionDeCliente(usuario);
             mod.Show();
             this.Hide();
         }

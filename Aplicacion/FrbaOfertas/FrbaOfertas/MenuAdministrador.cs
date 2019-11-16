@@ -12,28 +12,30 @@ namespace FrbaOfertas
 {
     public partial class MenuAdministrador : Form
     {
-        public MenuAdministrador()
+        private Usuario usuario;
+        public MenuAdministrador(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AbmCliente abmc = new AbmCliente();
+            AbmCliente abmc = new AbmCliente(usuario);
             abmc.Show();
             this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            AbmProveedor abmp = new AbmProveedor();
+            AbmProveedor abmp = new AbmProveedor(usuario);
             abmp.Show();
             this.Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            AbmRol abmr = new AbmRol();
+            AbmRol abmr = new AbmRol(usuario);
             abmr.Show();
             this.Hide();
         }
@@ -54,14 +56,14 @@ namespace FrbaOfertas
 
         private void button6_Click(object sender, EventArgs e)
         {
-            Facturar f = new Facturar();
+            Facturar f = new Facturar(usuario);
             f.Show();
             this.Hide();
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            ListadoEstadistico le = new ListadoEstadistico();
+            ListadoEstadistico le = new ListadoEstadistico(usuario);
             le.Show();
             this.Hide();
         }

@@ -14,9 +14,11 @@ namespace FrbaOfertas
 {
     public partial class AbmProveedor : Form
     {
-        public AbmProveedor()
+        Usuario usuario;
+        public AbmProveedor(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
         }
 
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -26,7 +28,7 @@ namespace FrbaOfertas
 
         private void button5_Click(object sender, EventArgs e)
         {
-            MenuAdministrador reg = new MenuAdministrador();
+            MenuAdministrador reg = new MenuAdministrador(usuario);
             reg.Show();
             this.Hide();
         }
@@ -40,7 +42,7 @@ namespace FrbaOfertas
 
         private void button6_Click(object sender, EventArgs e)
         {
-            ModificacionDeProveedores rdp = new ModificacionDeProveedores();
+            ModificacionDeProveedores rdp = new ModificacionDeProveedores(usuario);
             rdp.Show();
             this.Hide();
         }

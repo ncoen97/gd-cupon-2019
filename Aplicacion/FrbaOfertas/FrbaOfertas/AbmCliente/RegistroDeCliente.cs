@@ -34,7 +34,7 @@ namespace FrbaOfertas
             Login login = new Login();
             login.Show();
 
-            OpcionesCliente reg = new OpcionesCliente();
+            OpcionesCliente reg = new OpcionesCliente(usuario);
             reg.Show();
             this.Hide();
         }

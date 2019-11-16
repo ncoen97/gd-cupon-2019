@@ -52,7 +52,7 @@ namespace FrbaOfertas
             Login login = new Login();
             login.Show();
 
-            OpcionesProveedor reg = new OpcionesProveedor();
+            OpcionesProveedor reg = new OpcionesProveedor(usuario);
             reg.Show();
             this.Hide();
         }

@@ -12,9 +12,11 @@ namespace FrbaOfertas
 {
     public partial class ModificacionDeProveedores : Form
     {
-        public ModificacionDeProveedores()
+        Usuario usuario;
+        public ModificacionDeProveedores(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -24,7 +26,7 @@ namespace FrbaOfertas
 
         private void button2_Click(object sender, EventArgs e)
         {
-            AbmProveedor abmp = new AbmProveedor();
+            AbmProveedor abmp = new AbmProveedor(usuario);
             abmp.Show();
             this.Hide();
         }

@@ -12,9 +12,11 @@ namespace FrbaOfertas
 {
     public partial class OpcionesProveedor : Form
     {
-        public OpcionesProveedor()
+        private Usuario usuario;
+        public OpcionesProveedor(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
         }
 
         private void OpcionesProveedor_Load(object sender, EventArgs e)

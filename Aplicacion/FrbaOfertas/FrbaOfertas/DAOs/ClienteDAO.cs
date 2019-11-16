@@ -63,6 +63,43 @@ namespace FrbaOfertas
             conn.Dispose();
 
         }
+        public static double montoUsuario(Usuario _usuario)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_montoUsuario", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@user_name ", _usuario.username);
+            
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
 
+            return Convert.ToDouble(ret.Value.ToString());
+        }
+        public static Boolean cargarTarjeta(Usuario usuario,string numeroDeTarjeta, 
+            int mesVencimiento,int anioVencimiento,string nombreTitular)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_cargarTarjeta", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@user_name ", usuario.username);
+            command.Parameters.AddWithValue("@numero_tarjeta ", numeroDeTarjeta);
+            command.Parameters.AddWithValue("@mes_vencimiento", mesVencimiento);
+            command.Parameters.AddWithValue("@anio_vencimiento", anioVencimiento);
+            command.Parameters.AddWithValue("@titular ", nombreTitular);
+
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return true;
+        }
     }
 }

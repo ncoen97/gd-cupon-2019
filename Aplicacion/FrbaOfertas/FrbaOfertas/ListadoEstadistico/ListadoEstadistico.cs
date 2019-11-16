@@ -12,9 +12,11 @@ namespace FrbaOfertas
 {
     public partial class ListadoEstadistico : Form
     {
-        public ListadoEstadistico()
+        private Usuario usuario;
+        public ListadoEstadistico(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
         }
 
         private void ListadoEstadistico_Load(object sender, EventArgs e)
@@ -24,7 +26,7 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MenuAdministrador reg = new MenuAdministrador();
+            MenuAdministrador reg = new MenuAdministrador(usuario);
             reg.Show();
             this.Hide();
         }

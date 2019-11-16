@@ -50,6 +50,12 @@
     <Compile Include="AbmCliente\AbmCliente.Designer.cs">
       <DependentUpon>AbmCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCliente\CargaTarjeta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\CargaTarjeta.Designer.cs">
+      <DependentUpon>CargaTarjeta.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmCliente\ModificacionDeCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
     <Compile Include="_Clases\Usuario.cs" />
     <EmbeddedResource Include="AbmCliente\AbmCliente.resx">
       <DependentUpon>AbmCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\CargaTarjeta.resx">
+      <DependentUpon>CargaTarjeta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\ModificacionDeCliente.resx">
       <DependentUpon>ModificacionDeCliente.cs</DependentUpon>

@@ -14,16 +14,33 @@ namespace FrbaOfertas
 {
     public partial class RegistroDeUsuario : Form
     {
-        public RegistroDeUsuario()
+        Boolean vieneDeLogin;
+        Usuario usuario;
+        public RegistroDeUsuario(Boolean _vieneDeLogin)
         {
             InitializeComponent();
+            vieneDeLogin = _vieneDeLogin;
         }
-
+        public RegistroDeUsuario(Boolean _vieneDeLogin, Usuario _usuario)
+        {
+            InitializeComponent();
+            vieneDeLogin = _vieneDeLogin;
+            usuario = _usuario;
+        }
         private void Atras_Click(object sender, EventArgs e)
         {
-            Login log = new Login();
-            log.Show();
-            this.Hide();
+            if (vieneDeLogin)
+            {
+                Login log = new Login();
+                log.Show();
+                this.Hide();
+            }
+            else
+            {
+                MenuAdministrador menu = new MenuAdministrador(usuario);
+                menu.Show();
+                this.Hide();
+            }
         }
 
         private void Button5_Click(object sender, EventArgs e)

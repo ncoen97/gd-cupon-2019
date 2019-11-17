@@ -49,7 +49,6 @@ namespace FrbaOfertas
                 textbox_usuario.Visible = false;
                 buttonIniciarSesion.Visible = false;
                 buttonRegistrarse.Visible = false;
-                //buttonCerrarSesion.Visible = true;
                 buttonSeleccionarRol.Visible = true;
 
                 UsuarioDAO.cargarRolesUsuario(usuario);
@@ -98,8 +97,8 @@ namespace FrbaOfertas
                     Application.Exit();
                     Application.Restart();
                     return;
-                }   
-                    
+                }
+                cboRoles.SelectedIndex = 0;
             }
         }
         

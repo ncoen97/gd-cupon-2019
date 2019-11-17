@@ -68,7 +68,11 @@ IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
 IF OBJECT_ID('SOCORRO.fnValidarNuevoUsername') IS NOT NULL
 	DROP FUNCTION SOCORRO.fnValidarNuevoUsername;
 IF OBJECT_ID('SOCORRO.getRolesUsuario') IS NOT NULL
-	DROP FUNCTION SOCORRO.getRolesUsuario
+	DROP FUNCTION SOCORRO.getRolesUsuario;
+IF OBJECT_ID('SOCORRO.getFormasDePago') IS NOT NULL
+	DROP FUNCTION SOCORRO.getFormasDePago;
+IF OBJECT_ID('SOCORRO.getTarjetasUsuario') IS NOT NULL
+	DROP FUNCTION SOCORRO.getTarjetasUsuario;
 IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_cliente;
 IF OBJECT_ID('SOCORRO.sp_registro_proveedor') IS NOT NULL
@@ -875,6 +879,24 @@ AS
              JOIN [SOCORRO].Usuario u ON (u.user_id = rxu.user_id)
              WHERE u.user_username = @username AND r.rol_habilitado = 1)
 GO
+
+CREATE FUNCTION [SOCORRO].getFormasDePago()
+RETURNS table
+AS
+	 RETURN (SELECT tipo_de_pago_id,tipo_de_pago_descripcion
+				FROM SOCORRO.Tipo_de_pago
+				WHERE tipo_de_pago_habilitado = 1)
+GO
+
+CREATE FUNCTION [SOCORRO].getTarjetasUsuario(@username nvarchar(50), @fechaActual datetime)
+RETURNS table
+AS
+	 RETURN (select tarj_id,tarj_numero
+				from SOCORRO.Tarjeta t join SOCORRO.Cliente c on t.tarj_clie_id = c.clie_id
+						join SOCORRO.Usuario u on u.user_id = c.clie_user_id
+				where u.user_username = @username and t.tarj_vencimiento > @fechaActual)
+GO
+
 
 CREATE FUNCTION [SOCORRO].fnValidarNuevoUsername (
     @username nvarchar(20)

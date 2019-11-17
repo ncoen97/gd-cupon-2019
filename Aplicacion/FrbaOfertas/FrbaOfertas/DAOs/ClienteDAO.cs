@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using FrbaOfertas.DAOs;
+using FrbaOfertas._Clases;
 
 namespace FrbaOfertas
 {
@@ -100,6 +101,57 @@ namespace FrbaOfertas
             conexion.Close();
             conexion.Dispose();
             return true;
+        }
+        public static List<TipoDePago> getFormasDePago()
+        {
+            string query = string.Format(@"SELECT * FROM SOCORRO.getFormasDePago()");
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand(query, conexion);
+
+            SqlDataReader reader = command.ExecuteReader();
+            List<TipoDePago> tiposDePago = new List<TipoDePago>();
+            while (reader.Read())
+            {
+                int id = int.Parse(reader["tipo_de_pago_id"].ToString());
+                string descripcion = reader["tipo_de_pago_descripcion"].ToString();
+                TipoDePago tipo = new TipoDePago(id,descripcion);
+                tiposDePago.Add(tipo);
+            }
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return tiposDePago;
+        }
+        public static List<Tarjeta> getTarjetas(Usuario usuario)
+        {
+            string query = string.Format(@"SELECT * FROM SOCORRO.getTarjetasUsuario(@username, CONVERT(datetime, @fechaActual,121))");
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand(query, conexion);
+
+            command.Parameters.AddWithValue("@username", usuario.username);
+            command.Parameters.AddWithValue("@fechaActual", utils.obtenerFecha());
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<Tarjeta> tarjetas = new List<Tarjeta>();
+
+            while (reader.Read())
+            {
+                int id = int.Parse(reader["tarj_id"].ToString());
+                int numero = int.Parse(reader["tarj_numero"].ToString());
+                Tarjeta tarjeta = new Tarjeta(id, numero.ToString());
+                tarjetas.Add(tarjeta);
+            }
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return tarjetas;
         }
     }
 }

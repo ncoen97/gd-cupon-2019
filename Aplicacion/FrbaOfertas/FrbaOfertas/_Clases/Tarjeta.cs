@@ -21,6 +21,11 @@ namespace FrbaOfertas
             this.fecha_vencimiento= _fechaVenc;
            
         }
+        public Tarjeta(int _id, string _numero)
+        {
+            this.id = _id;
+            this.numero = _numero;
+        }
 
     }
 

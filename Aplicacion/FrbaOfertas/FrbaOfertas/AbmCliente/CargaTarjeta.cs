@@ -55,6 +55,8 @@ namespace FrbaOfertas
             if (resultado)
             {
                 MessageBox.Show("Tarjeta cargada correctamente");
+                CargarCredito c = new CargarCredito(usuario);
+                c.Show();
                 this.Hide();
             }
             else
@@ -80,6 +82,8 @@ namespace FrbaOfertas
 
         private void buttonCancelar_Click(object sender, EventArgs e)
         {
+            CargarCredito c = new CargarCredito(usuario);
+            c.Show();
             this.Hide();
         }
     }

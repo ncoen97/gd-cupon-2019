@@ -176,6 +176,7 @@
     <Compile Include="_Clases\Rol.cs" />
     <Compile Include="_Clases\Rubro.cs" />
     <Compile Include="_Clases\Tarjeta.cs" />
+    <Compile Include="_Clases\TipoDePago.cs" />
     <Compile Include="_Clases\Usuario.cs" />
     <EmbeddedResource Include="AbmCliente\AbmCliente.resx">
       <DependentUpon>AbmCliente.cs</DependentUpon>

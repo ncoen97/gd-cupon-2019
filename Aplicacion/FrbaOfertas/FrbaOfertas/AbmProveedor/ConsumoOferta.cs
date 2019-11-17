@@ -12,9 +12,18 @@ namespace FrbaOfertas
 {
     public partial class ConsumoOferta : Form
     {
-        public ConsumoOferta()
+        Usuario usuario;
+        public ConsumoOferta(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
+        }
+
+        private void buttonCancelar_Click(object sender, EventArgs e)
+        {
+            OpcionesProveedor o = new OpcionesProveedor(usuario);
+            o.Show();
+            this.Hide();
         }
     }
 }

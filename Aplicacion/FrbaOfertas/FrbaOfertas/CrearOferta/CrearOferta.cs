@@ -12,14 +12,23 @@ namespace FrbaOfertas
 {
     public partial class CrearOferta : Form
     {
-        public CrearOferta()
+        Usuario usuario;
+        public CrearOferta(Usuario _usuario)
         {
             InitializeComponent();
+            usuario = _usuario;
         }
 
         private void CrearOferta_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OpcionesProveedor o = new OpcionesProveedor(usuario);
+            o.Show();
+            this.Hide();
         }
     }
 }

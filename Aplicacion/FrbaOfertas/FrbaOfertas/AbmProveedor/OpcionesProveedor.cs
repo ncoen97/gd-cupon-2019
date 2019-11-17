@@ -21,19 +21,19 @@ namespace FrbaOfertas
 
         private void OpcionesProveedor_Load(object sender, EventArgs e)
         {
-
+            labelUsuario.Text = usuario.username;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ConsumoOferta co = new ConsumoOferta();
+            ConsumoOferta co = new ConsumoOferta(usuario);
             co.Show();
             this.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CrearOferta co = new CrearOferta();
+            CrearOferta co = new CrearOferta(usuario);
             co.Show();
             this.Hide();
         }

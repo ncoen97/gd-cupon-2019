@@ -54,10 +54,10 @@
             // buttonRegistrarse
             // 
             this.buttonRegistrarse.Location = new System.Drawing.Point(176, 165);
-            this.buttonRegistrarse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonRegistrarse.Margin = new System.Windows.Forms.Padding(2);
             this.buttonRegistrarse.Name = "buttonRegistrarse";
             this.buttonRegistrarse.Size = new System.Drawing.Size(121, 23);
-            this.buttonRegistrarse.TabIndex = 7;
+            this.buttonRegistrarse.TabIndex = 3;
             this.buttonRegistrarse.Text = "Registrarse";
             this.buttonRegistrarse.UseVisualStyleBackColor = true;
             this.buttonRegistrarse.Click += new System.EventHandler(this.Button3_Click);
@@ -76,16 +76,16 @@
             // textbox_contraseña
             // 
             this.textbox_contraseña.Location = new System.Drawing.Point(195, 108);
-            this.textbox_contraseña.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textbox_contraseña.Margin = new System.Windows.Forms.Padding(2);
             this.textbox_contraseña.Name = "textbox_contraseña";
             this.textbox_contraseña.PasswordChar = '*';
             this.textbox_contraseña.Size = new System.Drawing.Size(127, 20);
-            this.textbox_contraseña.TabIndex = 5;
+            this.textbox_contraseña.TabIndex = 1;
             // 
             // buttonIniciarSesion
             // 
             this.buttonIniciarSesion.Location = new System.Drawing.Point(176, 138);
-            this.buttonIniciarSesion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonIniciarSesion.Margin = new System.Windows.Forms.Padding(2);
             this.buttonIniciarSesion.Name = "buttonIniciarSesion";
             this.buttonIniciarSesion.Size = new System.Drawing.Size(121, 23);
             this.buttonIniciarSesion.TabIndex = 2;
@@ -96,7 +96,7 @@
             // buttonSalir
             // 
             this.buttonSalir.Location = new System.Drawing.Point(207, 261);
-            this.buttonSalir.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonSalir.Margin = new System.Windows.Forms.Padding(2);
             this.buttonSalir.Name = "buttonSalir";
             this.buttonSalir.Size = new System.Drawing.Size(121, 23);
             this.buttonSalir.TabIndex = 6;
@@ -117,10 +117,10 @@
             // textbox_usuario
             // 
             this.textbox_usuario.Location = new System.Drawing.Point(195, 74);
-            this.textbox_usuario.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textbox_usuario.Margin = new System.Windows.Forms.Padding(2);
             this.textbox_usuario.Name = "textbox_usuario";
             this.textbox_usuario.Size = new System.Drawing.Size(127, 20);
-            this.textbox_usuario.TabIndex = 4;
+            this.textbox_usuario.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -137,7 +137,7 @@
             this.cboRoles.Location = new System.Drawing.Point(380, 79);
             this.cboRoles.Name = "cboRoles";
             this.cboRoles.Size = new System.Drawing.Size(121, 21);
-            this.cboRoles.TabIndex = 9;
+            this.cboRoles.TabIndex = 4;
             this.cboRoles.Visible = false;
             // 
             // buttonSeleccionarRol
@@ -145,7 +145,7 @@
             this.buttonSeleccionarRol.Location = new System.Drawing.Point(380, 119);
             this.buttonSeleccionarRol.Name = "buttonSeleccionarRol";
             this.buttonSeleccionarRol.Size = new System.Drawing.Size(121, 23);
-            this.buttonSeleccionarRol.TabIndex = 11;
+            this.buttonSeleccionarRol.TabIndex = 5;
             this.buttonSeleccionarRol.Text = "Seleccionar rol";
             this.buttonSeleccionarRol.UseVisualStyleBackColor = true;
             this.buttonSeleccionarRol.Click += new System.EventHandler(this.buttonSeleccionarRol_Click);
@@ -166,7 +166,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonIniciarSesion);
             this.Controls.Add(this.menuStrip1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Login";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);

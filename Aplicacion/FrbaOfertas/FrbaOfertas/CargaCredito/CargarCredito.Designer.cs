@@ -34,7 +34,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxTarjeta = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
             this.buttonCargarTarjeta = new System.Windows.Forms.Button();
             this.numericUpDownMonto = new System.Windows.Forms.NumericUpDown();
@@ -101,14 +101,14 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "Elegir tarjeta registrada";
             // 
-            // comboBox2
+            // comboBoxTarjeta
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(177, 154);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(82, 21);
-            this.comboBox2.TabIndex = 3;
+            this.comboBoxTarjeta.FormattingEnabled = true;
+            this.comboBoxTarjeta.Location = new System.Drawing.Point(177, 154);
+            this.comboBoxTarjeta.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBoxTarjeta.Name = "comboBoxTarjeta";
+            this.comboBoxTarjeta.Size = new System.Drawing.Size(82, 21);
+            this.comboBoxTarjeta.TabIndex = 3;
             // 
             // button2
             // 
@@ -136,10 +136,10 @@
             this.numericUpDownMonto.DecimalPlaces = 2;
             this.numericUpDownMonto.Location = new System.Drawing.Point(177, 80);
             this.numericUpDownMonto.Maximum = new decimal(new int[] {
-            1000000,
+            -1486618625,
+            232830643,
             0,
-            0,
-            0});
+            131072});
             this.numericUpDownMonto.Name = "numericUpDownMonto";
             this.numericUpDownMonto.Size = new System.Drawing.Size(82, 20);
             this.numericUpDownMonto.TabIndex = 1;
@@ -152,7 +152,7 @@
             this.Controls.Add(this.numericUpDownMonto);
             this.Controls.Add(this.buttonCargarTarjeta);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboBoxTarjeta);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label4);
@@ -176,7 +176,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBoxTarjeta;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button buttonCargarTarjeta;
         private System.Windows.Forms.NumericUpDown numericUpDownMonto;

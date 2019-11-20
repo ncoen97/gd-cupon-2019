@@ -153,5 +153,24 @@ namespace FrbaOfertas
             conexion.Dispose();
             return tarjetas;
         }
+        public static int realizarCarga(Usuario usuario, double monto, Tarjeta tarjeta)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_cargar_credito", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@fecha_operacion ", utils.obtenerFecha());
+            command.Parameters.AddWithValue("@user_name ", usuario.username);
+            command.Parameters.AddWithValue("@monto ", monto);
+            command.Parameters.AddWithValue("@tarj_id ", tarjeta.id);
+
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return (int)ret.Value;
+        }
     }
 }

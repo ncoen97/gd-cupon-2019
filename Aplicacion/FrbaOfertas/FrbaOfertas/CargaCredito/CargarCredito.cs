@@ -27,6 +27,7 @@ namespace FrbaOfertas
             List<TipoDePago> tiposDePago = ClienteDAO.getFormasDePago();
             List<Tarjeta> tarjetas = ClienteDAO.getTarjetas(usuario);
             //falta mostrarlas
+            //las tarjetas tienen que estar como Items para poder hacer comboboxTarjeta.SelectedItem
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -45,7 +46,27 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //se carga el credito
+            Tarjeta tarjetaSeleccionada = (Tarjeta)comboBoxTarjeta.SelectedItem;
+            //pa probar xd Tarjeta tarjetaSeleccionada = new Tarjeta(1, "123456789");
+            int cargaRealizada = ClienteDAO.realizarCarga(usuario, double.Parse(numericUpDownMonto.Value.ToString()), tarjetaSeleccionada);
+            switch (cargaRealizada)
+            {
+                case 1:
+                    MessageBox.Show("No existe el cliente");
+                    break;
+                case 2:
+                    MessageBox.Show("Cliente no habilitado");
+                    break;
+                case 3:
+                    MessageBox.Show("Monto menor a 1");
+                    break;
+                case 4:
+                    MessageBox.Show("No existe la tarjeta");
+                    break;
+                case 5:
+                    MessageBox.Show("Carga exitosa");
+                    break;
+            }
         }
     }
 }

@@ -1222,21 +1222,25 @@ GO
 
 CREATE PROC SOCORRO.sp_cargar_credito (
 	@fecha_operacion datetime,
-	@clie_id int,
-	@monto int,
+	@user_name nvarchar(20),
+	@monto numeric(18,2),
 	@tarj_id int = NULL
 ) AS
 BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 			--check si cliente existe
-			IF NOT(@clie_id IN (SELECT c.clie_id
-								FROM SOCORRO.Cliente c))
+			IF NOT(@user_name IN (SELECT u.user_username
+								FROM SOCORRO.Usuario u join SOCORRO.Cliente c on u.user_id = c.clie_user_id))
 			BEGIN
 				ROLLBACK;
 				PRINT 'no existe el cliente';
 				RETURN 1;
 			END
+			declare @clie_id int
+
+			set @clie_id = (select c.clie_id from SOCORRO.Cliente c join SOCORRO.Usuario 
+								u on (c.clie_user_id = u.user_id) where u.user_username= @user_name)
 			--check si cliente habilitado
 			IF (0 = (SELECT c.clie_habilitado
 					FROM SOCORRO.Cliente c
@@ -1254,10 +1258,18 @@ BEGIN
 				RETURN 3;
 			END
 			-- TODO: faltan checks?
-			IF (@tarj_id IN (SELECT t.tarj_id
+			IF NOT (@tarj_id IN (SELECT t.tarj_id
 								FROM SOCORRO.Tarjeta t
 								WHERE t.tarj_clie_id = @clie_id))
 			BEGIN
+				ROLLBACK;
+				PRINT 'no existe la tarjeta';
+				RETURN 4;
+			END
+			BEGIN
+				--FALTA ESTO!!!
+				--declare @tipo_de_pago int
+				--set @tipo_de_pago = (select tipo_de_pago_id from SOCORRO.Tipo_de_pago)
 				INSERT INTO SOCORRO.Carga (
 					carg_clie_id,
 					carg_fecha,
@@ -1268,25 +1280,15 @@ BEGIN
 					@clie_id,
 					@fecha_operacion,
 					@monto,
-					2,
+					1,
 					@tarj_id
 				);
-			END
-			ELSE
-			BEGIN
-				INSERT INTO SOCORRO.Carga (
-					carg_clie_id,
-					carg_fecha,
-					carg_monto,
-					carg_tipo_de_pago_id
-				) VALUES (
-					@clie_id,
-					@fecha_operacion,
-					@monto,
-					1
-				);
+
+				UPDATE SOCORRO.Cliente SET clie_saldo = clie_saldo + @monto
+				where clie_id = @clie_id
 			END
 		COMMIT;
+		RETURN 5;
 	END TRY
 	BEGIN CATCH
 		PRINT 'algun error loco hay';

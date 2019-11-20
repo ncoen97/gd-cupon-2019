@@ -47,7 +47,7 @@ namespace FrbaOfertas
                 MessageBox.Show("Rubro no existente, las opciones son: Comestibles, Electronica o Hoteleria");
                 return;
             }
-            Proveedor prov = new Proveedor(Provee_rs.Text, Provee_mail.Text, Provee_direccion.Text, Provee_cp.Text, Provee_ciudad.Text, Provee_cuit.Text, prov_id, Provee_nombrecontacto.Text, Provee_telefono.Text);
+            Proveedor prov = new Proveedor(usuario,Provee_rs.Text, Provee_mail.Text, Provee_direccion.Text, Provee_cp.Text, Provee_ciudad.Text, Provee_cuit.Text, prov_id, Provee_nombrecontacto.Text, Provee_telefono.Text,true);
             ProveedorDAO.insertarProveedor(prov, usuario);
             Login login = new Login();
             login.Show();

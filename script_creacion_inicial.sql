@@ -108,7 +108,11 @@ IF OBJECT_ID('SOCORRO.sp_cargarTarjeta') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_cargarTarjeta;
 IF OBJECT_ID('SOCORRO.sp_obtener_id_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_obtener_id_cliente;	
-
+IF OBJECT_ID('SOCORRO.sp_obtener_id_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_obtener_id_proveedor;	
+IF OBJECT_ID('SOCORRO.sp_obtener_descripcion_rubro') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_obtener_descripcion_rubro;	
+	
 IF NOT EXISTS
 	(SELECT *
 	FROM sys.schemas
@@ -871,6 +875,14 @@ begin
 end
 go
 
+create PROCEDURE [SOCORRO].sp_obtener_id_proveedor(@userid int)
+as
+begin	
+	DECLARE @prov_id int	
+	SET @prov_id = (select prov_id from SOCORRO.Proveedor p join SOCORRO.Usuario u on p.prov_user_id =u.user_id where @userid=u.user_id)
+	RETURN @prov_id
+end
+go
 create PROCEDURE [SOCORRO].sp_obtener_id_cliente(@userid int)
 as
 begin	
@@ -888,6 +900,8 @@ AS
              JOIN [SOCORRO].Usuario u ON (u.user_id = rxu.user_id)
              WHERE u.user_username = @username AND r.rol_habilitado = 1)
 GO
+
+
 
 CREATE FUNCTION [SOCORRO].getFormasDePago()
 RETURNS table
@@ -1209,6 +1223,7 @@ CREATE PROC SOCORRO.sp_modificar_proveedor (
 	@nuevo_cuit nvarchar(20),
 	@nuevo_rubro_id int,
 	@nuevo_nombre_contacto nvarchar(255)
+
 ) AS
 BEGIN
 	IF NOT(@prov_id IN (SELECT p.prov_id FROM SOCORRO.Proveedor p))
@@ -1226,7 +1241,9 @@ BEGIN
 		prov_telefono = @nuevo_telefono,
 		prov_cuit = @nuevo_cuit,
 		prov_rubro_id = @nuevo_rubro_id,
-		prov_nombre_contacto = @nuevo_nombre_contacto;
+		prov_nombre_contacto = @nuevo_nombre_contacto
+
+		where prov_id = @prov_id;
 	RETURN 0;
 END
 GO
@@ -1406,6 +1423,15 @@ BEGIN
 	WHERE cupon_id = @codigo_cupon;
 	PRINT 'exito!';
 	RETURN 0;
+END
+GO
+
+CREATE proc [SOCORRO].sp_obtener_descripcion_rubro(@id int)
+AS
+BEGIN
+	declare @descr_rub varchar(100)
+	set @descr_rub = (select r.rubro_descripcion from SOCORRO.Rubro r where r.rubro_id=@id)
+	 RETURN @descr_rub;
 END
 GO
 

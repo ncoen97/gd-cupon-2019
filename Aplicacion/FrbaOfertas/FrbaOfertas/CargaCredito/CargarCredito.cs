@@ -23,10 +23,21 @@ namespace FrbaOfertas
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //hay que cargar los metodos de pago habilitados y las tarjetas del cliente
+           
             List<TipoDePago> tiposDePago = ClienteDAO.getFormasDePago();
             List<Tarjeta> tarjetas = ClienteDAO.getTarjetas(usuario);
-            //falta mostrarlas
+           
+            foreach (TipoDePago t in tiposDePago)
+            {
+                comboBox1.Items.Add(t.descripcion);
+            }
+
+            foreach (Tarjeta t in tarjetas)
+            {
+                comboBoxTarjeta.Items.Add(t.numero);
+            }
+           
+            
             //las tarjetas tienen que estar como Items para poder hacer comboboxTarjeta.SelectedItem
         }
 

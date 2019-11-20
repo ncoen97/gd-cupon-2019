@@ -15,15 +15,11 @@ namespace FrbaOfertas
     public partial class AbmProveedor : Form
     {
         Usuario usuario;
+        DataGridViewRow selectedRow = null;
         public AbmProveedor(Usuario _usuario)
         {
             InitializeComponent();
             usuario = _usuario;
-        }
-
-        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -42,7 +38,25 @@ namespace FrbaOfertas
 
         private void button6_Click(object sender, EventArgs e)
         {
-            ModificacionDeProveedores rdp = new ModificacionDeProveedores(usuario);
+            if (selectedRow == null)
+                return;
+
+            Proveedor prov = Proveedor.ProveedorConId(
+                (int)selectedRow.Cells[0].Value, //id
+                usuario,
+                selectedRow.Cells[2].Value.ToString(), //rs
+                selectedRow.Cells[3].Value.ToString(), //mail
+                selectedRow.Cells[5].Value.ToString(), //tel
+                selectedRow.Cells[6].Value.ToString(), //dir
+                selectedRow.Cells[7].Value.ToString(), //cp
+                selectedRow.Cells[8].Value.ToString(), //ciudad
+                (int)selectedRow.Cells[9].Value, //cuit
+                selectedRow.Cells[10].Value.ToString(),//rubt
+                selectedRow.Cells[4].Value.ToString(), //contc
+                (bool)selectedRow.Cells[11].Value //habilitado
+                );
+         
+            ModificacionDeProveedores rdp = new ModificacionDeProveedores(prov,usuario);
             rdp.Show();
             this.Hide();
         }
@@ -98,6 +112,15 @@ namespace FrbaOfertas
             dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
 
             textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = "";
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (index >= 0)
+            {
+                this.selectedRow = dataGridView1.Rows[index];
+            }
         }
     }
 }

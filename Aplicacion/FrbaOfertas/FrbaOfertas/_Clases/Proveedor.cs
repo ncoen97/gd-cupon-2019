@@ -20,8 +20,9 @@ namespace FrbaOfertas
         public bool habilitada { get; set; }
         public string telefono { get; set; }
 
-        public Proveedor(string rs, string email, string direc, string cp, string ciud, string cuitt, int rubid, string nombre, string tel)
+        public Proveedor(Usuario usu, string rs, string email, string direc, string cp, string ciud, string cuitt, int rubid, string nombre, string tel, bool habilitado)
         {
+            id = ProveedorDAO.obtenerIdProveedor(usu);
             razon_social = rs;
             mail = email;
             direccion = direc;
@@ -31,6 +32,14 @@ namespace FrbaOfertas
             rubro_id = rubid;
             nombre_de_contacto = nombre;
             telefono = tel;
+            habilitada = habilitado;
+        }
+
+        public static Proveedor ProveedorConId(int _id, Usuario usu, string rs, string email, string direc, string cp, string ciud, string cuitt, int rubid, string nombre, string tel, bool _hab)
+        {
+            Proveedor p = new Proveedor(usu, rs,  email,  direc,  cp,  ciud,  cuitt,  rubid,  nombre, tel, _hab);
+            p.id = _id;
+            return p;
         }
     }
 }

@@ -151,6 +151,9 @@ namespace FrbaOfertas
             conexion.Dispose();
             return tiposDePago;
         }
+
+     
+
         public static List<Tarjeta> getTarjetas(Usuario usuario)
         {
             string query = string.Format(@"SELECT * FROM SOCORRO.getTarjetasUsuario(@username, CONVERT(datetime, @fechaActual,121))");

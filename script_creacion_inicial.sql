@@ -36,7 +36,6 @@ IF OBJECT_ID('[SOCORRO].Usuario', 'U') IS NOT NULL
 	DROP TABLE [SOCORRO].Usuario;
 
 
-
 IF OBJECT_ID('SOCORRO.migracion_insert_rubros') IS NOT NULL
 	DROP PROCEDURE SOCORRO.migracion_insert_rubros;
 IF OBJECT_ID('SOCORRO.migracion_insert_roles') IS NOT NULL
@@ -107,7 +106,8 @@ IF OBJECT_ID('SOCORRO.sp_lista_prov_mayor_facturacion') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_lista_prov_mayor_facturacion;
 IF OBJECT_ID('SOCORRO.sp_cargarTarjeta') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_cargarTarjeta;
-	
+IF OBJECT_ID('SOCORRO.sp_obtener_id_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_obtener_id_cliente;	
 
 IF NOT EXISTS
 	(SELECT *
@@ -871,6 +871,15 @@ begin
 end
 go
 
+create PROCEDURE [SOCORRO].sp_obtener_id_cliente(@userid int)
+as
+begin	
+	DECLARE @cliente_id int	
+	SET @cliente_id = (select clie_id from SOCORRO.Cliente c join SOCORRO.Usuario u on c.clie_user_id =u.user_id where @userid=u.user_id)
+	RETURN @cliente_id
+end
+go
+
 CREATE FUNCTION [SOCORRO].getRolesUsuario(@username nvarchar(50))
 RETURNS table
 AS
@@ -1182,7 +1191,9 @@ BEGIN
 		clie_direccion = @nuevo_direccion,
 		clie_codigo_postal = @nuevo_codigo_postal,
 		clie_fecha_nacimiento = @nuevo_fecha_nacimiento,
-		clie_ciudad = @nuevo_ciudad;
+		clie_ciudad = @nuevo_ciudad
+	where clie_id = @clie_id
+ 
 	RETURN 0;
 END
 GO

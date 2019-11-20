@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
+using System.Windows.Forms;
 using System.Data.SqlClient;
-//using System.Data;
+using FrbaOfertas.DAOs;
+using FrbaOfertas._Clases;
 
 namespace FrbaOfertas.DAOs
 {
@@ -27,6 +31,7 @@ namespace FrbaOfertas.DAOs
             conexion.Dispose();
             return (int)ret.Value;
         }
+
         public static void cargarRolesUsuario(Usuario usuario)
         {
             string query = string.Format(@"SELECT * FROM SOCORRO.getRolesUsuario(@username)");
@@ -70,5 +75,19 @@ namespace FrbaOfertas.DAOs
             }
             return true;
         }
+               
+        public static bool tieneFuncionalidad(Rol rol, string unaFuncionalidad)
+        {
+            foreach (Funcionalidad f in rol.funcionalidades)
+            {
+                if (f.nombre == unaFuncionalidad)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
     }
 }

@@ -23,6 +23,28 @@ namespace FrbaOfertas
 
         private void OpcionesCliente_Load(object sender, EventArgs e)
         {
+            Rol rol = usuario.roles.Find(DBConnection.isCliente);
+            DBConnection.asociar_roles_x_funciones(rol);
+
+            foreach (var button in this.Controls.OfType<Button>())
+            { //Si hay alguna funcionalidad que coincide con un buton
+                button.Visible = false;
+                button.Name = button.Text;
+                foreach (Funcionalidad f in rol.funcionalidades)
+                {
+                    if (button.Name == f.nombre)
+                    {
+                        button.Visible = true;
+                    }
+
+
+                }
+                if (button.Name == "Mis cupones")
+                {
+                    button.Visible = true;
+                }
+            }
+            
             labelUsuario.Text = usuario.username;
             double monto = ClienteDAO.montoUsuario(usuario);
             labelCredito.Text = monto.ToString();

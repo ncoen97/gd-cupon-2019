@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FrbaOfertas.DAOs;
+using FrbaOfertas._Clases;
 
 namespace FrbaOfertas
 {
@@ -17,7 +19,7 @@ namespace FrbaOfertas
 
         public Usuario(/*int _id, */string _username, string _password)
         {
-            //this.id = _id;
+          //  this.id = UsuarioDAO.obtenerId(username);
             this.username = _username;
             this.password = _password;
             this.intentos_login = 0;

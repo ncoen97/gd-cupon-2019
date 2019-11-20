@@ -244,6 +244,7 @@
             this.Controls.Add(this.label1);
             this.Name = "RegistroDeCliente";
             this.Text = "RegistroDeUsuario";
+            this.Load += new System.EventHandler(this.RegistroDeCliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

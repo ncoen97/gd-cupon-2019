@@ -30,7 +30,8 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@clie_direccion ",cli.direccion);
             command.Parameters.AddWithValue("@clie_codigo_postal ",cli.cod_postal);
             command.Parameters.AddWithValue("@clie_fecha_nacimiento ",cli.fecha_nacimiento);
-            command.Parameters.AddWithValue("@clie_ciudad ",cli.habilitado);
+            command.Parameters.AddWithValue("@clie_ciudad ",cli.ciudad);
+            command.Parameters.AddWithValue("@clie_habilitado ", cli.habilitado);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -44,6 +45,31 @@ namespace FrbaOfertas
                 return false;
             }
             return true;
+        }
+
+        public static void modificarCliente(Cliente cli, Usuario usu)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_modificar_cliente", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@clie_id", cli.id);
+            command.Parameters.AddWithValue("@nuevo_nombre", cli.nombre);
+            command.Parameters.AddWithValue("@nuevo_apellido", cli.apellido);
+            command.Parameters.AddWithValue("@nuevo_dni", cli.dni);
+            command.Parameters.AddWithValue("@nuevo_email ", cli.mail);
+            command.Parameters.AddWithValue("@nuevo_telefono ", cli.telefono);
+            command.Parameters.AddWithValue("@nuevo_direccion ", cli.direccion);
+            command.Parameters.AddWithValue("@nuevo_codigo_postal ", cli.cod_postal);
+            command.Parameters.AddWithValue("@nuevo_fecha_nacimiento ", cli.fecha_nacimiento);
+            command.Parameters.AddWithValue("@nuevo_ciudad ", cli.ciudad);
+
+            command.ExecuteNonQuery();
+
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+
+          
         }
 
         public static void filtros_clientes(DataGridView grid, string filtroNombre, string filtroApellido, int filtroDNI, string filtroemail)
@@ -163,6 +189,23 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@monto ", monto);
             command.Parameters.AddWithValue("@tarj_id ", tarjeta.id);
 
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return (int)ret.Value;
+        }
+
+        public static int obtenerIdCliente(Usuario usuario)
+        {
+            
+          SqlConnection conexion = DBConnection.getConnection();
+          SqlCommand command = new SqlCommand("SOCORRO.sp_obtener_id_cliente", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@userid", usuario.id);
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
             command.Parameters.Add(ret);

@@ -70,7 +70,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(33, 186);
+            this.button1.Location = new System.Drawing.Point(162, 109);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(327, 40);
             this.button1.TabIndex = 47;
@@ -88,7 +88,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(32, 26);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(402, 338);
+            this.groupBox1.Size = new System.Drawing.Size(892, 168);
             this.groupBox1.TabIndex = 51;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
@@ -96,7 +96,7 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(199, 128);
+            this.comboBox2.Location = new System.Drawing.Point(475, 75);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(172, 28);
             this.comboBox2.TabIndex = 63;
@@ -111,7 +111,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 131);
+            this.label1.Location = new System.Drawing.Point(305, 78);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(164, 20);
             this.label1.TabIndex = 53;
@@ -127,18 +127,18 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.dataGridView1);
-            this.groupBox2.Location = new System.Drawing.Point(440, 26);
+            this.groupBox2.Location = new System.Drawing.Point(32, 200);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(484, 396);
+            this.groupBox2.Size = new System.Drawing.Size(886, 300);
             this.groupBox2.TabIndex = 52;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(47, 347);
+            this.button4.Location = new System.Drawing.Point(609, 237);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(409, 39);
+            this.button4.Size = new System.Drawing.Size(199, 39);
             this.button4.TabIndex = 67;
             this.button4.Text = "Cambiar estado del ROL";
             this.button4.UseVisualStyleBackColor = true;
@@ -146,25 +146,25 @@
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(47, 219);
+            this.comboBox3.Location = new System.Drawing.Point(609, 50);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(172, 28);
             this.comboBox3.TabIndex = 66;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(47, 302);
+            this.button3.Location = new System.Drawing.Point(609, 192);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(409, 39);
+            this.button3.Size = new System.Drawing.Size(199, 39);
             this.button3.TabIndex = 65;
             this.button3.Text = "Quitar funcionalidad";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(47, 256);
+            this.button2.Location = new System.Drawing.Point(609, 147);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(409, 39);
+            this.button2.Size = new System.Drawing.Size(199, 39);
             this.button2.TabIndex = 64;
             this.button2.Text = "Agregar funcionalidad";
             this.button2.UseVisualStyleBackColor = true;
@@ -172,7 +172,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(248, 196);
+            this.label5.Location = new System.Drawing.Point(605, 90);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(208, 20);
             this.label5.TabIndex = 60;
@@ -181,7 +181,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(79, 196);
+            this.label6.Location = new System.Drawing.Point(605, 27);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(113, 20);
             this.label6.TabIndex = 59;
@@ -190,7 +190,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(252, 219);
+            this.comboBox1.Location = new System.Drawing.Point(609, 113);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(204, 28);
             this.comboBox1.TabIndex = 58;
@@ -198,17 +198,17 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(15, 35);
+            this.dataGridView1.Location = new System.Drawing.Point(15, 29);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(453, 116);
+            this.dataGridView1.Size = new System.Drawing.Size(528, 249);
             this.dataGridView1.TabIndex = 52;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(148, 382);
+            this.button5.Location = new System.Drawing.Point(845, 506);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(98, 40);
+            this.button5.Size = new System.Drawing.Size(98, 44);
             this.button5.TabIndex = 51;
             this.button5.Text = "Atras";
             this.button5.UseVisualStyleBackColor = true;
@@ -218,7 +218,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(955, 434);
+            this.ClientSize = new System.Drawing.Size(955, 562);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);

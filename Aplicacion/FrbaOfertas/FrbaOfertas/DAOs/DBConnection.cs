@@ -42,5 +42,43 @@ namespace FrbaOfertas
             command.Dispose();
             adapter.Dispose();
         }
+
+        public static bool isAdmin(Rol Rol)
+        {
+            return Rol.nombre == "Administrador";
+        }
+        public static bool isCliente(Rol Rol)
+        {
+            return Rol.nombre == "Cliente";
+        }
+        public static bool isProveedor(Rol Rol)
+        {
+            return Rol.nombre == "Proveedor";
+        }
+
+        public static void asociar_roles_x_funciones(Rol r)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select rol_nombre,f.func_id,func_descripcion from SOCORRO.Rol r join(SOCORRO.FuncionalidadxRol fxr join SOCORRO.Funcionalidad f on fxr.func_id = f.func_id) on r.rol_id = fxr.rol_id", conexion);
+            command.CommandType = CommandType.Text;
+            
+            SqlDataAdapter sqla = new SqlDataAdapter(command);
+            sqla.Fill(dt);
+          
+           
+            foreach (DataRow dr in dt.Rows)
+            {
+                if(dr["rol_nombre"].ToString() == r.nombre)
+                {
+                    Funcionalidad f = new Funcionalidad((int)dr["func_id"], dr["func_descripcion"].ToString());
+                    r.funcionalidades.Add(f);
+                }
+                
+            }
+
+          
+        
+        }
     }
 }

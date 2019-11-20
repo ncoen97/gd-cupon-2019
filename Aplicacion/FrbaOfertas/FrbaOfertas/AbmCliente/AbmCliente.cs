@@ -15,6 +15,7 @@ namespace FrbaOfertas
     public partial class AbmCliente : Form
     {
         Usuario usuario;
+        DataGridViewRow selectedRow = null;
         public AbmCliente(Usuario _usuario)
         {
             InitializeComponent();
@@ -37,9 +38,26 @@ namespace FrbaOfertas
 
         private void button6_Click(object sender, EventArgs e)
         {
-            ModificacionDeCliente mod = new ModificacionDeCliente(usuario);
-            mod.Show();
-            this.Hide();
+            if (selectedRow == null)
+                return;
+
+            Cliente cliente = Cliente.ClienteConId (
+                (int)selectedRow.Cells[0].Value, //id
+                usuario,
+                selectedRow.Cells[2].Value.ToString(), //nombre
+                selectedRow.Cells[3].Value.ToString(), //apellido
+                long.Parse(selectedRow.Cells[4].Value.ToString()), //dni
+                DateTime.Parse(selectedRow.Cells[9].Value.ToString()), //fecha nac
+                selectedRow.Cells[7].Value.ToString(), //direccion
+                selectedRow.Cells[8].Value.ToString(), //cod_p
+                selectedRow.Cells[5].Value.ToString(), //mail
+                selectedRow.Cells[6].Value.ToString(),//telefono
+                selectedRow.Cells[10].Value.ToString(), //ciudad
+                (bool)selectedRow.Cells[12].Value //habilitado
+                );
+           ModificacionDeCliente mod = new ModificacionDeCliente(cliente,usuario);
+           mod.Show();
+           this.Hide();
         }
 
         private void AbmCliente_Load(object sender, EventArgs e)
@@ -53,7 +71,7 @@ namespace FrbaOfertas
             da.Fill(dt);
             dataGridView1.DataSource = dt;
             dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
-         
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -71,7 +89,7 @@ namespace FrbaOfertas
             }
             if (!string.IsNullOrWhiteSpace(textBox3.Text))
             {
-                 Int32.TryParse(textBox3.Text, out dni);
+                Int32.TryParse(textBox3.Text, out dni);
             }
             if (!string.IsNullOrWhiteSpace(textBox4.Text))
             {
@@ -81,10 +99,6 @@ namespace FrbaOfertas
             ClienteDAO.filtros_clientes(dataGridView1, nom, ap, dni, email);
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -99,6 +113,15 @@ namespace FrbaOfertas
             dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
 
             textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = ""; textBox4.Text = "";
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (index >= 0)
+            {
+                this.selectedRow = dataGridView1.Rows[index];
+            }
         }
     }
 }

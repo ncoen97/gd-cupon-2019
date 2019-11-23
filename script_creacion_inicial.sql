@@ -1012,6 +1012,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': Alg�n error salt�.';
         ROLLBACK;
+		RETURN 2;
     END CATCH
 END
 GO
@@ -1099,6 +1100,7 @@ BEGIN
         PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': Algun error salto.';
 		--y se rollbackean todos los inserts
         ROLLBACK;
+		RETURN 2;
     END CATCH
 END
 GO
@@ -1110,12 +1112,12 @@ BEGIN
 	IF NOT(@clie_id IN (SELECT clie_id FROM SOCORRO.Cliente))
 	BEGIN
 		PRINT 'no existe el cliente';
-		RETURN 1
+		RETURN 1;
 	END
 	UPDATE Cliente
 	SET clie_habilitado = 0
 	WHERE clie_id = @clie_id;
-	RETURN 0
+	RETURN 0;
 END
 GO
 
@@ -1126,12 +1128,12 @@ BEGIN
 	IF NOT(@clie_id IN (SELECT clie_id FROM SOCORRO.Cliente))
 	BEGIN
 		PRINT 'no existe el cliente';
-		RETURN 1
+		RETURN 1;
 	END
 	UPDATE Cliente
 	SET clie_habilitado = 1
 	WHERE clie_id = @clie_id;
-	RETURN 0
+	RETURN 0;
 END
 GO
 
@@ -1142,12 +1144,12 @@ BEGIN
 	IF NOT(@prov_id IN (SELECT prov_id FROM SOCORRO.Proveedor))
 	BEGIN
 		PRINT 'no existe el proveedor';
-		RETURN 1
+		RETURN 1;
 	END
 	UPDATE SOCORRO.Proveedor
 	SET prov_habilitado = 0
 	WHERE prov_id = @prov_id;
-	RETURN 0
+	RETURN 0;
 END
 GO
 
@@ -1158,12 +1160,12 @@ BEGIN
 	IF NOT(@prov_id IN (SELECT prov_id FROM SOCORRO.Proveedor))
 	BEGIN
 		PRINT 'no existe el proveedor';
-		RETURN 1
+		RETURN 1;
 	END
 	UPDATE SOCORRO.Proveedor
 	SET prov_habilitado = 1
 	WHERE prov_id = @prov_id;
-	RETURN 0
+	RETURN 0;
 END
 GO
 

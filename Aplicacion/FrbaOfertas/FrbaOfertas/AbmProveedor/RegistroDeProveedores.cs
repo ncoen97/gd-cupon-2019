@@ -28,11 +28,42 @@ namespace FrbaOfertas
         private void button1_Click(object sender, EventArgs e)
         {
             //registrar proveedor
+
             if (!verificarTodosLosCamposNoVacios())
             {
                 MessageBox.Show("Parece que hay campos que no estan completos");
                 return;
             }
+
+            utils.validarEntradaSoloNumeros(Provee_cp);
+            utils.validarEntradaSoloNumeros(Provee_cuit);
+            utils.validarEntradaSoloNumeros(Provee_telefono);
+            utils.validarEntradaSoloTexto(Provee_rs);
+            utils.validarEntradaSoloTexto(Provee_nombrecontacto);
+            utils.validarEntradaSoloTexto(Provee_direccion);
+            utils.validarEntradaSoloTexto(Provee_ciudad);
+            utils.validarEntradaMail(Provee_mail);
+            utils.validarEntradaComboBoxNoNull(Provee_rubro);
+
+            foreach (ComboBox cbx in this.Controls.OfType<ComboBox>())
+            {
+                if (cbx.BackColor == Color.Tomato)
+                {
+                    MessageBox.Show("Combobox vacio");
+                    return;
+                }
+            }
+            foreach (TextBox txb in this.Controls.OfType<TextBox>())
+            {
+                if (txb.BackColor == Color.Tomato)
+                {
+                    MessageBox.Show("hay campos con errores en el  tipo de datos");
+                    return;
+                }
+            }
+
+            
+
 
             int prov_id;
             if(Provee_rubro.Text.Equals("Comestibles", StringComparison.InvariantCultureIgnoreCase))
@@ -61,7 +92,7 @@ namespace FrbaOfertas
 
         private void button2_Click(object sender, EventArgs e)
         {//atras
-            RegistroDeUsuario reg = new RegistroDeUsuario(false,usuario);
+            RegistroDeUsuario reg = new RegistroDeUsuario();
             reg.Show();
             this.Hide();
         }
@@ -83,7 +114,9 @@ namespace FrbaOfertas
             foreach (Rubro r in rubros)
             {
                 Provee_rubro.Items.Add(r.descripcion);
+                Provee_rubro.Text = r.descripcion;
             }
+            
         }
     }
 }

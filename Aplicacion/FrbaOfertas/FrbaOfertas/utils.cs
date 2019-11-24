@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Windows.Forms;
+using System.Drawing;
+
 namespace FrbaOfertas
 {
     class utils
@@ -22,6 +24,53 @@ namespace FrbaOfertas
                 MessageBox.Show("Error leyendo config, paso la fecha actual");
             }
             return fecha;
+        }
+
+        public static bool validarEntradaSoloTexto(TextBox txb)
+        {
+            int parsedValue;
+            if (int.TryParse(txb.Text, out parsedValue))
+            {
+                txb.Text = "valor invalido";
+                txb.BackColor = Color.Tomato;
+                return false;
+            }
+            txb.BackColor = Color.White;
+            return true;
+        }
+
+        public static bool validarEntradaMail(TextBox txb)
+        {
+            if(!txb.Text.Contains("@") || !(txb.Text.Length >5)){
+            txb.BackColor = Color.Tomato;
+            return false;
+            }
+            txb.BackColor = Color.White;
+            return true;
+        }
+
+        public static bool validarEntradaSoloNumeros(TextBox txb)
+        {
+            int parsedValue;
+            if (!int.TryParse(txb.Text, out parsedValue))
+            {
+                txb.BackColor = Color.Tomato;
+                return false;
+            }
+            txb.BackColor = Color.White;
+            return true;
+        }
+
+        public static bool validarEntradaComboBoxNoNull(ComboBox cbx)
+        {
+            
+            if (cbx.SelectedValue==null)
+            {
+                cbx.BackColor = Color.Tomato;
+                return false;
+            }
+            cbx.BackColor = Color.White;
+            return true;
         }
     }
 }

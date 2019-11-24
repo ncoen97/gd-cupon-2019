@@ -41,57 +41,51 @@
             // 
             // textboxContraseña
             // 
-            this.textboxContraseña.Location = new System.Drawing.Point(131, 73);
-            this.textboxContraseña.Margin = new System.Windows.Forms.Padding(2);
+            this.textboxContraseña.Location = new System.Drawing.Point(196, 112);
             this.textboxContraseña.Name = "textboxContraseña";
             this.textboxContraseña.PasswordChar = '*';
-            this.textboxContraseña.Size = new System.Drawing.Size(144, 20);
+            this.textboxContraseña.Size = new System.Drawing.Size(214, 26);
             this.textboxContraseña.TabIndex = 37;
             // 
             // textboxUsuario
             // 
-            this.textboxUsuario.Location = new System.Drawing.Point(131, 53);
-            this.textboxUsuario.Margin = new System.Windows.Forms.Padding(2);
+            this.textboxUsuario.Location = new System.Drawing.Point(196, 82);
             this.textboxUsuario.Name = "textboxUsuario";
-            this.textboxUsuario.Size = new System.Drawing.Size(144, 20);
+            this.textboxUsuario.Size = new System.Drawing.Size(214, 26);
             this.textboxUsuario.TabIndex = 36;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(121, 20);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Location = new System.Drawing.Point(182, 31);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(98, 13);
+            this.label10.Size = new System.Drawing.Size(147, 20);
             this.label10.TabIndex = 35;
             this.label10.Text = "Registro de usuario";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 75);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Location = new System.Drawing.Point(33, 115);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 13);
+            this.label4.Size = new System.Drawing.Size(92, 20);
             this.label4.TabIndex = 34;
             this.label4.Text = "Contraseña";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 55);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(33, 85);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.Size = new System.Drawing.Size(64, 20);
             this.label1.TabIndex = 33;
             this.label1.Text = "Usuario";
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(210, 140);
-            this.button5.Margin = new System.Windows.Forms.Padding(2);
+            this.button5.Location = new System.Drawing.Point(315, 215);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(65, 26);
+            this.button5.Size = new System.Drawing.Size(98, 40);
             this.button5.TabIndex = 52;
             this.button5.Text = "Registrar";
             this.button5.UseVisualStyleBackColor = true;
@@ -99,10 +93,9 @@
             // 
             // Atras
             // 
-            this.Atras.Location = new System.Drawing.Point(124, 140);
-            this.Atras.Margin = new System.Windows.Forms.Padding(2);
+            this.Atras.Location = new System.Drawing.Point(186, 215);
             this.Atras.Name = "Atras";
-            this.Atras.Size = new System.Drawing.Size(65, 26);
+            this.Atras.Size = new System.Drawing.Size(98, 40);
             this.Atras.TabIndex = 53;
             this.Atras.Text = "Atras";
             this.Atras.UseVisualStyleBackColor = true;
@@ -111,10 +104,9 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 101);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(33, 155);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 13);
+            this.label2.Size = new System.Drawing.Size(117, 20);
             this.label2.TabIndex = 54;
             this.label2.Text = "Tipo de usuario";
             // 
@@ -128,17 +120,18 @@
             this.comboBoxTipoDeUsuario.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxTipoDeUsuario.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTipoDeUsuario.FormattingEnabled = true;
-            this.comboBoxTipoDeUsuario.Location = new System.Drawing.Point(131, 98);
+            this.comboBoxTipoDeUsuario.Location = new System.Drawing.Point(196, 151);
+            this.comboBoxTipoDeUsuario.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxTipoDeUsuario.Name = "comboBoxTipoDeUsuario";
-            this.comboBoxTipoDeUsuario.Size = new System.Drawing.Size(144, 21);
-            this.comboBoxTipoDeUsuario.TabIndex = 55;
+            this.comboBoxTipoDeUsuario.Size = new System.Drawing.Size(214, 28);
+            this.comboBoxTipoDeUsuario.TabIndex = 38;
             this.comboBoxTipoDeUsuario.SelectedIndexChanged += new System.EventHandler(this.comboBoxTipoDeUsuario_SelectedIndexChanged);
             // 
             // RegistroDeUsuario
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 185);
+            this.ClientSize = new System.Drawing.Size(502, 285);
             this.Controls.Add(this.comboBoxTipoDeUsuario);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Atras);
@@ -148,7 +141,6 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "RegistroDeUsuario";
             this.Text = "RegistroDeUsuario";
             this.Load += new System.EventHandler(this.RegistroDeUsuario_Load);

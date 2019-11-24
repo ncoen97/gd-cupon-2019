@@ -48,6 +48,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Cli_fecha = new System.Windows.Forms.DateTimePicker();
+            this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -217,11 +218,22 @@
             this.Cli_fecha.TabIndex = 66;
             this.Cli_fecha.Value = new System.DateTime(2019, 11, 13, 0, 0, 0, 0);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(690, 393);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(98, 44);
+            this.button5.TabIndex = 71;
+            this.button5.Text = "Atras";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // RegistroDeCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 449);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.Cli_fecha);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Cli_ciudad);
@@ -272,5 +284,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker Cli_fecha;
+        private System.Windows.Forms.Button button5;
     }
 }

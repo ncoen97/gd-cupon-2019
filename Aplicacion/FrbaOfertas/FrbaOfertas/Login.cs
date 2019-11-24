@@ -109,7 +109,7 @@ namespace FrbaOfertas
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            RegistroDeUsuario ru = new RegistroDeUsuario(true);
+            RegistroDeUsuario ru = new RegistroDeUsuario();
             ru.Show();
             this.Hide();
 

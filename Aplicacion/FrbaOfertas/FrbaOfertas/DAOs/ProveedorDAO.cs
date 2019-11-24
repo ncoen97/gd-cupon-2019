@@ -42,8 +42,10 @@ namespace FrbaOfertas
             conexion.Dispose();
             if ((int)ret.Value == 1)
             {
+                MessageBox.Show("Hubo un error en el registro");
                 return false;
             }
+            MessageBox.Show("Registrado con exito");
             return true;
         }
 

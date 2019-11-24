@@ -128,19 +128,21 @@ namespace FrbaOfertas
 
         public static string getRubro(int id_rubro)
         {
-           /* SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SOCORRO.sp_obtener_descripcion_rubro", conexion);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@id", (int)id_rubro);
-            SqlParameter ret = new SqlParameter();
-            ret.Direction = ParameterDirection.ReturnValue;
-            command.Parameters.Add(ret);
-            command.ExecuteReader();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select r.rubro_descripcion from SOCORRO.Rubro r where r.rubro_id=@id", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@id", id_rubro);
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            string descripcion = reader["rubro_descripcion"].ToString();
+            
+            reader.Close();
+            reader.Dispose();
             command.Dispose();
             conexion.Close();
             conexion.Dispose();
-            return ret.Value.ToString();*/
-            return null;
+            return descripcion;
+            
         }
 
 

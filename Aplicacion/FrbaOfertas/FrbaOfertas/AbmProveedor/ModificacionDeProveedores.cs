@@ -52,7 +52,6 @@ namespace FrbaOfertas
             Provee_direccion.Text = prov.direccion;
             Provee_mail.Text = prov.mail;
             Provee_nombrecontacto.Text = prov.nombre_de_contacto;
-            label13.Text = prov.rubro_id.ToString();
             comboBox_rubro.Text = ProveedorDAO.getRubro(prov.rubro_id);
             Provee_telefono.Text = prov.telefono;
             label12.Text = prov.id.ToString();

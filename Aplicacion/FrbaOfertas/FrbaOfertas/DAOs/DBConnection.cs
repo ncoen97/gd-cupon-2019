@@ -56,6 +56,7 @@ namespace FrbaOfertas
             return Rol.nombre == "Proveedor";
         }
 
+
         public static void asociar_roles_x_funciones(Rol r)
         {
             DataTable dt = new DataTable();

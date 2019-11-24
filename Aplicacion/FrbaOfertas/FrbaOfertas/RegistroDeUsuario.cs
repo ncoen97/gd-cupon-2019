@@ -43,9 +43,25 @@ namespace FrbaOfertas
             }
         }
 
+        public bool verificarTodosLosCamposNoVacios()
+        {
+            foreach (TextBox txb in this.Controls.OfType<TextBox>())
+            {
+                if (txb.Text == "")
+                    return false;
+            }
+            return true;
+
+        }
         private void Button5_Click(object sender, EventArgs e)
         {
             //validar datos de registro fnValidarNuevoUsername
+            if (!verificarTodosLosCamposNoVacios())
+            {
+                MessageBox.Show("Parece que hay campos que no estan completos");
+                return;
+            }
+
             if (!UsuarioDAO.validarNuevoUsername(textboxUsuario.Text))
             {
                 MessageBox.Show("El nombre de usuario ya existe");

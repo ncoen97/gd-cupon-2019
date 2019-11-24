@@ -42,19 +42,19 @@ namespace FrbaOfertas
                 return;
 
             Proveedor prov = Proveedor.ProveedorConId(
-                (int)selectedRow.Cells[0].Value, //id
-                usuario,
-                selectedRow.Cells[2].Value.ToString(), //rs
-                selectedRow.Cells[3].Value.ToString(), //mail
-                selectedRow.Cells[5].Value.ToString(), //tel
-                selectedRow.Cells[6].Value.ToString(), //dir
-                selectedRow.Cells[7].Value.ToString(), //cp
-                selectedRow.Cells[8].Value.ToString(), //ciudad
-                (int)selectedRow.Cells[9].Value, //cuit
-                selectedRow.Cells[10].Value.ToString(),//rubt
-                selectedRow.Cells[4].Value.ToString(), //contc
-                (bool)selectedRow.Cells[11].Value //habilitado
-                );
+                 (int)selectedRow.Cells[0].Value, //id 0
+                 usuario,
+                 selectedRow.Cells[2].Value.ToString(), //rs 2
+                 selectedRow.Cells[9].Value.ToString(), //mail 9
+                 selectedRow.Cells[7].Value.ToString(), //dir 7
+                 selectedRow.Cells[6].Value.ToString(), //cp 6 
+                 selectedRow.Cells[5].Value.ToString(), //ciudad 5
+                 selectedRow.Cells[1].Value.ToString(), //cuit 1
+                 (int)selectedRow.Cells[11].Value, //id rubro 11
+                 selectedRow.Cells[3].Value.ToString(),//contacto 3
+                 selectedRow.Cells[8].Value.ToString(), //telefono 8
+                 (bool)selectedRow.Cells[10].Value //habilitado 10
+                 );
          
             ModificacionDeProveedores rdp = new ModificacionDeProveedores(prov,usuario);
             rdp.Show();
@@ -65,7 +65,7 @@ namespace FrbaOfertas
         {
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select * from SOCORRO.Proveedor", conexion);
+            SqlCommand command = new SqlCommand("select p.prov_id, p.prov_cuit,p.prov_razon_social,p.prov_nombre_contacto,r.rubro_descripcion,p.prov_ciudad,p.prov_codigo_postal,p.prov_direccion,p.prov_telefono,p.prov_email, p.prov_habilitado, p.prov_rubro_id from SOCORRO.Proveedor p join SOCORRO.Rubro r on p.prov_rubro_id = r.rubro_id", conexion);
             command.CommandType = CommandType.Text;
 
             SqlDataAdapter da = new SqlDataAdapter(command);
@@ -118,7 +118,7 @@ namespace FrbaOfertas
         {
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select * from SOCORRO.Proveedor", conexion);
+            SqlCommand command = new SqlCommand("select p.prov_id, p.prov_cuit,p.prov_razon_social,p.prov_nombre_contacto,r.rubro_descripcion, p.prov_ciudad,p.prov_codigo_postal,p.prov_direccion,p.prov_telefono,p.prov_email, p.prov_habilitado from SOCORRO.Proveedor p join SOCORRO.Rubro r on p.prov_rubro_id = r.rubro_id", conexion);
             command.CommandType = CommandType.Text;
 
             SqlDataAdapter da = new SqlDataAdapter(command);
@@ -141,8 +141,8 @@ namespace FrbaOfertas
 
             if (selectedRow == null)
                 return;
-            //estaria bueno que salga un aviso tipo 
-            //ESTA SEGURO QUE QUIERE DAR DE BAJA ESTO
+            if ((bool)selectedRow.Cells[11].Value)
+                return;
             const string message =
             "Esta por dar de baja este proveedor. Es lo que quiere hacer?";
             const string caption = "Inhabilitar proveedor";
@@ -153,18 +153,18 @@ namespace FrbaOfertas
             if (result == DialogResult.Yes)
             {
                 Proveedor prov = Proveedor.ProveedorConId(
-                (int)selectedRow.Cells[0].Value, //id
+                (int)selectedRow.Cells[0].Value, //id 0
                 usuario,
-                selectedRow.Cells[2].Value.ToString(), //rs
-                selectedRow.Cells[3].Value.ToString(), //mail
-                selectedRow.Cells[5].Value.ToString(), //tel
-                selectedRow.Cells[6].Value.ToString(), //dir
-                selectedRow.Cells[7].Value.ToString(), //cp
-                selectedRow.Cells[8].Value.ToString(), //ciudad
-                (int)selectedRow.Cells[9].Value, //cuit
-                selectedRow.Cells[10].Value.ToString(),//rubt
-                selectedRow.Cells[4].Value.ToString(), //contc
-                (bool)selectedRow.Cells[11].Value //habilitado
+                selectedRow.Cells[2].Value.ToString(), //rs 2
+                selectedRow.Cells[9].Value.ToString(), //mail 9
+                selectedRow.Cells[7].Value.ToString(), //dir 7
+                selectedRow.Cells[6].Value.ToString(), //cp 6 
+                selectedRow.Cells[5].Value.ToString(), //ciudad 5
+                selectedRow.Cells[1].Value.ToString(), //cuit 1
+                (int)selectedRow.Cells[11].Value, //id rubro 11
+                selectedRow.Cells[3].Value.ToString(),//contacto 3
+                selectedRow.Cells[8].Value.ToString(), //telefono 8
+                (bool)selectedRow.Cells[10].Value //habilitado 10
                 );
 
 
@@ -177,8 +177,10 @@ namespace FrbaOfertas
         {
             if (selectedRow == null)
                 return;
-            //estaria bueno que salga un aviso tipo 
-            //ESTA SEGURO QUE QUIERE DAR DE BAJA ESTO
+
+            if ((bool)selectedRow.Cells[11].Value)
+                return;
+                
             const string message =
             "Esta por dar de alta este proveedor. Es lo que quiere hacer?";
             const string caption = "Habilitar proveedor";
@@ -192,14 +194,14 @@ namespace FrbaOfertas
                 (int)selectedRow.Cells[0].Value, //id
                 usuario,
                 selectedRow.Cells[2].Value.ToString(), //rs
-                selectedRow.Cells[3].Value.ToString(), //mail
-                selectedRow.Cells[5].Value.ToString(), //tel
-                selectedRow.Cells[6].Value.ToString(), //dir
-                selectedRow.Cells[7].Value.ToString(), //cp
-                selectedRow.Cells[8].Value.ToString(), //ciudad
-                (int)selectedRow.Cells[9].Value, //cuit
-                selectedRow.Cells[10].Value.ToString(),//rubt
-                selectedRow.Cells[4].Value.ToString(), //contc
+                selectedRow.Cells[9].Value.ToString(), //mail
+                selectedRow.Cells[7].Value.ToString(), //dir
+                selectedRow.Cells[6].Value.ToString(), //cp
+                selectedRow.Cells[5].Value.ToString(), //ciudad
+                selectedRow.Cells[1].Value.ToString(), //cuit
+                (int)selectedRow.Cells[12].Value,//rubt
+                selectedRow.Cells[3].Value.ToString(), //contc
+                selectedRow.Cells[8].Value.ToString(), //tel  
                 (bool)selectedRow.Cells[11].Value //habilitado
                 );
 

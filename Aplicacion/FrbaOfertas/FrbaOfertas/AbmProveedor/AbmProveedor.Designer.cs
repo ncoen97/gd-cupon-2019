@@ -46,9 +46,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(555, 276);
+            this.button6.Location = new System.Drawing.Point(511, 277);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(134, 48);
+            this.button6.Size = new System.Drawing.Size(178, 48);
             this.button6.TabIndex = 25;
             this.button6.Text = "Modificar proveedor";
             this.button6.UseVisualStyleBackColor = true;
@@ -56,7 +56,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(724, 430);
+            this.button5.Location = new System.Drawing.Point(934, 447);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(134, 48);
             this.button5.TabIndex = 24;
@@ -68,7 +68,7 @@
             // 
             this.button3.Location = new System.Drawing.Point(695, 277);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(134, 48);
+            this.button3.Size = new System.Drawing.Size(178, 48);
             this.button3.TabIndex = 22;
             this.button3.Text = "Dar de baja";
             this.button3.UseVisualStyleBackColor = true;
@@ -80,7 +80,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(12, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(846, 240);
+            this.dataGridView1.Size = new System.Drawing.Size(1056, 240);
             this.dataGridView1.TabIndex = 13;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
@@ -154,9 +154,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(695, 331);
+            this.button4.Location = new System.Drawing.Point(879, 277);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(134, 48);
+            this.button4.Size = new System.Drawing.Size(178, 48);
             this.button4.TabIndex = 43;
             this.button4.Text = "Dar de alta";
             this.button4.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(881, 507);
+            this.ClientSize = new System.Drawing.Size(1080, 507);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label4);

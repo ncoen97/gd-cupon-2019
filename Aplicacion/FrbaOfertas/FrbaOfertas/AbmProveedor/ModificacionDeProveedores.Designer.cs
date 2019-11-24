@@ -51,7 +51,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.comboBox_rubro = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Provee_ciudad
@@ -241,27 +240,17 @@
             // comboBox_rubro
             // 
             this.comboBox_rubro.FormattingEnabled = true;
-            this.comboBox_rubro.Location = new System.Drawing.Point(391, 331);
+            this.comboBox_rubro.Location = new System.Drawing.Point(298, 331);
             this.comboBox_rubro.Name = "comboBox_rubro";
-            this.comboBox_rubro.Size = new System.Drawing.Size(121, 28);
+            this.comboBox_rubro.Size = new System.Drawing.Size(214, 28);
             this.comboBox_rubro.TabIndex = 52;
             this.comboBox_rubro.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(303, 334);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(60, 20);
-            this.label13.TabIndex = 53;
-            this.label13.Text = "label13";
             // 
             // ModificacionDeProveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 584);
-            this.Controls.Add(this.label13);
             this.Controls.Add(this.comboBox_rubro);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
@@ -318,6 +307,5 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox comboBox_rubro;
-        private System.Windows.Forms.Label label13;
     }
 }

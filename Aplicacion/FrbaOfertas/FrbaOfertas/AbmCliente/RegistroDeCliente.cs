@@ -24,10 +24,26 @@ namespace FrbaOfertas
             usuario = usu;
         }
 
+        public bool verificarTodosLosCamposNoVacios()
+        {
+            foreach (TextBox txb in this.Controls.OfType<TextBox>())
+            {
+                if (txb.Text == "")
+                    return false;
+            }
+            return true;
+
+        }
+
         private void Button1_Click(object sender, EventArgs e)
         {
             //validar todos los campos
-
+            
+            if (!verificarTodosLosCamposNoVacios())
+            {
+                MessageBox.Show("Parece que hay campos que no estan completos");
+                return;
+            }
             Cliente cli = new Cliente(usuario,Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text,Cli_ciudad.Text, true);
             ClienteDAO.insertarCliente(cli,usuario);
             Login login = new Login();

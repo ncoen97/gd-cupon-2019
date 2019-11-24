@@ -143,8 +143,6 @@ namespace FrbaOfertas
         {
             if (selectedRow == null)
                 return;
-            //estaria bueno que salga un aviso tipo 
-            //ESTA SEGURO QUE QUIERE DAR DE BAJA ESTO
             const string message =
             "Esta por dar de baja este cliente. Es lo que quiere hacer?";
             const string caption = "Inhabilitar cliente";
@@ -179,8 +177,6 @@ namespace FrbaOfertas
         {
             if (selectedRow == null)
                 return;
-            //estaria bueno que salga un aviso tipo 
-            //ESTA SEGURO QUE QUIERE DAR DE BAJA ESTO
             const string message =
             "Esta por dar de alta este cliente. Es lo que quiere hacer?";
             const string caption = "Habilitar cliente";

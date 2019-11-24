@@ -55,7 +55,7 @@
             this.button1.Location = new System.Drawing.Point(375, 383);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(214, 40);
-            this.button1.TabIndex = 68;
+            this.button1.TabIndex = 70;
             this.button1.Text = "Crear cliente";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
@@ -214,7 +214,7 @@
             this.Cli_fecha.MinDate = new System.DateTime(1920, 1, 1, 0, 0, 0, 0);
             this.Cli_fecha.Name = "Cli_fecha";
             this.Cli_fecha.Size = new System.Drawing.Size(214, 26);
-            this.Cli_fecha.TabIndex = 69;
+            this.Cli_fecha.TabIndex = 66;
             this.Cli_fecha.Value = new System.DateTime(2019, 11, 13, 0, 0, 0, 0);
             // 
             // RegistroDeCliente

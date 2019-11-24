@@ -34,9 +34,10 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.btn_cerrarsesion = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -99,20 +100,20 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
-            // button8
+            // btn_cerrarsesion
             // 
-            this.button8.Location = new System.Drawing.Point(272, 406);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(208, 54);
-            this.button8.TabIndex = 9;
-            this.button8.Text = "Cerrar sesión";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.btn_cerrarsesion.Location = new System.Drawing.Point(272, 406);
+            this.btn_cerrarsesion.Name = "btn_cerrarsesion";
+            this.btn_cerrarsesion.Size = new System.Drawing.Size(208, 54);
+            this.btn_cerrarsesion.TabIndex = 9;
+            this.btn_cerrarsesion.Text = "Cerrar sesión";
+            this.btn_cerrarsesion.UseVisualStyleBackColor = true;
+            this.btn_cerrarsesion.Click += new System.EventHandler(this.button8_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(294, 65);
+            this.label1.Location = new System.Drawing.Point(304, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(205, 20);
             this.label1.TabIndex = 10;
@@ -128,13 +129,23 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(304, 64);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(205, 20);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Funciones de administrador";
+            // 
             // MenuAdministrador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 472);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button8);
+            this.Controls.Add(this.btn_cerrarsesion);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -158,8 +169,9 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btn_cerrarsesion;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label2;
     }
 }

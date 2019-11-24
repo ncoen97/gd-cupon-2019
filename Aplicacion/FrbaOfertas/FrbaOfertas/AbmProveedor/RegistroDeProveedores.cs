@@ -28,6 +28,12 @@ namespace FrbaOfertas
         private void button1_Click(object sender, EventArgs e)
         {
             //registrar proveedor
+            if (!verificarTodosLosCamposNoVacios())
+            {
+                MessageBox.Show("Parece que hay campos que no estan completos");
+                return;
+            }
+
             int prov_id;
             if(Provee_rubro.Text.Equals("Comestibles", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -58,6 +64,17 @@ namespace FrbaOfertas
             RegistroDeUsuario reg = new RegistroDeUsuario(false,usuario);
             reg.Show();
             this.Hide();
+        }
+
+        public bool verificarTodosLosCamposNoVacios()
+        {
+            foreach (TextBox txb in this.Controls.OfType<TextBox>())
+            {
+                if (txb.Text == "")
+                    return false;
+            }
+            return true;
+
         }
 
         private void RegistroDeProveedores_Load(object sender, EventArgs e)

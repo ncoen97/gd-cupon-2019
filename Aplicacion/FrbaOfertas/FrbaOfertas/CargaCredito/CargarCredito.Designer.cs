@@ -32,7 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.combo_formaDePago = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBoxTarjeta = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -78,13 +78,14 @@
             this.label4.TabIndex = 5;
             this.label4.Text = "Forma de pago";
             // 
-            // comboBox1
+            // combo_formaDePago
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(266, 177);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(259, 28);
-            this.comboBox1.TabIndex = 2;
+            this.combo_formaDePago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo_formaDePago.FormattingEnabled = true;
+            this.combo_formaDePago.Location = new System.Drawing.Point(266, 177);
+            this.combo_formaDePago.Name = "combo_formaDePago";
+            this.combo_formaDePago.Size = new System.Drawing.Size(259, 28);
+            this.combo_formaDePago.TabIndex = 2;
             // 
             // label5
             // 
@@ -97,6 +98,7 @@
             // 
             // comboBoxTarjeta
             // 
+            this.comboBoxTarjeta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTarjeta.FormattingEnabled = true;
             this.comboBoxTarjeta.Location = new System.Drawing.Point(266, 237);
             this.comboBoxTarjeta.Name = "comboBoxTarjeta";
@@ -148,7 +150,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.comboBoxTarjeta);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.combo_formaDePago);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
@@ -167,7 +169,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox combo_formaDePago;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBoxTarjeta;
         private System.Windows.Forms.Button button2;

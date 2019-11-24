@@ -29,7 +29,7 @@ namespace FrbaOfertas
            
             foreach (TipoDePago t in tiposDePago)
             {
-                comboBox1.Items.Add(t.descripcion);
+                combo_formaDePago.Items.Add(t.descripcion);
             }
 
             foreach (Tarjeta t in tarjetas)
@@ -37,8 +37,6 @@ namespace FrbaOfertas
                 comboBoxTarjeta.Items.Add(t.numero);
             }
            
-            
-            //las tarjetas tienen que estar como Items para poder hacer comboboxTarjeta.SelectedItem
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -57,9 +55,22 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Tarjeta tarjetaSeleccionada = (Tarjeta)comboBoxTarjeta.SelectedItem;
-            //pa probar xd Tarjeta tarjetaSeleccionada = new Tarjeta(1, "123456789");
-            int cargaRealizada = ClienteDAO.realizarCarga(usuario, double.Parse(numericUpDownMonto.Value.ToString()), tarjetaSeleccionada);
+            int cargaRealizada = 0;
+            if (combo_formaDePago.SelectedItem.ToString() == "Efectivo")
+            {
+                cargaRealizada = ClienteDAO.realizarCarga(usuario, double.Parse(numericUpDownMonto.Value.ToString()), null,1);
+            }
+            else if (combo_formaDePago.SelectedItem.ToString()== "Crédito")
+            {
+                Tarjeta tarjetaSeleccionada = ClienteDAO.obtenerTarjeta(usuario, int.Parse(comboBoxTarjeta.SelectedItem.ToString()));
+                cargaRealizada = ClienteDAO.realizarCarga(usuario, double.Parse(numericUpDownMonto.Value.ToString()), tarjetaSeleccionada, 2);
+            }
+            else
+            {
+                MessageBox.Show("No se encontro el metodo");
+                return;
+            }
+            
             switch (cargaRealizada)
             {
                 case 1:
@@ -76,6 +87,9 @@ namespace FrbaOfertas
                     break;
                 case 5:
                     MessageBox.Show("Carga exitosa");
+                    break;
+                case 6:
+                    MessageBox.Show("Error en forma de pago");
                     break;
             }
         }

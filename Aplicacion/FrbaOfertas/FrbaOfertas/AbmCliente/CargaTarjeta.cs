@@ -51,7 +51,7 @@ namespace FrbaOfertas
             Int32.TryParse(comboBoxAnio.SelectedItem.ToString(), out anio);
 
                 
-            bool resultado = ClienteDAO.cargarTarjeta(usuario,textBoxNumeroDeTarjeta.Text,mes,anio,textBoxNombreDelTitular.Text);
+            bool resultado = ClienteDAO.cargarTarjeta(usuario,int.Parse(textBoxNumeroDeTarjeta.Text),mes,anio,textBoxNombreDelTitular.Text);
             if (resultado)
             {
                 MessageBox.Show("Tarjeta cargada correctamente");

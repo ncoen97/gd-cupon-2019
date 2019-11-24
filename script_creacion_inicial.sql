@@ -72,6 +72,8 @@ IF OBJECT_ID('SOCORRO.getFormasDePago') IS NOT NULL
 	DROP FUNCTION SOCORRO.getFormasDePago;
 IF OBJECT_ID('SOCORRO.getTarjetasUsuario') IS NOT NULL
 	DROP FUNCTION SOCORRO.getTarjetasUsuario;
+IF OBJECT_ID('SOCORRO.getTarjetaDeUsuario') IS NOT NULL
+	DROP FUNCTION SOCORRO.getTarjetaDeUsuario;
 IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_cliente;
 IF OBJECT_ID('SOCORRO.sp_registro_proveedor') IS NOT NULL
@@ -920,6 +922,15 @@ AS
 				where u.user_username = @username and t.tarj_vencimiento > @fechaActual)
 GO
 
+CREATE FUNCTION [SOCORRO].getTarjetaDeUsuario(@username nvarchar(50), @nrotarjeta int)
+RETURNS TABLE
+AS
+	 RETURN (select *
+				from SOCORRO.Tarjeta t join SOCORRO.Cliente c on t.tarj_clie_id = c.clie_id
+						join SOCORRO.Usuario u on u.user_id = c.clie_user_id 
+				where u.user_username = @username and t.tarj_numero = @nrotarjeta)
+GO
+
 
 CREATE FUNCTION [SOCORRO].fnValidarNuevoUsername (
     @username nvarchar(20)
@@ -946,7 +957,8 @@ CREATE PROC [SOCORRO].sp_registro_cliente (
     @clie_direccion nvarchar(255),
     @clie_codigo_postal char(5),
     @clie_fecha_nacimiento datetime,
-    @clie_ciudad nvarchar(255)
+    @clie_ciudad nvarchar(255),
+	@clie_habilitado numeric(1,0)
 ) AS
 BEGIN
     SET XACT_ABORT ON;
@@ -992,7 +1004,8 @@ BEGIN
                 clie_codigo_postal,
                 clie_fecha_nacimiento,
                 clie_ciudad,
-				clie_saldo
+				clie_saldo,
+				clie_habilitado
             ) VALUES (
                 @user_id,
                 @clie_nombre,
@@ -1004,7 +1017,8 @@ BEGIN
                 @clie_codigo_postal,
                 CAST(@clie_fecha_nacimiento AS datetime),
                 @clie_ciudad,
-				200
+				200,
+				1
             );
 			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': datos de cliente registrados';
         COMMIT;
@@ -1029,7 +1043,8 @@ CREATE PROC [SOCORRO].sp_registro_proveedor (
 	@prov_telefono numeric(18, 0),
 	@prov_cuit nvarchar(20),
 	@prov_rubro_id int,
-	@prov_nombre_contacto nvarchar(255)
+	@prov_nombre_contacto nvarchar(255),
+	@prov_habilitado numeric(1,0)
 ) AS
 BEGIN
     SET XACT_ABORT ON;
@@ -1079,7 +1094,8 @@ BEGIN
 				prov_ciudad,
 				prov_cuit,
 				prov_rubro_id,
-				prov_nombre_contacto
+				prov_nombre_contacto,
+				prov_habilitado
             ) VALUES (
 				@user_id,
                 @prov_rs,
@@ -1090,7 +1106,8 @@ BEGIN
                 @prov_ciudad,
                 @prov_cuit,
                 @prov_rubro_id,
-				@prov_nombre_contacto
+				@prov_nombre_contacto,
+				@prov_habilitado
             );
 			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el proveedor se cargo';
         COMMIT;
@@ -1254,7 +1271,8 @@ CREATE PROC SOCORRO.sp_cargar_credito (
 	@fecha_operacion datetime,
 	@user_name nvarchar(20),
 	@monto numeric(18,2),
-	@tarj_id int = NULL
+	@tarj_id int = null,
+	@tipo_de_pago int
 ) AS
 BEGIN
 	BEGIN TRY
@@ -1288,18 +1306,23 @@ BEGIN
 				RETURN 3;
 			END
 			-- TODO: faltan checks?
-			IF NOT (@tarj_id IN (SELECT t.tarj_id
-								FROM SOCORRO.Tarjeta t
-								WHERE t.tarj_clie_id = @clie_id))
+			IF (@tarj_id != null)
+				IF NOT (@tarj_id IN (SELECT t.tarj_id
+									FROM SOCORRO.Tarjeta t
+									WHERE t.tarj_clie_id = @clie_id))
+				BEGIN
+					ROLLBACK;
+					PRINT 'no existe la tarjeta';
+					RETURN 4;
+				END			
+			IF NOT (@tipo_de_pago IN (select tipo_de_pago_id from SOCORRO.Tipo_de_pago))
 			BEGIN
 				ROLLBACK;
-				PRINT 'no existe la tarjeta';
-				RETURN 4;
-			END
-			BEGIN
-				--FALTA ESTO!!!
-				--declare @tipo_de_pago int
-				--set @tipo_de_pago = (select tipo_de_pago_id from SOCORRO.Tipo_de_pago)
+				PRINT 'no existe la forma de pago';
+				RETURN 6;
+			END	
+
+			BEGIN				
 				INSERT INTO SOCORRO.Carga (
 					carg_clie_id,
 					carg_fecha,
@@ -1310,7 +1333,7 @@ BEGIN
 					@clie_id,
 					@fecha_operacion,
 					@monto,
-					1,
+					@tipo_de_pago,
 					@tarj_id
 				);
 
@@ -1437,7 +1460,13 @@ BEGIN
 END
 GO
 
-create proc SOCORRO.sp_cargarTarjeta(@user_name nvarchar(20),@numero_tarjeta int,@mes_vencimiento int,@anio_vencimiento int, @titular nvarchar(50))
+create proc SOCORRO.sp_cargarTarjeta(
+	@user_name nvarchar(20),
+	@numero_tarjeta int,
+	@mes_vencimiento int,
+	@anio_vencimiento int,
+	@titular nvarchar(50)
+	)
 as 
 begin
 	declare @datetime datetime
@@ -1569,7 +1598,8 @@ EXEC SOCORRO.sp_registro_cliente
 	@clie_direccion = 'Calle Cualquiera 123',
 	@clie_codigo_postal = '4321',
 	@clie_fecha_nacimiento = '1995-05-05 00:00:00.000',
-	@clie_ciudad = 'Tranquilandia';
+	@clie_ciudad = 'Tranquilandia',
+	@clie_habilitado = 1;
 GO
 
 EXEC SOCORRO.sp_registro_proveedor
@@ -1583,7 +1613,8 @@ EXEC SOCORRO.sp_registro_proveedor
 	@prov_cp = '4321',
 	@prov_ciudad = 'Tranquilandia',
 	@prov_rubro_id = 2,
-	@prov_nombre_contacto = 'Sr. Fulano';
+	@prov_nombre_contacto = 'Sr. Fulano',
+	@prov_habilitado = 1;
 GO
 
 EXEC SOCORRO.sp_deshabilitar_cliente 219; --> pepe

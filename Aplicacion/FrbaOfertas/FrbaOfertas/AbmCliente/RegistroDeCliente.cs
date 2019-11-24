@@ -32,10 +32,8 @@ namespace FrbaOfertas
             ClienteDAO.insertarCliente(cli,usuario);
             Login login = new Login();
             login.Show();
-
-            OpcionesCliente reg = new OpcionesCliente(usuario);
-            reg.Show();
             this.Hide();
+         
         }
 
         private void button2_Click(object sender, EventArgs e)

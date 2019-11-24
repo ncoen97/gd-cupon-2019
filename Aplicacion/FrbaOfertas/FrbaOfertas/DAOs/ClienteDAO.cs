@@ -17,6 +17,7 @@ namespace FrbaOfertas
     {
         public static Boolean insertarCliente(Cliente cli,Usuario usu)
         {
+            
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_registro_cliente", conexion);
             command.CommandType = CommandType.StoredProcedure;            
@@ -107,7 +108,8 @@ namespace FrbaOfertas
 
             return Convert.ToDouble(ret.Value.ToString());
         }
-        public static Boolean cargarTarjeta(Usuario usuario,string numeroDeTarjeta, 
+
+        public static Boolean cargarTarjeta(Usuario usuario,int numeroDeTarjeta, 
             int mesVencimiento,int anioVencimiento,string nombreTitular)
         {
             SqlConnection conexion = DBConnection.getConnection();
@@ -182,7 +184,7 @@ namespace FrbaOfertas
             conexion.Dispose();
             return tarjetas;
         }
-        public static int realizarCarga(Usuario usuario, double monto, Tarjeta tarjeta)
+        public static int realizarCarga(Usuario usuario, double monto, Tarjeta tarjeta, int formaDePago)
         {
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_cargar_credito", conexion);
@@ -190,7 +192,14 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@fecha_operacion ", utils.obtenerFecha());
             command.Parameters.AddWithValue("@user_name ", usuario.username);
             command.Parameters.AddWithValue("@monto ", monto);
-            command.Parameters.AddWithValue("@tarj_id ", tarjeta.id);
+            if (tarjeta != null)
+            {
+                command.Parameters.AddWithValue("@tarj_id ", tarjeta.id);
+            }
+            else {
+                command.Parameters.AddWithValue("@tarj_id ", null);
+            }
+            command.Parameters.AddWithValue("@tipo_de_pago ", formaDePago);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -218,5 +227,32 @@ namespace FrbaOfertas
             conexion.Dispose();
             return (int)ret.Value;
         }
+
+        public static Tarjeta obtenerTarjeta(Usuario usuario, int nrotarjeta)
+        {
+            string query = string.Format(@"SELECT * FROM SOCORRO.getTarjetaDeUsuario(@username, @nrotarjeta)");
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand(query, conexion);
+
+            command.Parameters.AddWithValue("@username", usuario.username);
+            command.Parameters.AddWithValue("@nrotarjeta", nrotarjeta);
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            reader.Read();
+            int id = int.Parse(reader["tarj_id"].ToString());
+            int numero = int.Parse(reader["tarj_numero"].ToString());
+            Tarjeta tarjeta = new Tarjeta(id, numero.ToString());
+            
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return tarjeta;
+
+        }
+
     }
 }

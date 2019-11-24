@@ -28,21 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button4 = new System.Windows.Forms.Button();
+            this.btn_cerrarsesion = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.labelUsuario = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button4
+            // btn_cerrarsesion
             // 
-            this.button4.Location = new System.Drawing.Point(556, 389);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(180, 32);
-            this.button4.TabIndex = 15;
-            this.button4.Text = "Cerrar sesion";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btn_cerrarsesion.Location = new System.Drawing.Point(556, 389);
+            this.btn_cerrarsesion.Name = "btn_cerrarsesion";
+            this.btn_cerrarsesion.Size = new System.Drawing.Size(180, 32);
+            this.btn_cerrarsesion.TabIndex = 15;
+            this.btn_cerrarsesion.Text = "Cerrar sesion";
+            this.btn_cerrarsesion.UseVisualStyleBackColor = true;
+            this.btn_cerrarsesion.Click += new System.EventHandler(this.btn_cerrarsesion_Click);
             // 
             // button2
             // 
@@ -86,7 +87,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 449);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.btn_cerrarsesion);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.labelUsuario);
             this.Controls.Add(this.label1);
@@ -101,7 +102,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btn_cerrarsesion;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label labelUsuario;
         private System.Windows.Forms.Label label1;

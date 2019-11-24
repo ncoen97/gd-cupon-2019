@@ -21,7 +21,7 @@ namespace FrbaOfertas
 
         private void OpcionesProveedor_Load(object sender, EventArgs e)
         {
-            Rol rol = usuario.roles.Find(DBConnection.isCliente);
+            Rol rol = usuario.roles.Find(DBConnection.isProveedor);
             DBConnection.asociar_roles_x_funciones(rol);
 
             foreach (var button in this.Controls.OfType<Button>())
@@ -37,12 +37,9 @@ namespace FrbaOfertas
 
 
                 }
-                if (button.Name == "Mis cupones")
-                {
-                    button.Visible = true;
-                }
             }
 
+            btn_cerrarsesion.Visible = true;
             labelUsuario.Text = usuario.username;
         }
 
@@ -57,6 +54,14 @@ namespace FrbaOfertas
         {
             CrearOferta co = new CrearOferta(usuario);
             co.Show();
+            this.Hide();
+        }
+
+        private void btn_cerrarsesion_Click(object sender, EventArgs e)
+        {
+            usuario = null;
+            Login log = new Login();
+            log.Show();
             this.Hide();
         }
     }

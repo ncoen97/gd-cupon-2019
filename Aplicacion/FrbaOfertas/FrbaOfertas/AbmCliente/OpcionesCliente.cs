@@ -44,6 +44,7 @@ namespace FrbaOfertas
                     button.Visible = true;
                 }
             }
+            btn_cerrarsesion.Visible = true;
             
             labelUsuario.Text = usuario.username;
             double monto = ClienteDAO.montoUsuario(usuario);
@@ -52,8 +53,9 @@ namespace FrbaOfertas
 
         private void Button4_Click(object sender, EventArgs e)
         {
-            Login login = new Login();
-            login.Show();
+            usuario = null;
+            Login log = new Login();
+            log.Show();
             this.Hide();
         }
 

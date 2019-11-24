@@ -35,7 +35,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btn_cerrarsesion = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -100,22 +100,22 @@
             this.button3.Text = "Mis cupones";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // btn_cerrarsesion
             // 
-            this.button4.Location = new System.Drawing.Point(608, 405);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(180, 32);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Cerrar sesion";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.Button4_Click);
+            this.btn_cerrarsesion.Location = new System.Drawing.Point(608, 405);
+            this.btn_cerrarsesion.Name = "btn_cerrarsesion";
+            this.btn_cerrarsesion.Size = new System.Drawing.Size(180, 32);
+            this.btn_cerrarsesion.TabIndex = 7;
+            this.btn_cerrarsesion.Text = "Cerrar sesion";
+            this.btn_cerrarsesion.UseVisualStyleBackColor = true;
+            this.btn_cerrarsesion.Click += new System.EventHandler(this.Button4_Click);
             // 
             // OpcionesCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 449);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.btn_cerrarsesion);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.labelCredito);
@@ -140,6 +140,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btn_cerrarsesion;
     }
 }

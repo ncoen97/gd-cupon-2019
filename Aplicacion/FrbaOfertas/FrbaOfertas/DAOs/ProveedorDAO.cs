@@ -31,6 +31,7 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@prov_cuit", prov.cuit);
             command.Parameters.AddWithValue("@prov_rubro_id ", prov.rubro_id);
             command.Parameters.AddWithValue("@prov_nombre_contacto ", prov.nombre_de_contacto);
+            command.Parameters.AddWithValue("@prov_habilitado", 1);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;

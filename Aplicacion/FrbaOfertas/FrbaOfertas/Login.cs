@@ -121,7 +121,8 @@ namespace FrbaOfertas
             textbox_usuario.Visible = true;
             buttonIniciarSesion.Visible = true;
             buttonRegistrarse.Visible = true;
-            buttonSeleccionarRol.Visible = false;            
+            buttonSeleccionarRol.Visible = false;
+            usuario = null;
         }
 
         private void button1_Click_1(object sender, EventArgs e)

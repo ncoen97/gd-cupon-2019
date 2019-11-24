@@ -67,7 +67,6 @@ namespace FrbaOfertas
 
         public static int obtenerIdProveedor(Usuario usuario)
         {
-
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_obtener_id_proveedor", conexion);
             command.CommandType = CommandType.StoredProcedure;
@@ -143,5 +142,35 @@ namespace FrbaOfertas
             return ret.Value.ToString();*/
             return null;
         }
+
+
+        public static void darDeBajaProveedor(Proveedor proveedor)
+        {
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand comando = new SqlCommand("SOCORRO.sp_deshabilitar_proveedor", conn);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@prov_id", proveedor.id);
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+            conn.Close();
+            conn.Dispose();
+
+        }
+
+        public static void darDeAltaProveedor(Proveedor proveedor)
+        {
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand comando = new SqlCommand("SOCORRO.sp_rehabilitar_proveedor", conn);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@prov_id", proveedor.id);
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+            conn.Close();
+            conn.Dispose();
+
+        }
+
     }
 }

@@ -40,6 +40,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,8 +70,9 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(134, 48);
             this.button3.TabIndex = 22;
-            this.button3.Text = "Cambiar estado del proveedor";
+            this.button3.Text = "Dar de baja";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // dataGridView1
             // 
@@ -150,11 +152,22 @@
             this.textBox1.Size = new System.Drawing.Size(181, 26);
             this.textBox1.TabIndex = 35;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(695, 331);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(134, 48);
+            this.button4.TabIndex = 43;
+            this.button4.Text = "Dar de alta";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
+            // 
             // AbmProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 507);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox3);
@@ -190,5 +203,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button4;
     }
 }

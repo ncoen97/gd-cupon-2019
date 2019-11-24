@@ -114,12 +114,98 @@ namespace FrbaOfertas
             textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = "";
         }
 
+        private void actualizar()
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Proveedor", conexion);
+            command.CommandType = CommandType.Text;
+
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+        }
+
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
             if (index >= 0)
             {
                 this.selectedRow = dataGridView1.Rows[index];
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            if (selectedRow == null)
+                return;
+            //estaria bueno que salga un aviso tipo 
+            //ESTA SEGURO QUE QUIERE DAR DE BAJA ESTO
+            const string message =
+            "Esta por dar de baja este proveedor. Es lo que quiere hacer?";
+            const string caption = "Inhabilitar proveedor";
+            var result = MessageBox.Show(message, caption,
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Proveedor prov = Proveedor.ProveedorConId(
+                (int)selectedRow.Cells[0].Value, //id
+                usuario,
+                selectedRow.Cells[2].Value.ToString(), //rs
+                selectedRow.Cells[3].Value.ToString(), //mail
+                selectedRow.Cells[5].Value.ToString(), //tel
+                selectedRow.Cells[6].Value.ToString(), //dir
+                selectedRow.Cells[7].Value.ToString(), //cp
+                selectedRow.Cells[8].Value.ToString(), //ciudad
+                (int)selectedRow.Cells[9].Value, //cuit
+                selectedRow.Cells[10].Value.ToString(),//rubt
+                selectedRow.Cells[4].Value.ToString(), //contc
+                (bool)selectedRow.Cells[11].Value //habilitado
+                );
+
+
+                ProveedorDAO.darDeBajaProveedor(prov);
+                actualizar();
+            }
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            if (selectedRow == null)
+                return;
+            //estaria bueno que salga un aviso tipo 
+            //ESTA SEGURO QUE QUIERE DAR DE BAJA ESTO
+            const string message =
+            "Esta por dar de alta este proveedor. Es lo que quiere hacer?";
+            const string caption = "Habilitar proveedor";
+            var result = MessageBox.Show(message, caption,
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Proveedor prov = Proveedor.ProveedorConId(
+                (int)selectedRow.Cells[0].Value, //id
+                usuario,
+                selectedRow.Cells[2].Value.ToString(), //rs
+                selectedRow.Cells[3].Value.ToString(), //mail
+                selectedRow.Cells[5].Value.ToString(), //tel
+                selectedRow.Cells[6].Value.ToString(), //dir
+                selectedRow.Cells[7].Value.ToString(), //cp
+                selectedRow.Cells[8].Value.ToString(), //ciudad
+                (int)selectedRow.Cells[9].Value, //cuit
+                selectedRow.Cells[10].Value.ToString(),//rubt
+                selectedRow.Cells[4].Value.ToString(), //contc
+                (bool)selectedRow.Cells[11].Value //habilitado
+                );
+
+
+                ProveedorDAO.darDeAltaProveedor(prov);
+                actualizar();
             }
         }
     }

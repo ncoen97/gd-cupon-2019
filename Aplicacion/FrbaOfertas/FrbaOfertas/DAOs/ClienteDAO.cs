@@ -91,6 +91,35 @@ namespace FrbaOfertas
             conn.Dispose();
 
         }
+
+        public static void darDeBajaCliente(Cliente cliente)
+        {
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand comando = new SqlCommand("SOCORRO.sp_deshabilitar_cliente", conn);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@clie_id", cliente.id);
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+            conn.Close();
+            conn.Dispose();
+
+        }
+
+        public static void darDeAltaCliente(Cliente cliente)
+        {
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand comando = new SqlCommand("SOCORRO.sp_rehabilitar_cliente", conn);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@clie_id", cliente.id);
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+            conn.Close();
+            conn.Dispose();
+
+        }
+
         public static double montoUsuario(Usuario _usuario)
         {
             SqlConnection conexion = DBConnection.getConnection();

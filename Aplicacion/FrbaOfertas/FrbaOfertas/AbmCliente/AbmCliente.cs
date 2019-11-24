@@ -115,12 +115,98 @@ namespace FrbaOfertas
             textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = ""; textBox4.Text = "";
         }
 
+        private void actualizar()
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente", conexion);
+            command.CommandType = CommandType.Text;
+
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+        
+        }
+
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
             if (index >= 0)
             {
                 this.selectedRow = dataGridView1.Rows[index];
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (selectedRow == null)
+                return;
+            //estaria bueno que salga un aviso tipo 
+            //ESTA SEGURO QUE QUIERE DAR DE BAJA ESTO
+            const string message =
+            "Esta por dar de baja este cliente. Es lo que quiere hacer?";
+            const string caption = "Inhabilitar cliente";
+            var result = MessageBox.Show(message, caption,
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question);
+            
+            if (result == DialogResult.Yes)
+            {
+                Cliente cliente = Cliente.ClienteConId(
+                (int)selectedRow.Cells[0].Value, //id
+                usuario,
+                selectedRow.Cells[2].Value.ToString(), //nombre
+                selectedRow.Cells[3].Value.ToString(), //apellido
+                long.Parse(selectedRow.Cells[4].Value.ToString()), //dni
+                DateTime.Parse(selectedRow.Cells[9].Value.ToString()), //fecha nac
+                selectedRow.Cells[7].Value.ToString(), //direccion
+                selectedRow.Cells[8].Value.ToString(), //cod_p
+                selectedRow.Cells[5].Value.ToString(), //mail
+                selectedRow.Cells[6].Value.ToString(),//telefono
+                selectedRow.Cells[10].Value.ToString(), //ciudad
+                (bool)selectedRow.Cells[12].Value //habilitado
+                );
+
+                ClienteDAO.darDeBajaCliente(cliente);
+                actualizar();
+            }
+
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            if (selectedRow == null)
+                return;
+            //estaria bueno que salga un aviso tipo 
+            //ESTA SEGURO QUE QUIERE DAR DE BAJA ESTO
+            const string message =
+            "Esta por dar de alta este cliente. Es lo que quiere hacer?";
+            const string caption = "Habilitar cliente";
+            var result = MessageBox.Show(message, caption,
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Cliente cliente = Cliente.ClienteConId(
+                (int)selectedRow.Cells[0].Value, //id
+                usuario,
+                selectedRow.Cells[2].Value.ToString(), //nombre
+                selectedRow.Cells[3].Value.ToString(), //apellido
+                long.Parse(selectedRow.Cells[4].Value.ToString()), //dni
+                DateTime.Parse(selectedRow.Cells[9].Value.ToString()), //fecha nac
+                selectedRow.Cells[7].Value.ToString(), //direccion
+                selectedRow.Cells[8].Value.ToString(), //cod_p
+                selectedRow.Cells[5].Value.ToString(), //mail
+                selectedRow.Cells[6].Value.ToString(),//telefono
+                selectedRow.Cells[10].Value.ToString(), //ciudad
+                (bool)selectedRow.Cells[12].Value //habilitado
+                );
+
+                ClienteDAO.darDeAltaCliente(cliente);
+                actualizar();
             }
         }
     }

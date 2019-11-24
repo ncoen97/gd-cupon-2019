@@ -70,6 +70,7 @@ namespace FrbaOfertas
 
         private void button8_Click(object sender, EventArgs e)
         {
+            usuario = null;
             Login login = new Login();
             login.Show();
             this.Hide();

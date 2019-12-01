@@ -1491,7 +1491,7 @@ end
 go
 CREATE PROC SOCORRO.sp_publicar_oferta (
 	@prov_id int,
-	@fecha_publicacion datetime, --> mayor o igual a la actual!
+	@fecha_publicacion datetime, --> mayor o igual a la actual!, se chequea por programa
 	@fecha_vencimiento datetime,
 	@precio_rebajado numeric(18, 2),
 	@precio_original numeric(18, 2),
@@ -1500,7 +1500,21 @@ CREATE PROC SOCORRO.sp_publicar_oferta (
 	@descripcion nvarchar(255)
 ) AS
 BEGIN
-	PRINT 'no sta hecho weii';
+	BEGIN TRY
+		IF EXISTS (SELECT 1 FROM SOCORRO.Proveedor WHERE prov_id = @prov_id)
+		BEGIN
+		INSERT INTO SOCORRO.Oferta (ofer_descripcion,ofer_fecha_publicacion,ofer_fecha_vencimiento,
+			ofer_precio_oferta,ofer_precio_lista,ofer_prov_id,ofer_stock,ofer_max_cupon_por_usuario)
+		VALUES (@descripcion,@fecha_publicacion,@fecha_vencimiento,@precio_rebajado,@precio_original,
+			@prov_id,@stock_disponible,@max_cantidad_compra_por_cliente);
+		RETURN 0;--Succes :D
+		END
+		ELSE 
+		THROW 50100,'No existe el proveedor',1;
+	END TRY
+	BEGIN CATCH
+		RETURN 1;--Error >:(
+	END CATCH
 END
 GO
 

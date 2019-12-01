@@ -42,14 +42,14 @@ namespace FrbaOfertas
 
         private void button4_Click(object sender, EventArgs e)
         {
-            RegistroDeUsuario ru = new RegistroDeUsuario();
+            RegistroDeUsuario ru = new RegistroDeUsuario(false,usuario);
             ru.Show();
             this.Hide();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            CrearOferta co = new CrearOferta(usuario);
+            CrearOferta co = new CrearOferta(false,usuario);
             co.Show();
             this.Hide();
         }

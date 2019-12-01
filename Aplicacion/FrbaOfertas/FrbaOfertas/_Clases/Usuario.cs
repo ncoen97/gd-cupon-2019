@@ -25,5 +25,9 @@ namespace FrbaOfertas
             this.intentos_login = 0;
             this.roles = new List<Rol>();
         }
+        public Usuario()
+        {
+
+        }
     }
 }

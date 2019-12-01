@@ -16,16 +16,27 @@ namespace FrbaOfertas
     {
         Boolean vieneDeLogin;
         Usuario usuario;
-        public RegistroDeUsuario()
+        public RegistroDeUsuario(Boolean _vieneDeLogin, Usuario _usuario)
         {
             InitializeComponent();
-            
+            vieneDeLogin = _vieneDeLogin;
+            if (!vieneDeLogin)
+            {
+                usuario = _usuario;
+            }
         }
         private void Atras_Click(object sender, EventArgs e)
         {
-            
-            Login log = new Login();
-            log.Show();
+            if (vieneDeLogin)
+            {
+                Login log = new Login();
+                log.Show();
+            }
+            else
+            {
+                MenuAdministrador menu = new MenuAdministrador(usuario);
+                menu.Show();
+            }
             this.Hide();
             
         }

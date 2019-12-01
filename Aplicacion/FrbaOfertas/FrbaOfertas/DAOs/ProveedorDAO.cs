@@ -175,6 +175,33 @@ namespace FrbaOfertas
             conn.Dispose();
 
         }
+        public static Boolean publicarOferta(int provId, string descripcion, DateTime fechaVencimiento, double precioOferta, double precioLista, int cantidad, int maxPorUsuario)
+        {
+            DateTime fechaActual = utils.obtenerFecha();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_publicar_oferta", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@prov_id", provId);
+            command.Parameters.AddWithValue("@fecha_publicacion", fechaActual);
+            command.Parameters.AddWithValue("@fecha_vencimiento", fechaVencimiento);
+            command.Parameters.AddWithValue("@precio_rebajado", precioOferta);
+            command.Parameters.AddWithValue("@precio_original", precioLista);
+            command.Parameters.AddWithValue("@stock_disponible ", cantidad);
+            command.Parameters.AddWithValue("@max_cantidad_compra_por_cliente ", maxPorUsuario);
+            command.Parameters.AddWithValue("@descripcion ", descripcion);
 
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            if ((int)ret.Value == 1)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -52,7 +52,7 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CrearOferta co = new CrearOferta(usuario);
+            CrearOferta co = new CrearOferta(true,usuario);
             co.Show();
             this.Hide();
         }

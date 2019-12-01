@@ -36,7 +36,7 @@
             this.button7 = new System.Windows.Forms.Button();
             this.btn_cerrarsesion = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.buttonCupones = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
@@ -127,14 +127,15 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // button8
+            // buttonCupones
             // 
-            this.button8.Location = new System.Drawing.Point(415, 240);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(326, 49);
-            this.button8.TabIndex = 14;
-            this.button8.Text = "Mis cupones";
-            this.button8.UseVisualStyleBackColor = true;
+            this.buttonCupones.Location = new System.Drawing.Point(415, 240);
+            this.buttonCupones.Name = "buttonCupones";
+            this.buttonCupones.Size = new System.Drawing.Size(326, 49);
+            this.buttonCupones.TabIndex = 14;
+            this.buttonCupones.Text = "Mis cupones";
+            this.buttonCupones.UseVisualStyleBackColor = true;
+            this.buttonCupones.Click += new System.EventHandler(this.buttonCupones_Click);
             // 
             // button9
             // 
@@ -144,6 +145,7 @@
             this.button9.TabIndex = 13;
             this.button9.Text = "Comprar Oferta";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button10
             // 
@@ -153,6 +155,7 @@
             this.button10.TabIndex = 12;
             this.button10.Text = "Carga de Credito";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button11
             // 
@@ -162,6 +165,7 @@
             this.button11.TabIndex = 16;
             this.button11.Text = "Consumo de Oferta";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // labelUsuario
             // 
@@ -217,7 +221,7 @@
             this.Controls.Add(this.labelUsuario);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button11);
-            this.Controls.Add(this.button8);
+            this.Controls.Add(this.buttonCupones);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.btn_cerrarsesion);
@@ -246,7 +250,7 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button btn_cerrarsesion;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button buttonCupones;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button11;

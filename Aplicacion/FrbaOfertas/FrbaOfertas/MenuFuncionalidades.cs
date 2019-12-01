@@ -133,6 +133,8 @@ namespace FrbaOfertas
             }
             btn_cerrarsesion.Visible = true;
             labelUsuario.Text = usuario.username;
+            //get cliente de usuario
+            labelCredito.Text = ClienteDAO.montoUsuario(usuario).ToString();
             labelroles.Text = texto_roles.ToString();
 
         }
@@ -149,6 +151,20 @@ namespace FrbaOfertas
             CargarCredito cc = new CargarCredito(usuario);
             cc.Show();
             this.Hide();
+           
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            ComprarOferta co = new ComprarOferta();
+            co.Show();
+            this.Hide();
+        }
+
+        private void buttonCupones_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

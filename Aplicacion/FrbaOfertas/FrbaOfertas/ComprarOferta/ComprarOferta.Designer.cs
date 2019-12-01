@@ -1,4 +1,4 @@
-﻿namespace FrbaOfertas.ComprarOferta
+﻿namespace FrbaOfertas
 {
     partial class ComprarOferta
     {
@@ -61,7 +61,7 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Elige tu cupon";
             // 
-            // Form1
+            // ComprarOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -69,8 +69,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "ComprarOferta";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.ComprarOferta_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

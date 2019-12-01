@@ -76,7 +76,7 @@ namespace FrbaOfertas
 
         private void button5_Click(object sender, EventArgs e)
         {
-            MenuAdministrador oc = new MenuAdministrador(usuario);
+            MenuFuncionalidades oc = new MenuFuncionalidades(usuario);
             oc.Show();
             this.Hide();
         }

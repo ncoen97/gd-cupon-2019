@@ -45,51 +45,16 @@ namespace FrbaOfertas
                 usuario.password = ""; //limpiamos la pass por seguridad
                 MessageBox.Show("Bienvenido " + usuario.username + "!", "Login satisfactorio", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                textbox_contraseña.Visible = false;
-                textbox_usuario.Visible = false;
-                buttonIniciarSesion.Visible = false;
-                buttonRegistrarse.Visible = false;
-                buttonSeleccionarRol.Visible = true;
-
                 UsuarioDAO.cargarRolesUsuario(usuario);
                 //agrego todas las views
              
-                if (usuario.roles.Count == 1)
+                if (usuario.roles.Count >= 1)
                 {
-                    Rol rol = (Rol)usuario.roles[0];
-                    switch (rol.nombre)
-                    {
-                        case "Administrador":
-
-                            MenuAdministrador menu = new MenuAdministrador(usuario);
-                            menu.Show();
-                            this.Hide();
-                            break;
-                         
-
-                        case "Cliente":
-                            OpcionesCliente oc = new OpcionesCliente(usuario);
-                            oc.Show();
-                            this.Hide();
-                            break;
-
-                        case "Proveedor":
-                            OpcionesProveedor op = new OpcionesProveedor(usuario);
-                            op.Show();
-                            this.Hide();
-
-                            break;
-
-                    }
+                    MenuFuncionalidades menu = new MenuFuncionalidades(usuario);
+                    menu.Show();
+                    this.Hide();
                 }
-                cboRoles.Visible = true;
-                foreach (Rol rol in usuario.roles)
-                {
-                    cboRoles.Items.Add(rol);
-                    cboRoles.DisplayMember = "nombre";
-                    cboRoles.ValueMember = "id";
-
-                }
+             
 
                 if (usuario.roles.Count == 0)
                 {
@@ -98,7 +63,7 @@ namespace FrbaOfertas
                     Application.Restart();
                     return;
                 }
-                cboRoles.SelectedIndex = 0;
+              
             }
         }
         
@@ -121,7 +86,7 @@ namespace FrbaOfertas
             textbox_usuario.Visible = true;
             buttonIniciarSesion.Visible = true;
             buttonRegistrarse.Visible = true;
-            buttonSeleccionarRol.Visible = false;
+       
             usuario = null;
         }
 
@@ -130,31 +95,7 @@ namespace FrbaOfertas
 
         }
 
-        private void buttonSeleccionarRol_Click(object sender, EventArgs e)
-        {
-            Rol rol = (Rol)cboRoles.SelectedItem;
-            switch (rol.nombre)
-            {
-                case "Administrador":
-
-                    MenuAdministrador menu = new MenuAdministrador(usuario);
-                    menu.Show();
-                    this.Hide();
-                    break;
-                case "Cliente":
-                    OpcionesCliente oc = new OpcionesCliente(usuario);
-                    oc.Show();
-                    break;
-
-                case "Proveedor":
-                    OpcionesProveedor op = new OpcionesProveedor(usuario);
-                    op.Show();
-
-                    break;
-
-            }
-            this.Hide();
-        }
+ 
         private void abrirFormRol(Rol rolSeleccionado)
         {
 

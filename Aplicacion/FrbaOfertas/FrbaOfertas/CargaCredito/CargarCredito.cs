@@ -41,7 +41,7 @@ namespace FrbaOfertas
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            OpcionesCliente oc = new OpcionesCliente(usuario);
+            MenuFuncionalidades oc = new MenuFuncionalidades(usuario);
             oc.Show();
             this.Hide();
         }

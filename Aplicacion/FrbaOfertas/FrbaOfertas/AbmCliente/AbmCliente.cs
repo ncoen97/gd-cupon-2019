@@ -31,7 +31,7 @@ namespace FrbaOfertas
 
         private void button5_Click(object sender, EventArgs e)
         {
-            MenuAdministrador reg = new MenuAdministrador(usuario);
+            MenuFuncionalidades reg = new MenuFuncionalidades(usuario);
             reg.Show();
             this.Hide();
         }

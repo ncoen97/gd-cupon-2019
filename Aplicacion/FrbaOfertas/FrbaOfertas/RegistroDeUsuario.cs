@@ -14,8 +14,7 @@ namespace FrbaOfertas
 {
     public partial class RegistroDeUsuario : Form
     {
-        Boolean vieneDeLogin;
-        Usuario usuario;
+       
         public RegistroDeUsuario()
         {
             InitializeComponent();

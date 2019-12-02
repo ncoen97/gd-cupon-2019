@@ -13,15 +13,19 @@ namespace FrbaOfertas
 {
     public partial class RegistroDeCliente : Form
     {
-        Usuario usuario;
+        bool vieneDeLogin;
+        Usuario usuarioNuevo;
+        Usuario usuarioActivo;
         public RegistroDeCliente()
         {
             InitializeComponent();
         }
-        public RegistroDeCliente(Usuario usu)
+        public RegistroDeCliente(Usuario usuNuevo, Usuario usuActivo,bool _vieneDeLogin)
         {
             InitializeComponent();
-            usuario = usu;
+            usuarioNuevo = usuNuevo;
+            usuarioActivo = usuActivo;
+            vieneDeLogin = _vieneDeLogin;
         }
 
         public bool verificarTodosLosCamposNoVacios()
@@ -62,21 +66,19 @@ namespace FrbaOfertas
                     return;
                 }
             }
-
-
-            Cliente cli = new Cliente(usuario,Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text,Cli_ciudad.Text, true);
-            ClienteDAO.insertarCliente(cli,usuario);
-            Login login = new Login();
-            login.Show();
-            this.Hide();
-         
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            RegistroDeUsuario reg = new RegistroDeUsuario(true,new Usuario());
-            reg.Show();
-            this.Hide();
+            Cliente cli = new Cliente(usuarioNuevo, Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text, Cli_ciudad.Text, true);
+            ClienteDAO.insertarCliente(cli, usuarioNuevo);
+            if (vieneDeLogin)
+            {
+                Login login = new Login();
+                login.Show();
+                this.Hide();
+            }
+            else {
+                RegistroDeUsuario login = new RegistroDeUsuario(vieneDeLogin, usuarioActivo);
+                login.Show();
+                this.Hide();
+            }         
         }
 
         private void RegistroDeCliente_Load(object sender, EventArgs e)
@@ -86,9 +88,11 @@ namespace FrbaOfertas
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Login log = new Login();
-            log.Show();
+            RegistroDeUsuario reg = new RegistroDeUsuario(vieneDeLogin, usuarioActivo);
+            reg.Show();
             this.Hide();
         }
+
+     
     }
 }

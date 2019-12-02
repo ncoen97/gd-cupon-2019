@@ -74,7 +74,7 @@ namespace FrbaOfertas
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            RegistroDeUsuario ru = new RegistroDeUsuario(true,new Usuario());
+            RegistroDeUsuario ru = new RegistroDeUsuario(true,usuario);
             ru.Show();
             this.Hide();
 

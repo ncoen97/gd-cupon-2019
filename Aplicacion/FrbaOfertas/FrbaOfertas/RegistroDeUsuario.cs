@@ -15,15 +15,12 @@ namespace FrbaOfertas
     public partial class RegistroDeUsuario : Form
     {
         Boolean vieneDeLogin;
-        Usuario usuario;
-        public RegistroDeUsuario(Boolean _vieneDeLogin, Usuario _usuario)
+        Usuario usuarioActivo;
+        public RegistroDeUsuario(Boolean _vieneDeLogin,Usuario _usuario)
         {
             InitializeComponent();
             vieneDeLogin = _vieneDeLogin;
-            if (!vieneDeLogin)
-            {
-                usuario = _usuario;
-            }
+            usuarioActivo = _usuario;
         }
         private void Atras_Click(object sender, EventArgs e)
         {
@@ -34,7 +31,7 @@ namespace FrbaOfertas
             }
             else
             {
-                MenuFuncionalidades menu = new MenuFuncionalidades(usuario);
+                MenuFuncionalidades menu = new MenuFuncionalidades(usuarioActivo);
                 menu.Show();
             }
             this.Hide();
@@ -65,16 +62,16 @@ namespace FrbaOfertas
                 MessageBox.Show("El nombre de usuario ya existe");
                 return;
             }
-            Usuario usu = new Usuario(textboxUsuario.Text, textboxContraseña.Text);
+            Usuario nuevo_usuario = new Usuario(textboxUsuario.Text, textboxContraseña.Text);
             if ((string)comboBoxTipoDeUsuario.SelectedItem == "Cliente")
             {
-                RegistroDeCliente registroCliente = new RegistroDeCliente(usu);
+                RegistroDeCliente registroCliente = new RegistroDeCliente(nuevo_usuario, usuarioActivo, vieneDeLogin);
                 registroCliente.Show();
                 this.Hide();
             }
             else
             {
-                RegistroDeProveedores registroProveedor = new RegistroDeProveedores(usu);
+                RegistroDeProveedores registroProveedor = new RegistroDeProveedores( usuarioActivo,nuevo_usuario, vieneDeLogin);
                 registroProveedor.Show();
                 this.Hide();
             }

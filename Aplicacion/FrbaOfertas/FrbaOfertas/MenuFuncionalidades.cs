@@ -156,7 +156,8 @@ namespace FrbaOfertas
 
         private void button9_Click(object sender, EventArgs e)
         {
-            ComprarOferta co = new ComprarOferta();
+           
+            ComprarOferta co = new ComprarOferta(usuario);
             co.Show();
             this.Hide();
         }

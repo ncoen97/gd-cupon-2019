@@ -14,15 +14,19 @@ namespace FrbaOfertas
 {
     public partial class RegistroDeProveedores : Form
     {
-        Usuario usuario;
+        bool vieneDeLogin;
+        Usuario usuarioNuevo;
+        Usuario usuarioActivo;
         public RegistroDeProveedores()
         {
             InitializeComponent();
         }
-        public RegistroDeProveedores(Usuario usu)
+        public RegistroDeProveedores(Usuario _usuActivo, Usuario _usuNuevo, bool _vieneDeLogin)
         {
             InitializeComponent();
-            usuario = usu;
+            usuarioNuevo = _usuNuevo;
+            usuarioActivo = _usuActivo;
+            vieneDeLogin = _vieneDeLogin;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -83,16 +87,26 @@ namespace FrbaOfertas
                 MessageBox.Show("Rubro no existente, las opciones son: Comestibles, Electronica o Hoteleria");
                 return;
             }
-            Proveedor prov = new Proveedor(usuario,Provee_rs.Text, Provee_mail.Text, Provee_direccion.Text, Provee_cp.Text, Provee_ciudad.Text, Provee_cuit.Text, prov_id, Provee_nombrecontacto.Text, Provee_telefono.Text,true);
-            ProveedorDAO.insertarProveedor(prov, usuario);
-            Login login = new Login();
-            login.Show();
-            this.Hide();
+            Proveedor prov = new Proveedor(usuarioNuevo, Provee_rs.Text, Provee_mail.Text, Provee_direccion.Text, Provee_cp.Text, Provee_ciudad.Text, Provee_cuit.Text, prov_id, Provee_nombrecontacto.Text, Provee_telefono.Text, true);
+            ProveedorDAO.insertarProveedor(prov, usuarioNuevo);
+
+            if (vieneDeLogin)
+            {
+                Login login = new Login();
+                login.Show();
+                this.Hide();
+            }
+            else {
+                RegistroDeUsuario r = new RegistroDeUsuario(vieneDeLogin, usuarioActivo);
+                r.Show();
+                this.Hide();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {//atras
-            RegistroDeUsuario reg = new RegistroDeUsuario(false,new Usuario());
+
+            RegistroDeUsuario reg = new RegistroDeUsuario(vieneDeLogin, usuarioActivo);
             reg.Show();
             this.Hide();
         }

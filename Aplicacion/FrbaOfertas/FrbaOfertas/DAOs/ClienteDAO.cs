@@ -270,12 +270,11 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@nrotarjeta", nrotarjeta);
 
             SqlDataReader reader = command.ExecuteReader();
-
             reader.Read();
             int id = int.Parse(reader["tarj_id"].ToString());
             int numero = int.Parse(reader["tarj_numero"].ToString());
             Tarjeta tarjeta = new Tarjeta(id, numero.ToString());
-            
+
             reader.Close();
             reader.Dispose();
             command.Dispose();

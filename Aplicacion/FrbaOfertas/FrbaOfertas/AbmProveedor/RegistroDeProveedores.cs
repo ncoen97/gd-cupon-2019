@@ -47,7 +47,7 @@ namespace FrbaOfertas
             utils.validarEntradaSoloTexto(Provee_direccion);
             utils.validarEntradaSoloTexto(Provee_ciudad);
             utils.validarEntradaMail(Provee_mail);
-            utils.validarEntradaComboBoxNoNull(Provee_rubro);
+           // utils.validarEntradaComboBoxNoNull(Provee_rubro);
 
             foreach (ComboBox cbx in this.Controls.OfType<ComboBox>())
             {
@@ -131,6 +131,11 @@ namespace FrbaOfertas
                 Provee_rubro.Text = r.descripcion;
             }
             
+        }
+
+        private void Provee_rubro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -123,7 +122,7 @@ namespace FrbaOfertas
                         {
                             button.Visible = true;
                         }
-                        if (rol.nombre == "Cliente" && button.Name.Contains("mis cupones"))
+                        if (rol.nombre == "Cliente" && button.Name.Contains("cupones"))
                         {
                             button.Visible = true;
                         }
@@ -164,7 +163,8 @@ namespace FrbaOfertas
 
         private void buttonCupones_Click(object sender, EventArgs e)
         {
-
+            MisCupones mc = new MisCupones(usuario);
+            mc.Show(); this.Hide();
         }
 
     }

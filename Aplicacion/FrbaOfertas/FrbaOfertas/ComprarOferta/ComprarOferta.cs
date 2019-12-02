@@ -16,6 +16,8 @@ namespace FrbaOfertas
     {
      
         Usuario usuario;
+        DataGridViewRow selectedRow = null;
+
         public ComprarOferta()
         {
             InitializeComponent();
@@ -32,8 +34,10 @@ namespace FrbaOfertas
         {
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select * from SOCORRO.Oferta", conexion);
+            DateTime hoy = utils.obtenerFecha();
+            SqlCommand command = new SqlCommand("Select ofer_id, ofer_descripcion,ofer_fecha_vencimiento,ofer_precio_oferta,p.prov_razon_social from SOCORRO.Oferta o join SOCORRO.Proveedor p on o.ofer_prov_id = p.prov_id  where p.prov_habilitado=1 and o.ofer_fecha_vencimiento>@fecha", conexion);
             command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@fecha", hoy);
 
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dt);
@@ -41,6 +45,7 @@ namespace FrbaOfertas
             dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
 
             label2.Text = "su monto disponible es " + ClienteDAO.montoUsuario(usuario);
+            this.dataGridView1.Columns["ofer_id"].Visible = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -48,6 +53,53 @@ namespace FrbaOfertas
             MenuFuncionalidades reg = new MenuFuncionalidades(usuario);
             reg.Show();
             this.Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (selectedRow == null)
+                return;
+
+         //   Al momento de realizar la compra el sistema deberá
+         //       validar que el crédito que posee el usuario sea 
+         //   suficiente para poder concretar dicha compra  
+
+            int monto = (int)ClienteDAO.montoUsuario(usuario);
+            if ( monto >= Convert.ToInt16(selectedRow.Cells["ofer_precio_oferta"].Value))
+            {
+            //ejecutar compra
+            //entrada en cupon carpeta
+            Cliente cliente = ClienteDAO.cliente_from_usuario(usuario);
+            int id_prov = ProveedorDAO.obtenerProveedorIdConNombre(selectedRow.Cells["prov_razon_social"].Value.ToString());
+            Proveedor prov = ProveedorDAO.obtenerProveedorConId(id_prov);
+            Oferta oferta = DBConnection.oferta_por_id(selectedRow.Cells["ofer_id"].Value.ToString(),prov);
+            Cupon cupon_comprado = new Cupon(DateTime.Today, oferta, cliente);
+            DBConnection.agregar_cupon(cupon_comprado);
+           // Cliente
+           
+            }
+            else {
+
+                MessageBox.Show("No tiene suficiente credito para comprar esta oferta");
+            }
+           
+         //Cuando un cliente adquiere
+         //   una oferta, se le deberá informar el código de compra  y se deberá validar 
+         //   que la adquisición no supere la cantidad máxima de ofertas permitida por usuario.
+ 
+         //       Los datos mínimos a registrar son los siguientes:
+            // Fecha de compra  Oferta  
+         //   Nro de Oferta  Cliente que realizó la compra 
+
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (index >= 0)
+            {
+                this.selectedRow = dataGridView1.Rows[index];
+            }
         }
     }
 }

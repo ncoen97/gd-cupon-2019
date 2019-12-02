@@ -80,12 +80,6 @@
     <Compile Include="AbmProveedor\ModificacionDeProveedores.Designer.cs">
       <DependentUpon>ModificacionDeProveedores.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmProveedor\OpcionesProveedor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmProveedor\OpcionesProveedor.Designer.cs">
-      <DependentUpon>OpcionesProveedor.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmProveedor\RegistroDeProveedores.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,11 +102,11 @@
     <Compile Include="ListadoEstadistico\ListadoEstadistico.Designer.cs">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
-    <Compile Include="MenuAdministrador.cs">
+    <Compile Include="MenuFuncionalidades.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MenuAdministrador.Designer.cs">
-      <DependentUpon>MenuAdministrador.cs</DependentUpon>
+    <Compile Include="MenuFuncionalidades.Designer.cs">
+      <DependentUpon>MenuFuncionalidades.cs</DependentUpon>
     </Compile>
     <Compile Include="utils.cs" />
     <Compile Include="_Clases\Canje.cs" />
@@ -150,12 +144,6 @@
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmCliente\OpcionesCliente.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmCliente\OpcionesCliente.Designer.cs">
-      <DependentUpon>OpcionesCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="_Clases\Oferta.cs" />
     <Compile Include="_Clases\Program.cs" />
@@ -196,9 +184,6 @@
     <EmbeddedResource Include="AbmProveedor\ModificacionDeProveedores.resx">
       <DependentUpon>ModificacionDeProveedores.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmProveedor\OpcionesProveedor.resx">
-      <DependentUpon>OpcionesProveedor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\RegistroDeProveedores.resx">
       <DependentUpon>RegistroDeProveedores.cs</DependentUpon>
     </EmbeddedResource>
@@ -223,11 +208,8 @@
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmCliente\OpcionesCliente.resx">
-      <DependentUpon>OpcionesCliente.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MenuAdministrador.resx">
-      <DependentUpon>MenuAdministrador.cs</DependentUpon>
+    <EmbeddedResource Include="MenuFuncionalidades.resx">
+      <DependentUpon>MenuFuncionalidades.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -66,6 +66,8 @@ IF OBJECT_ID('SOCORRO.validarLogin') IS NOT NULL
 	DROP PROCEDURE SOCORRO.validarLogin;
 IF OBJECT_ID('SOCORRO.fnValidarNuevoUsername') IS NOT NULL
 	DROP FUNCTION SOCORRO.fnValidarNuevoUsername;
+IF OBJECT_ID('SOCORRO.fnValidarNuevoRol') IS NOT NULL
+DROP FUNCTION SOCORRO.fnValidarNuevoRol;
 IF OBJECT_ID('SOCORRO.getRolesUsuario') IS NOT NULL
 	DROP FUNCTION SOCORRO.getRolesUsuario;
 IF OBJECT_ID('SOCORRO.getFormasDePago') IS NOT NULL
@@ -114,6 +116,12 @@ IF OBJECT_ID('SOCORRO.sp_obtener_id_proveedor') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_obtener_id_proveedor;	
 IF OBJECT_ID('SOCORRO.sp_obtener_descripcion_rubro') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_obtener_descripcion_rubro;	
+IF OBJECT_ID('SOCORRO.sp_deshabilitar_rol') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_deshabilitar_rol;
+	IF OBJECT_ID('SOCORRO.sp_rehabilitar_rol') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_rehabilitar_rol;
+IF OBJECT_ID('SOCORRO.sp_registro_rol') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_registro_rol;
 	
 IF NOT EXISTS
 	(SELECT *
@@ -945,6 +953,19 @@ BEGIN
 END
 go
 
+CREATE FUNCTION [SOCORRO].fnValidarNuevoRol (
+    @rol_nombre nvarchar(20)
+) RETURNS int AS
+BEGIN
+    IF EXISTS (
+        SELECT r.rol_nombre
+        FROM SOCORRO.Rol r
+        WHERE r.rol_nombre = @rol_nombre
+    ) RETURN 1;
+    RETURN 0;
+END
+GO
+
 --DROP PROC SOCORRO.sp_registro_cliente;
 CREATE PROC [SOCORRO].sp_registro_cliente (
     @user_username nvarchar(20),
@@ -1183,6 +1204,58 @@ BEGIN
 	SET prov_habilitado = 1
 	WHERE prov_id = @prov_id;
 	RETURN 0;
+END
+GO
+
+CREATE PROC SOCORRO.sp_deshabilitar_rol (
+	@rol_id int
+) AS
+BEGIN
+	IF NOT(@rol_id IN (SELECT rol_id FROM SOCORRO.Rol))
+	BEGIN
+		PRINT 'no existe el rol';
+		RETURN 1;
+	END
+	UPDATE Rol
+	SET rol_habilitado = 0
+	WHERE rol_id = @rol_id;
+	RETURN 0;
+END
+GO
+
+CREATE PROC SOCORRO.sp_rehabilitar_rol (
+	@rol_id int
+) AS
+BEGIN
+	IF NOT(@rol_id IN (SELECT rol_id FROM SOCORRO.Rol))
+	BEGIN
+		PRINT 'no existe el rol';
+		RETURN 1;
+	END
+	UPDATE Rol
+	SET rol_habilitado = 1
+	WHERE rol_id = @rol_id;
+	RETURN 0;
+END
+GO
+
+CREATE PROC [SOCORRO].sp_registro_rol (
+	@rol_nombre nvarchar(20)
+) AS
+BEGIN
+   	DECLARE
+	@rol_habilitado numeric(1,0),
+	@rol_id Numeric
+	SET @rol_id = SCOPE_IDENTITY();
+	INSERT INTO SOCORRO.Rol(
+		rol_id,
+		rol_nombre,
+		rol_habilitado
+	) VALUES (
+		@rol_id,
+		@rol_nombre,              
+		0
+	);
 END
 GO
 
@@ -1630,6 +1703,8 @@ EXEC SOCORRO.sp_registro_proveedor
 	@prov_nombre_contacto = 'Sr. Fulano',
 	@prov_habilitado = 1;
 GO
+
+
 
 EXEC SOCORRO.sp_deshabilitar_cliente 219; --> pepe
 GO

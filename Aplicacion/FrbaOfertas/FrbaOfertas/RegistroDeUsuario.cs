@@ -34,7 +34,7 @@ namespace FrbaOfertas
             }
             else
             {
-                MenuAdministrador menu = new MenuAdministrador(usuario);
+                MenuFuncionalidades menu = new MenuFuncionalidades(usuario);
                 menu.Show();
             }
             this.Hide();

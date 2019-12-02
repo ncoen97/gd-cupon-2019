@@ -119,7 +119,6 @@
             this.label4.Size = new System.Drawing.Size(112, 13);
             this.label4.TabIndex = 50;
             this.label4.Text = "Fecha de vencimiento";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label1
             // 

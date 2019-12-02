@@ -55,6 +55,82 @@ namespace FrbaOfertas
         {
             return Rol.nombre == "Proveedor";
         }
+        
+        public static bool registrar_Rol(Rol r)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_registro_rol", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@rol_nombre", r.nombre);
+
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            if ((int)ret.Value == 1)
+            {
+                MessageBox.Show("Hubo un error en el registro del rol");
+                return false;
+            }
+            MessageBox.Show("Rol registrado con exito");
+            return true;
+            
+        }
+
+        public static bool deshabilitar_rol(Rol r)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_deshabilitar_rol", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+          
+            command.Parameters.AddWithValue("@rol_id", r.id);
+
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            if ((int)ret.Value == 1)
+            {
+                MessageBox.Show("Hubo un error");
+                return false;
+            }
+            MessageBox.Show("Rol inhabilitado con exito");
+            return true;
+
+        }
+
+        public static bool rehabilitar_rol(Rol r)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_rehabilitar_rol", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@rol_id", r.id);
+
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            if ((int)ret.Value == 1)
+            {
+                MessageBox.Show("Hubo un error");
+                return false;
+            }
+            MessageBox.Show("Rol habilitado con exito");
+            return true;
+
+        }
 
 
         public static void asociar_roles_x_funciones(Rol r)
@@ -66,7 +142,6 @@ namespace FrbaOfertas
             
             SqlDataAdapter sqla = new SqlDataAdapter(command);
             sqla.Fill(dt);
-          
            
             foreach (DataRow dr in dt.Rows)
             {
@@ -76,9 +151,7 @@ namespace FrbaOfertas
                     r.funcionalidades.Add(f);
                 }
                 
-            }
-
-          
+            }          
         
         }
     }

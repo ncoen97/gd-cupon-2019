@@ -21,7 +21,7 @@ namespace FrbaOfertas
 
         private void buttonCancelar_Click(object sender, EventArgs e)
         {
-            OpcionesProveedor o = new OpcionesProveedor(usuario);
+            MenuFuncionalidades o = new MenuFuncionalidades(usuario);
             o.Show();
             this.Hide();
         }

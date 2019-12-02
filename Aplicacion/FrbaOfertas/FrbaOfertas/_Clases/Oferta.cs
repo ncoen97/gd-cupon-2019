@@ -17,9 +17,10 @@ namespace FrbaOfertas
         public int precio_lista { get; set; }
         public int proveedorid { get; set; }
         public int cantidad_disponible { get; set; }
+        public int cantidad_max_por_persona { get; set; }
       
 
-        public Oferta(string _id, string _descripcion, DateTime _fechaPublicacion, DateTime _fechaVencimiento,int _precioOferta,int _precioLista,int _proveedorid,int _cantidadDisponible)
+        public Oferta(string _id, string _descripcion, DateTime _fechaPublicacion, DateTime _fechaVencimiento,int _precioOferta,int _precioLista,int _proveedorid,int _cantidadDisponible, int _maxPorPersona)
         {
             this.id_oferta = _id;
             this.descripcion = _descripcion;
@@ -29,6 +30,7 @@ namespace FrbaOfertas
             this.precio_lista = _precioLista;
             this.proveedorid = _proveedorid;
             this.cantidad_disponible = _cantidadDisponible;
+            this.cantidad_max_por_persona = _maxPorPersona;
 
         }
 

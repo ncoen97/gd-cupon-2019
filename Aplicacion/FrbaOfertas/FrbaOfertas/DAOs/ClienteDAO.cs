@@ -140,6 +140,23 @@ namespace FrbaOfertas
             return Convert.ToDouble(ret.Value.ToString());
         }
 
+        public static bool verificarMaxPermitidaPorUsuario(Cliente _cliente,Oferta _oferta)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand(" Select Count(*) from SOCORRO.Cliente cl join SOCORRO.Cupon cu on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id where cupon_ofer_id=@cupon_id and cl.clie_id = @idcliente", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@cupon_id ", _oferta.id_oferta);
+            command.Parameters.AddWithValue("@idcliente ", _cliente.id);
+
+            int cantidad = (Int32)command.ExecuteScalar();
+
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return (cantidad < _oferta.cantidad_max_por_persona);        
+        }
+
         public static Boolean cargarTarjeta(Usuario usuario,int numeroDeTarjeta, 
             int mesVencimiento,int anioVencimiento,string nombreTitular)
         {

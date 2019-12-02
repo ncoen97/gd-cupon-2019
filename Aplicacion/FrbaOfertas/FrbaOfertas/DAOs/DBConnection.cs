@@ -214,7 +214,8 @@ namespace FrbaOfertas
                Convert.ToInt16(reader["ofer_precio_oferta"]),
                Convert.ToInt16(reader["ofer_precio_lista"]),
                 prov.id,
-               Convert.ToInt16(reader["ofer_stock"])
+               Convert.ToInt16(reader["ofer_stock"]),
+               Convert.ToInt16(reader["ofer_max_cupon_por_usuario"])
                 );
 
             reader.Close();

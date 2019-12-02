@@ -59,12 +59,7 @@ namespace FrbaOfertas
         {
             if (selectedRow == null)
                 return;
-
-         //   Al momento de realizar la compra el sistema deberá
-         //       validar que el crédito que posee el usuario sea 
-         //   suficiente para poder concretar dicha compra  
-
-            int monto = (int)ClienteDAO.montoUsuario(usuario);
+           int monto = (int)ClienteDAO.montoUsuario(usuario);
             if ( monto >= Convert.ToInt16(selectedRow.Cells["ofer_precio_oferta"].Value))
             {
             //ejecutar compra
@@ -74,22 +69,22 @@ namespace FrbaOfertas
             Proveedor prov = ProveedorDAO.obtenerProveedorConId(id_prov);
             Oferta oferta = DBConnection.oferta_por_id(selectedRow.Cells["ofer_id"].Value.ToString(),prov);
             Cupon cupon_comprado = new Cupon(DateTime.Today, oferta, cliente);
+            //Cuando un cliente adquiere
+            //   una oferta, se le deberá informar el código de compra  y se deberá validar 
+            //   que la adquisición no supere la cantidad máxima de ofertas permitida por usuario.
+
+            // Los datos mínimos a registrar son los siguientes:
+            // Fecha de compra  Oferta  
+            //   Nro de Oferta  Cliente que realizó la compra 
             DBConnection.agregar_cupon(cupon_comprado);
-           // Cliente
-           
-            }
+            MessageBox.Show("Cupon comprado. Ya podes encontrarlo en tus cupones");
+             }
             else {
 
                 MessageBox.Show("No tiene suficiente credito para comprar esta oferta");
             }
            
-         //Cuando un cliente adquiere
-         //   una oferta, se le deberá informar el código de compra  y se deberá validar 
-         //   que la adquisición no supere la cantidad máxima de ofertas permitida por usuario.
- 
-         //       Los datos mínimos a registrar son los siguientes:
-            // Fecha de compra  Oferta  
-         //   Nro de Oferta  Cliente que realizó la compra 
+   
 
         }
 
@@ -100,6 +95,12 @@ namespace FrbaOfertas
             {
                 this.selectedRow = dataGridView1.Rows[index];
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MisCupones mc = new MisCupones(usuario);
+            mc.Show(); this.Hide();
         }
     }
 }

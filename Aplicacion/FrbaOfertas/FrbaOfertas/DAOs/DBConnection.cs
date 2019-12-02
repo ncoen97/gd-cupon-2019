@@ -156,33 +156,27 @@ namespace FrbaOfertas
         }
 
 
-        public static bool agregar_cupon(Cupon _cupon)
+        public static void agregar_cupon(Cupon _cupon)
         {
             //Insert into Cupon values (@cupon_id,@cupon_fecha_compra,@cupon_oferta_id,@cupon_clie_id_compra,
 		    // @cupon_fecha_consumo,@cupon_clie_id_consumo)
-            try
-            {
-                string query = string.Format(@"INSERT INTO SOCORRO.Cupon VALUES
-            @fecha_compra,@cupon_ofer_id,@cupon_clie_id_compra,@fecha_consumo,@clie_id_consumo");
-                SqlConnection conn = DBConnection.getConnection();
-                SqlCommand cmd = new SqlCommand(query, conn);
-                //cmd.Parameters.AddWithValue("@cupon_id", );
-                cmd.Parameters.AddWithValue("@fecha_compra", DateTime.Today);
-                cmd.Parameters.AddWithValue("@cupon_ofer_id", _cupon.oferta_referencia.id_oferta);
-                cmd.Parameters.AddWithValue("@cupon_clie_id_compra", _cupon.cliente.id );
-                cmd.Parameters.AddWithValue("@fecha_consumo", null);
-                cmd.Parameters.AddWithValue("@clie_id_consumo", null);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
-                conn.Close();
-                conn.Dispose();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error al agregar Rol", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            return false;
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand cmd = new SqlCommand("INSERT INTO SOCORRO.Cupon VALUES (@fecha_compra,@cupon_ofer_id,@cupon_clie_id_compra,null,null);", conn);
+            cmd.CommandType = CommandType.Text;
+            //cmd.Parameters.AddWithValue("@cupon_id", );
+            cmd.Parameters.AddWithValue("@fecha_compra", DateTime.Today);
+            cmd.Parameters.AddWithValue("@cupon_ofer_id", _cupon.oferta_referencia.id_oferta);
+            cmd.Parameters.AddWithValue("@cupon_clie_id_compra", _cupon.cliente.id );
+              
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            cmd.Parameters.Add(ret);
+            cmd.ExecuteReader();
+            cmd.Dispose();
+            conn.Close();
+            conn.Dispose();
+            
+                
         }
 
         public static Oferta oferta_por_id(string id_oferta, Proveedor prov)
@@ -194,14 +188,15 @@ namespace FrbaOfertas
             //rompe algo de tipos
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
+         
             Oferta ofer = new Oferta(id_oferta,
                 reader["ofer_descripcion"].ToString(),
                 (DateTime)reader["ofer_fecha_publicacion"],
                 (DateTime)reader["ofer_fecha_vencimiento"],
-                (int)reader["ofer_precio_oferta"],
-                (int)reader["ofer_precio_lista"],
+               Convert.ToInt16(reader["ofer_precio_oferta"]),
+               Convert.ToInt16(reader["ofer_precio_lista"]),
                 prov.id,
-                (int)reader["ofer_stock"]
+               Convert.ToInt16(reader["ofer_stock"])
                 );
 
             reader.Close();

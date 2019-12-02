@@ -122,6 +122,8 @@ IF OBJECT_ID('SOCORRO.sp_deshabilitar_rol') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_rehabilitar_rol;
 IF OBJECT_ID('SOCORRO.sp_registro_rol') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_rol;
+IF OBJECT_ID('SOCORRO.sp_generarIdCupon') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_generarIdCupon;
 	
 IF NOT EXISTS
 	(SELECT *
@@ -1576,9 +1578,11 @@ BEGIN
 	BEGIN TRY
 		IF EXISTS (SELECT 1 FROM SOCORRO.Proveedor WHERE prov_id = @prov_id)
 		BEGIN
-		INSERT INTO SOCORRO.Oferta (ofer_descripcion,ofer_fecha_publicacion,ofer_fecha_vencimiento,
+		DECLARE @IDD NVARCHAR(50);
+		EXEC SOCORRO.sp_generarIdCupon @fechaPublicacion = @fecha_publicacion, @ID=@IDD OUTPUT;
+		INSERT INTO SOCORRO.Oferta (ofer_id, ofer_descripcion,ofer_fecha_publicacion,ofer_fecha_vencimiento,
 			ofer_precio_oferta,ofer_precio_lista,ofer_prov_id,ofer_stock,ofer_max_cupon_por_usuario)
-		VALUES (@descripcion,@fecha_publicacion,@fecha_vencimiento,@precio_rebajado,@precio_original,
+		VALUES (@IDD,@descripcion,@fecha_publicacion,@fecha_vencimiento,@precio_rebajado,@precio_original,
 			@prov_id,@stock_disponible,@max_cantidad_compra_por_cliente);
 		RETURN 0;--Succes :D
 		END
@@ -1590,7 +1594,18 @@ BEGIN
 	END CATCH
 END
 GO
-
+CREATE PROCEDURE SOCORRO.sp_generarIdCupon(@fechaPublicacion datetime,@ID NVARCHAR(50) OUTPUT)
+AS
+BEGIN
+	declare @AlLChars varchar(100) = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+	DECLARE @RAND NVARCHAR(4);
+	SET @RAND = (SELECT RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) + 
+		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) +
+		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) + 
+		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1))
+	SET @ID = CONCAT(CONVERT(NVARCHAR,@fechaPublicacion,112),@RAND);
+END
+GO
 --DROP PROC SOCORRO.sp_lista_prov_mayor_descuento;
 CREATE PROC SOCORRO.sp_lista_prov_mayor_descuento /*(
 	@semestre (??) - TODO: falta seleccion de semestre!

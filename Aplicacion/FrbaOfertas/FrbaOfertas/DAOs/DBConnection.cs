@@ -55,15 +55,33 @@ namespace FrbaOfertas
         {
             return Rol.nombre == "Proveedor";
         }
-        
-        public static bool registrar_Rol(Rol r)
+
+        public static int cantidad_roles()
         {
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SOCORRO.sp_registro_rol", conexion);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@rol_nombre", r.nombre);
+            // //Select Count(rol_id) from SOCORRO.Rol
+            SqlCommand command = new SqlCommand("Select Count(rol_id) from SOCORRO.Rol", conexion);
+            command.CommandType = CommandType.Text;
+            int cantidad = (Int32)command.ExecuteScalar();
+          
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return cantidad;        
+        }
+             
 
+        public static void registrar_Rol(Rol r)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("INSERT INTO SOCORRO.Rol VALUES (@rol_id,@rol_nombre,0);", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@rol_nombre", r.nombre);
+            command.Parameters.AddWithValue("@rol_id", r.id);
+       
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
             command.Parameters.Add(ret);
@@ -74,10 +92,10 @@ namespace FrbaOfertas
             if ((int)ret.Value == 1)
             {
                 MessageBox.Show("Hubo un error en el registro del rol");
-                return false;
+              
             }
             MessageBox.Show("Rol registrado con exito");
-            return true;
+        
             
         }
 
@@ -153,6 +171,59 @@ namespace FrbaOfertas
                 
             }          
         
+        }
+
+
+        public static void agregar_cupon(Cupon _cupon)
+        {
+            //Insert into Cupon values (@cupon_id,@cupon_fecha_compra,@cupon_oferta_id,@cupon_clie_id_compra,
+		    // @cupon_fecha_consumo,@cupon_clie_id_consumo)
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand cmd = new SqlCommand("INSERT INTO SOCORRO.Cupon VALUES (@fecha_compra,@cupon_ofer_id,@cupon_clie_id_compra,null,null);", conn);
+            cmd.CommandType = CommandType.Text;
+            //cmd.Parameters.AddWithValue("@cupon_id", );
+            cmd.Parameters.AddWithValue("@fecha_compra", DateTime.Today);
+            cmd.Parameters.AddWithValue("@cupon_ofer_id", _cupon.oferta_referencia.id_oferta);
+            cmd.Parameters.AddWithValue("@cupon_clie_id_compra", _cupon.cliente.id );
+              
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            cmd.Parameters.Add(ret);
+            cmd.ExecuteReader();
+            cmd.Dispose();
+            conn.Close();
+            conn.Dispose();
+            
+                
+        }
+
+        public static Oferta oferta_por_id(string id_oferta, Proveedor prov)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand(" Select * from SOCORRO.Oferta o where o.ofer_id = @id", conexion);
+            command.Parameters.AddWithValue("@id", id_oferta);
+           
+            //rompe algo de tipos
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+         
+            Oferta ofer = new Oferta(id_oferta,
+                reader["ofer_descripcion"].ToString(),
+                (DateTime)reader["ofer_fecha_publicacion"],
+                (DateTime)reader["ofer_fecha_vencimiento"],
+               Convert.ToInt16(reader["ofer_precio_oferta"]),
+               Convert.ToInt16(reader["ofer_precio_lista"]),
+                prov.id,
+               Convert.ToInt16(reader["ofer_stock"]),
+               Convert.ToInt16(reader["ofer_max_cupon_por_usuario"])
+                );
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return ofer;
         }
     }
 }

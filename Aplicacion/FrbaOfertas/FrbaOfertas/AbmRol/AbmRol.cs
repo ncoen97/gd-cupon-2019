@@ -26,6 +26,7 @@ namespace FrbaOfertas
         {
             Rol r = new Rol(rol_nombre.Text, null);
             DBConnection.registrar_Rol(r);
+            actualizar();
         }
 
         private void AbmRol_Load(object sender, EventArgs e)

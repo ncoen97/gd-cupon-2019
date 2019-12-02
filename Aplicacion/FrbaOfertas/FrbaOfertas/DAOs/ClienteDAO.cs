@@ -140,6 +140,23 @@ namespace FrbaOfertas
             return Convert.ToDouble(ret.Value.ToString());
         }
 
+        public static bool verificarMaxPermitidaPorUsuario(Cliente _cliente,Oferta _oferta)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand(" Select Count(*) from SOCORRO.Cliente cl join SOCORRO.Cupon cu on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id where cupon_ofer_id=@cupon_id and cl.clie_id = @idcliente", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@cupon_id ", _oferta.id_oferta);
+            command.Parameters.AddWithValue("@idcliente ", _cliente.id);
+
+            int cantidad = (Int32)command.ExecuteScalar();
+
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return (cantidad < _oferta.cantidad_max_por_persona);        
+        }
+
         public static Boolean cargarTarjeta(Usuario usuario,int numeroDeTarjeta, 
             int mesVencimiento,int anioVencimiento,string nombreTitular)
         {
@@ -281,6 +298,31 @@ namespace FrbaOfertas
             conexion.Close();
             conexion.Dispose();
             return tarjeta;
+
+        }
+
+        public static Cliente cliente_from_usuario(Usuario _usuario)
+        {
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("Select * from SOCORRO.Cliente c where c.clie_user_id =@id", conexion);
+            command.Parameters.AddWithValue("@id", _usuario.id);
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            Cliente c = new Cliente(_usuario, reader["clie_nombre"].ToString(), reader["clie_apellido"].ToString(),
+                Convert.ToInt64(reader["clie_dni"]), (DateTime)reader["clie_fecha_nacimiento"],
+                reader["clie_direccion"].ToString(), reader["clie_codigo_postal"].ToString(),
+                reader["clie_email"].ToString(), reader["clie_telefono"].ToString(),
+                reader["clie_ciudad"].ToString(), (bool)reader["clie_habilitado"]);
+
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return c;
 
         }
 

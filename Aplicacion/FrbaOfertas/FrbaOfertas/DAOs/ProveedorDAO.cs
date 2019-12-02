@@ -83,6 +83,50 @@ namespace FrbaOfertas
             return (int)ret.Value;
         }
 
+        public static Proveedor obtenerProveedorConId(int id)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("Select * from SOCORRO.Proveedor where prov_id = @id", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@id", id);
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            Proveedor prov = new Proveedor(Convert.ToInt16(reader["prov_user_id"].ToString()), reader["prov_razon_social"].ToString(),
+                reader["prov_email"].ToString(), reader["prov_direccion"].ToString(),reader["prov_codigo_postal"].ToString(),reader["prov_ciudad"].ToString(),
+                reader["prov_cuit"].ToString(), Convert.ToInt16(reader["prov_rubro_id"].ToString()), reader["prov_nombre_contacto"].ToString(),
+                reader["prov_telefono"].ToString(), (bool)reader["prov_habilitado"]);
+
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return prov;
+       
+        }
+
+        public static int obtenerProveedorIdConNombre(string prov_nom)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("Select * from SOCORRO.Proveedor where prov_razon_social = @id", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@id", prov_nom);
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            int i =(int)reader["prov_user_id"];
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return i;
+
+        }
+
         public static void modificarProveedor(Proveedor prov, Usuario usu)
         {
             SqlConnection conexion = DBConnection.getConnection();

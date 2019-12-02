@@ -227,6 +227,7 @@
             this.Provee_rubro.Name = "Provee_rubro";
             this.Provee_rubro.Size = new System.Drawing.Size(214, 28);
             this.Provee_rubro.TabIndex = 50;
+            this.Provee_rubro.SelectedIndexChanged += new System.EventHandler(this.Provee_rubro_SelectedIndexChanged);
             // 
             // RegistroDeProveedores
             // 

@@ -41,5 +41,20 @@ namespace FrbaOfertas
             p.id = _id;
             return p;
         }
+
+        public Proveedor(int _id, string rs, string email, string direc, string cp, string ciud, string cuitt, int rubid, string nombre, string tel, bool habilitado)
+        {
+            id = _id;
+            razon_social = rs;
+            mail = email;
+            direccion = direc;
+            codigo_postal = cp;
+            ciudad = ciud;
+            cuit = cuitt;
+            rubro_id = rubid;
+            nombre_de_contacto = nombre;
+            telefono = tel;
+            habilitada = habilitado;
+        }
     }
 }

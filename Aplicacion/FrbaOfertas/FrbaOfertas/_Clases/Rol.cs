@@ -24,6 +24,8 @@ namespace FrbaOfertas
         //Alta Rol
         public Rol(string _nombre, List<Funcionalidad> _funcionalidades)
         {
+            this.id = DBConnection.cantidad_roles() + 1;
+            this.habilitado = false;
             this.nombre = _nombre;
             this.funcionalidades = _funcionalidades;
         }

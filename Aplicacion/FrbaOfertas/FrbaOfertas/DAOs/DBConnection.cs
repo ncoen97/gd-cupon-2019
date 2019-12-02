@@ -55,15 +55,33 @@ namespace FrbaOfertas
         {
             return Rol.nombre == "Proveedor";
         }
-        
-        public static bool registrar_Rol(Rol r)
+
+        public static int cantidad_roles()
         {
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SOCORRO.sp_registro_rol", conexion);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@rol_nombre", r.nombre);
+            // //Select Count(rol_id) from SOCORRO.Rol
+            SqlCommand command = new SqlCommand("Select Count(rol_id) from SOCORRO.Rol", conexion);
+            command.CommandType = CommandType.Text;
+            int cantidad = (Int32)command.ExecuteScalar();
+          
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return cantidad;        
+        }
+             
 
+        public static void registrar_Rol(Rol r)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("INSERT INTO SOCORRO.Rol VALUES (@rol_id,@rol_nombre,0);", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@rol_nombre", r.nombre);
+            command.Parameters.AddWithValue("@rol_id", r.id);
+       
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
             command.Parameters.Add(ret);
@@ -74,10 +92,10 @@ namespace FrbaOfertas
             if ((int)ret.Value == 1)
             {
                 MessageBox.Show("Hubo un error en el registro del rol");
-                return false;
+              
             }
             MessageBox.Show("Rol registrado con exito");
-            return true;
+        
             
         }
 

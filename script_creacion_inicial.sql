@@ -764,11 +764,17 @@ BEGIN
 		INSERT INTO SOCORRO.Factura (
 			fact_id,
 			fact_prov_id,
-			fact_fecha_hasta
+			fact_fecha_hasta,
+			fact_fecha_desde
 		) VALUES (
 			@fact_id,
 			@fact_prov_id,
-			@fact_fecha_hasta
+			@fact_fecha_hasta,
+			DATETIMEFROMPARTS(
+				YEAR(@fact_fecha_hasta),
+				MONTH(@fact_fecha_hasta),
+				1, 0, 0, 0, 0
+			)
 		);
 		FETCH NEXT FROM curs_facturas INTO
 			@fact_prov_rs,
@@ -1607,9 +1613,10 @@ BEGIN
 END
 GO
 --DROP PROC SOCORRO.sp_lista_prov_mayor_descuento;
-CREATE PROC SOCORRO.sp_lista_prov_mayor_descuento /*(
-	@semestre (??) - TODO: falta seleccion de semestre!
-)*/ AS
+CREATE PROC SOCORRO.sp_lista_prov_mayor_descuento (
+	@semestre tinyint,
+	@anio smallint
+) AS
 BEGIN
 	SELECT TOP 5
 		p.prov_razon_social [Razon social],
@@ -1620,6 +1627,12 @@ BEGIN
 		ON o.ofer_prov_id = p.prov_id
 	JOIN SOCORRO.Rubro r
 		ON p.prov_rubro_id = r.rubro_id
+	WHERE (YEAR(o.ofer_fecha_publicacion) = @anio)
+		AND (
+			((@semestre = 1) AND (MONTH(o.ofer_fecha_publicacion) < 7))
+				OR
+			((@semestre = 2) AND (MONTH(o.ofer_fecha_publicacion) >= 7))
+			)
 	GROUP BY
 		p.prov_razon_social,
 		r.rubro_descripcion
@@ -1628,9 +1641,10 @@ END
 GO
 
 --DROP PROC SOCORRO.sp_lista_prov_mayor_facturacion;
-CREATE PROC SOCORRO.sp_lista_prov_mayor_facturacion /*(
-	@semestre (??) - TODO: falta seleccion de semestre!
-)*/ AS
+CREATE PROC SOCORRO.sp_lista_prov_mayor_facturacion (
+	@semestre tinyint,
+	@anio smallint
+) AS
 BEGIN
 	SELECT TOP 5
 		p.prov_razon_social [Razon social],
@@ -1643,6 +1657,12 @@ BEGIN
 		ON i.item_fact_id = f.fact_id
 	JOIN SOCORRO.Rubro r
 		ON p.prov_rubro_id = r.rubro_id
+	WHERE (YEAR(f.fact_fecha_hasta) = @anio)
+		AND (
+			((@semestre = 1) AND (MONTH(f.fact_fecha_hasta) < 7))
+				OR
+			((@semestre = 2) AND (MONTH(f.fact_fecha_hasta) >= 7))
+			)
 	GROUP BY
 		p.prov_razon_social,
 		r.rubro_descripcion

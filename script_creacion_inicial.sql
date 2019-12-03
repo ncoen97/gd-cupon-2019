@@ -1604,6 +1604,62 @@ BEGIN
 	END CATCH
 END
 GO
+CREATE PROCEDURE SOCORRO.sp_consumirOferta(@user_id int,@ofer_id nvarchar(50),@fechaActual datetime)
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+		DECLARE @montoCliente numeric(18,2),@precioOferta numeric(18,2),@clieId int;
+		IF NOT EXISTS(SELECT 1 FROM SOCORRO.Usuario WHERE user_id = @user_id)
+		BEGIN
+			ROLLBACK TRANSACTION
+			RETURN -1;
+		END
+		IF NOT EXISTS (SELECT 1 FROM SOCORRO.Usuario u join SOCORRO.RolxUsuario rxu on u.user_id = rxu.user_id
+														join SOCORRO.FuncionalidadxRol fxr on rxu.rol_id = fxr.rol_id
+						WHERE u.user_id = @user_id and fxr.func_id = 6)--6 es poder comprar ofertas
+		BEGIN
+			ROLLBACK TRANSACTION
+			RETURN -2;
+		END
+		SET @clieId = (SELECT clie_id FROM Cliente WHERE clie_user_id = @user_id);
+		SET @montoCliente = (SELECT clie_saldo from SOCORRO.Cliente c 
+				WHERE c.clie_id = @clieId);
+		SET @precioOferta = (SELECT ofer_precio_oferta FROM SOCORRO.Oferta WHERE ofer_id = @ofer_id);
+		IF @montoCliente < @precioOferta
+		BEGIN
+			ROLLBACK TRANSACTION
+			RETURN -3;
+		END
+		IF (SELECT ofer_stock FROM SOCORRO.Oferta WHERE ofer_id = @ofer_id)<=0
+		BEGIN
+			ROLLBACK TRANSACTION
+			RETURN -4;
+		END
+		IF (SELECT COUNT(*) FROM SOCORRO.Cupon c WHERE c.cupon_clie_id_compra = @clieId and c.cupon_ofer_id = @ofer_id) >= 
+			(SELECT ofer_max_cupon_por_usuario FROM SOCORRO.Oferta WHERE ofer_id = @ofer_id)
+		BEGIN
+			ROLLBACK TRANSACTION
+			RETURN -5;
+		END
+		IF (SELECT ofer_fecha_vencimiento FROM SOCORRO.Oferta WHERE ofer_id = @ofer_id)<@fechaActual
+		BEGIN
+			ROLLBACK TRANSACTION
+			RETURN -6;
+		END
+		UPDATE SOCORRO.Cliente SET clie_saldo = clie_saldo-@precioOferta WHERE clie_id = @clieId
+		UPDATE SOCORRO.Oferta SET ofer_stock = ofer_stock-1 WHERE ofer_id = @ofer_id
+		INSERT INTO SOCORRO.Cupon (cupon_fecha_compra,cupon_ofer_id,cupon_clie_id_compra)
+				VALUES(@fechaActual,@ofer_id,@clieId)
+		COMMIT TRANSACTION;
+		RETURN SCOPE_IDENTITY();--el id del cupon ingresado
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		RETURN -7;
+	END CATCH
+END
+GO
 CREATE PROCEDURE SOCORRO.sp_generarIdCupon(@fechaPublicacion datetime,@ID NVARCHAR(50) OUTPUT)
 AS
 BEGIN

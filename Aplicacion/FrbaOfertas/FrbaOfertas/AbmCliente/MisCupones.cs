@@ -26,10 +26,9 @@ namespace FrbaOfertas
         {
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("Select cu.cupon_ofer_id,o.ofer_descripcion,o.ofer_fecha_vencimiento from SOCORRO.Cliente cl join SOCORRO.Cupon cu on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id where cl.clie_user_id = @id", conexion);
+            SqlCommand command = new SqlCommand("Select cu.cupon_id,o.ofer_descripcion,o.ofer_fecha_vencimiento from SOCORRO.Cliente cl join SOCORRO.Cupon cu on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id where cl.clie_user_id = @id", conexion);
             command.CommandType = CommandType.Text;
             command.Parameters.AddWithValue("@id ", usuActivo.id);
-           // command.Parameters.AddWithValue("@id ",114);
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dt);
             dataGridView1.DataSource = dt;

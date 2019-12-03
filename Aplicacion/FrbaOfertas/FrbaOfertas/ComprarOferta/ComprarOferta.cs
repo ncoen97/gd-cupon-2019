@@ -57,44 +57,43 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (selectedRow == null)
-                return;
-           int monto = (int)ClienteDAO.montoUsuario(usuario);
-            if ( monto >= Convert.ToInt16(selectedRow.Cells["ofer_precio_oferta"].Value))
+            if (selectedRow == null) return;
+
+            int resultado = DBConnection.comprarOferta(usuario, selectedRow.Cells["ofer_id"].Value.ToString());
+
+            switch (resultado)
             {
-                //ejecutar compra
-                //entrada en cupon carpeta
-                Cliente cliente = ClienteDAO.cliente_from_usuario(usuario);
-                int id_prov = ProveedorDAO.obtenerProveedorIdConNombre(selectedRow.Cells["prov_razon_social"].Value.ToString());
-                Proveedor prov = ProveedorDAO.obtenerProveedorConId(id_prov);
-                Oferta oferta = DBConnection.oferta_por_id(selectedRow.Cells["ofer_id"].Value.ToString(), prov);
-                
-                //Cuando un cliente adquiere
-                //   una oferta, se le deberá informar el código de compra  y se deberá validar 
-                //   que la adquisición no supere la cantidad máxima de ofertas permitida por usuario.
-                if (oferta.cantidad_disponible <= 0)
-                {
-                    MessageBox.Show("No se puede comprar este cupon. No hay mas");
-                    return;
-                }
-
-                Cupon cupon_comprado = new Cupon(DateTime.Today, oferta, cliente);
-                if (ClienteDAO.verificarMaxPermitidaPorUsuario(cliente,oferta))
-                {
-                    DBConnection.agregar_cupon(cupon_comprado);
-                    MessageBox.Show("Cupon comprado. Ya podes encontrarlo en tus cupones");
-                } else
-                {
-                    MessageBox.Show("No se puede comprar este cupon. Excede la cantidad max por persona");
-                }
+                case -1:
+                    MessageBox.Show("El usuario no existe");
+                    break;
+                case -2:
+                    MessageBox.Show("El usuario no tiene permisos de compra");
+                    break;
+                case -3:
+                    MessageBox.Show("Saldo insuficiente");
+                    break;
+                case -4:
+                    MessageBox.Show("La oferta seleccionada no tiene mas stock");
+                    break;
+                case -5:
+                    MessageBox.Show("Se exedio la cantidad maxima de esta oferta");
+                    break;
+                case -6:
+                    MessageBox.Show("La oferta seleccionada caducó");
+                    break;
+                case -7:
+                    MessageBox.Show("Error generando la compra, intente mas tarde");
+                    break;
+                default:
+                    if(resultado>=0)
+                    {
+                        MessageBox.Show("Oferta comprada con exito. Su codigo de cupon es: "+resultado.ToString());
+                        ComprarOferta co = new ComprarOferta(usuario);
+                        co.Show();
+                        this.Hide();
+                    }
+                    break;
             }
-            else {
-
-                MessageBox.Show("No tiene suficiente credito para comprar esta oferta");
-            }
-           
-   
-
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

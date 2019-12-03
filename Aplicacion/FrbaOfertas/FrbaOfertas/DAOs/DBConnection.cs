@@ -263,5 +263,23 @@ namespace FrbaOfertas
             conexion.Dispose();
             return ofer;
         }
+        public static int comprarOferta(Usuario usuario, string idOferta)
+        {
+            DateTime fechaActual = utils.obtenerFecha();
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_consumirOferta", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@user_id", usuario.id);
+            command.Parameters.AddWithValue("@ofer_id", idOferta);
+            command.Parameters.AddWithValue("@fechaActual", fechaActual);
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return (int)ret.Value;
+        }
     }
 }

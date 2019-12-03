@@ -197,6 +197,44 @@ namespace FrbaOfertas
                 
         }
 
+        public static bool encontrar_cupon_para_canjear(int _idcupon)
+        {
+            //Insert into Cupon values (@cupon_id,@cupon_fecha_compra,@cupon_oferta_id,@cupon_clie_id_compra,
+            // @cupon_fecha_consumo,@cupon_clie_id_consumo)
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand cmd = new SqlCommand("Select Count(*) cuentas from SOCORRO.Cupon cu join Socorro.Oferta o on cu.cupon_ofer_id = o.ofer_id  where cu.cupon_id = @cupon_id and cu.cupon_fecha_consumo is NULL and cupon_clie_id_consumo is null and o.ofer_fecha_vencimiento>GETDATE()", conn);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@cupon_id", _idcupon);
+            
+            SqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+            int cuponesParaCanjear = Convert.ToInt16(reader["cuentas"]);
+            reader.Close();
+            reader.Dispose();
+            cmd.Dispose();
+            conn.Close();
+            conn.Dispose();
+            return (cuponesParaCanjear >= 1);
+        }
+
+        public static void canjear_cupon(int _idcupon, int idclie,DateTime fechaConsumo)
+        {
+            //Insert into Cupon values (@cupon_id,@cupon_fecha_compra,@cupon_oferta_id,@cupon_clie_id_compra,
+            // @cupon_fecha_consumo,@cupon_clie_id_consumo)
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand cmd = new SqlCommand("UPdate SOCORRO.Cupon SET cupon_clie_id_consumo = @idClie, cupon_fecha_consumo=@fechaConsumo where cupon_id = @cupon_id", conn);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@cupon_id", _idcupon);
+            cmd.Parameters.AddWithValue("@idClie", idclie);
+            cmd.Parameters.AddWithValue("@fechaConsumo", fechaConsumo);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            conn.Close();
+            conn.Dispose();
+            
+        }
+
         public static Oferta oferta_por_id(string id_oferta, Proveedor prov)
         {
             SqlConnection conexion = DBConnection.getConnection();

@@ -39,6 +39,21 @@ namespace FrbaOfertas
             this.monto = 0;
         }
 
+        public Cliente(int _id, string _nombre, string _apellido, long _dni, DateTime _fechaNac, string _direccion, string _cod_postal, string _mail, string _telefono, string _ciudad, bool _habilitado)
+        {
+            this.id = _id;
+            this.nombre = _nombre;
+            this.apellido = _apellido;
+            this.dni = _dni;
+            this.mail = _mail;
+            this.direccion = _direccion;
+            this.telefono = _telefono;
+            this.cod_postal = _cod_postal;
+            this.fecha_nacimiento = _fechaNac;
+            this.habilitado = _habilitado;
+            this.ciudad = _ciudad;
+        }
+
         public static Cliente ClienteConId(int _id, Usuario usu, string _nombre, string _apellido, long _dni, DateTime _fechaNac, string _direccion, string _cod_postal, string _mail, string _telefono, string _ciudad, bool _habilitado)
         {
             Cliente c = new Cliente(usu, _nombre,  _apellido,  _dni,  _fechaNac,  _direccion,  _cod_postal,  _mail,  _telefono,  _ciudad,  _habilitado);

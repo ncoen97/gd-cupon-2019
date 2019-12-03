@@ -25,5 +25,42 @@ namespace FrbaOfertas
             o.Show();
             this.Hide();
         }
+
+        private void ConsumoOferta_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (!utils.validarEntradaSoloNumeros(textBox1) ||
+            !utils.validarEntradaSoloNumeros(textBox2) ||
+            !utils.validarNoVacio(textBox1) ||
+            !utils.validarNoVacio(textBox2))
+            {
+                MessageBox.Show("Campos vacios o tipo incorrecto: solo ingresar numeros");
+                return;
+            }
+
+            if (!ClienteDAO.verificarExistenciaCliente(Convert.ToInt16(textBox1.Text)))
+            {
+                MessageBox.Show("No se encontro cliente");
+                return;
+            }
+            
+            if (!DBConnection.encontrar_cupon_para_canjear(Convert.ToInt16(textBox2.Text)))
+            {
+                MessageBox.Show("No esta disponible el cupon");
+                return;
+
+            }
+            
+            DBConnection.canjear_cupon(Convert.ToInt16(textBox2.Text), Convert.ToInt16(textBox1.Text), dateTimePicker1.Value);
+
+            MessageBox.Show("Cupon canjeado!");
+            textBox1.Text = ""; textBox2.Text = "";
+
+
+        }
     }
 }

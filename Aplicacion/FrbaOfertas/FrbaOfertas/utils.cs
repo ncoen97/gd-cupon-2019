@@ -72,5 +72,18 @@ namespace FrbaOfertas
             cbx.BackColor = Color.White;
             return true;
         }
+
+        public static bool validarNoVacio(TextBox txb)
+        {
+
+            if (txb.Text == "")
+            {
+                txb.BackColor = Color.Tomato;
+                return false;
+            }
+            txb.BackColor = Color.White;
+            return true;
+        }
+
     }
 }

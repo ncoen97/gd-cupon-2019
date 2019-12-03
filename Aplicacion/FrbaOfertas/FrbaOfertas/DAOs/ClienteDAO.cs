@@ -276,6 +276,9 @@ namespace FrbaOfertas
             return (int)ret.Value;
         }
 
+
+
+
         public static Tarjeta obtenerTarjeta(Usuario usuario, int nrotarjeta)
         {
             string query = string.Format(@"SELECT * FROM SOCORRO.getTarjetaDeUsuario(@username, @nrotarjeta)");
@@ -323,6 +326,44 @@ namespace FrbaOfertas
             conexion.Close();
             conexion.Dispose();
             return c;
+
+        }
+
+        public static int cliente_id_from_nombre(string _nombre)
+        {
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("Select * from SOCORRO.Cliente where clie_nombre = @clie_nombre", conexion);
+            command.Parameters.AddWithValue("@clie_nombre", _nombre);
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            int id_cliente = Convert.ToInt16(reader["clie_id"]);
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return id_cliente;
+
+        }
+
+        public static bool verificarExistenciaCliente (int idCliente)
+        {
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("Select Count(*) cuentas  from SOCORRO.Cliente where clie_id = @clie_id", conexion);
+            command.Parameters.AddWithValue("@clie_id", idCliente);
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            int id_cliente = Convert.ToInt16(reader["cuentas"]);
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return (id_cliente==1);
 
         }
 

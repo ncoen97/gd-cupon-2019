@@ -798,9 +798,13 @@ BEGIN
 		Factura_Nro,
 		Oferta_Codigo,
 		Oferta_Precio,
-		1
+		COUNT(*)
 	FROM gd_esquema.Maestra
-	WHERE Factura_Fecha IS NOT NULL;
+	WHERE Factura_Fecha IS NOT NULL
+	GROUP BY
+		Factura_Nro,
+		Oferta_Codigo,
+		Oferta_Precio;
 END
 GO
 
@@ -1669,6 +1673,66 @@ BEGIN
 	ORDER BY [Facturacion] DESC;
 END
 GO
+
+-- DROP PROC SOCORRO.sp_facturar_proveedor;
+CREATE PROC SOCORRO.sp_facturar_proveedor (
+	@admin_id int,
+	@prov_id int,
+	@fecha_desde datetime,
+	@fecha_hasta datetime,
+	@total_facturado numeric(18, 2) OUTPUT,
+	@id_nueva_factura int OUTPUT
+) AS
+BEGIN
+	SELECT
+		o.ofer_id [ID Oferta],
+		COUNT(*) [Cantidad],
+		o.ofer_precio_oferta [Precio],
+		o.ofer_descripcion [Descripcion]
+	FROM SOCORRO.Cupon cup
+	JOIN SOCORRO.Oferta o
+		ON o.ofer_id = cup.cupon_ofer_id
+	WHERE (o.ofer_prov_id = @prov_id)
+		AND (cup.cupon_fecha_compra < @fecha_hasta)
+		AND (cup.cupon_fecha_compra >= @fecha_desde)
+	GROUP BY
+		o.ofer_id,
+		o.ofer_precio_oferta,
+		o.ofer_descripcion
+	ORDER BY o.ofer_descripcion;
+	SET @total_facturado = (
+		SELECT
+			SUM(o.ofer_precio_oferta) [Total a facturar]
+		FROM SOCORRO.Cupon cup
+		LEFT JOIN SOCORRO.Oferta o
+			ON o.ofer_id = cup.cupon_ofer_id
+		WHERE (o.ofer_prov_id = @prov_id)
+			AND (cup.cupon_fecha_compra < @fecha_hasta)
+			AND (cup.cupon_fecha_compra >= @fecha_desde)
+	);
+	SET @id_nueva_factura = (
+		SELECT
+			MAX(f.fact_id) + 1
+		FROM SOCORRO.Factura f
+	);
+	INSERT INTO SOCORRO.Factura (
+		fact_id,
+		fact_admin_id,
+		fact_prov_id,
+		fact_fecha_desde,
+		fact_fecha_hasta
+	) VALUES (
+		@id_nueva_factura,
+		@admin_id,
+		@prov_id,
+		@fecha_desde,
+		@fecha_hasta
+	);
+END
+GO
+
+
+
 
 -- <ADMINISTRADOR PEDIDO EN PAG 14>
 BEGIN

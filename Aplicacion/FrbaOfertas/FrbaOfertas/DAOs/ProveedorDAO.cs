@@ -247,5 +247,27 @@ namespace FrbaOfertas
             }
             return true;
         }
+        public static Boolean esProveedor(Usuario usuario)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select rol_nombre from SOCORRO.RolxUsuario rxu join SOCORRO.Rol r on r.rol_id = rxu.rol_id join SOCORRO.Usuario u on u.user_id = rxu.user_id where u.user_id = @user_id", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@user_id", usuario.id);
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            string rol = reader["rol_nombre"].ToString();
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+
+            if (rol.Equals("proveedor", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

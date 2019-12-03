@@ -22,7 +22,8 @@ namespace FrbaOfertas
 
         private void CrearOferta_Load(object sender, EventArgs e)
         {
-            //fijarse si es proveedor
+            esProveedor = ProveedorDAO.esProveedor(usuario);
+
             dateTimePicker1.MinDate = utils.obtenerFecha();
             if (esProveedor)
             {

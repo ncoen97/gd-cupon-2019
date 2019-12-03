@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FrbaOfertas._Clases;
 
 namespace FrbaOfertas
 {
@@ -32,7 +33,12 @@ namespace FrbaOfertas
             }
             else
             {
-                //cargar proveedores
+                List<Proveedor> proveedores = ProveedorDAO.getProveedores();
+                foreach (Proveedor p in proveedores)
+                {
+                    ComboboxItem item = new ComboboxItem(p.razon_social, p);
+                    comboBoxProveedor.Items.Add(item);
+                }
             }
 
         }
@@ -54,7 +60,8 @@ namespace FrbaOfertas
             }
             else
             {
-                Proveedor proveedorSeleccionado = (Proveedor)comboBoxProveedor.SelectedItem;
+                ComboboxItem item = (ComboboxItem)comboBoxProveedor.SelectedItem;
+                Proveedor proveedorSeleccionado = (Proveedor)item.value;
                 resultado = ProveedorDAO.publicarOferta(proveedorSeleccionado.id, Oferta_descripcion.Text, dateTimePicker1.Value, (double)numericUpDownPrecioOferta.Value, (double)numericUpDownPrecioLista.Value, (int)numericUpDownCantidad.Value, (int)numericUpDownMaximo.Value);
             }
             if (resultado)

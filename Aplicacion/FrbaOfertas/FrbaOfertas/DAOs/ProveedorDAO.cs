@@ -153,7 +153,7 @@ namespace FrbaOfertas
         {
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("select * from SOCORRO.Rubro", conexion);
-            //command.CommandType = CommandType.Text;
+            command.CommandType = CommandType.Text;
             SqlDataReader reader = command.ExecuteReader();
             List<Rubro> rubros = new List<Rubro>();
             while (reader.Read())
@@ -268,6 +268,30 @@ namespace FrbaOfertas
                 return true;
             }
             return false;
+        }
+        public static List<Proveedor> getProveedores()
+        {
+            List<Proveedor> proveedores = new List<Proveedor>();
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Proveedor", conexion);
+            command.CommandType = CommandType.Text;
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = int.Parse(reader["prov_id"].ToString());
+                string rs = reader["prov_razon_social"].ToString();
+                Proveedor prov = new Proveedor(id, rs);
+                proveedores.Add(prov);
+            }
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+
+            return proveedores;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 using FrbaOfertas.DAOs;
 using FrbaOfertas._Clases;
 
@@ -60,17 +61,15 @@ namespace FrbaOfertas
             {
                 cargaRealizada = ClienteDAO.realizarCarga(usuario, double.Parse(numericUpDownMonto.Value.ToString()), null,1);
             }
-            else if (combo_formaDePago.SelectedItem.ToString()== "Crédito")
+            else if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "Crédito", CompareOptions.IgnoreCase) >= 0 || CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "Débito", CompareOptions.IgnoreCase) >= 0 || CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "tarjeta", CompareOptions.IgnoreCase) >= 0)
             {
                 Tarjeta tarjetaSeleccionada = ClienteDAO.obtenerTarjeta(usuario, int.Parse(comboBoxTarjeta.SelectedItem.ToString()));
                 cargaRealizada = ClienteDAO.realizarCarga(usuario, double.Parse(numericUpDownMonto.Value.ToString()), tarjetaSeleccionada, 2);
             }
             else
             {
-                MessageBox.Show("No se encontro el metodo");
-                return;
+                MessageBox.Show("Metodo de pago desconocido, intente nuevamente");
             }
-            
             switch (cargaRealizada)
             {
                 case 1:
@@ -87,6 +86,9 @@ namespace FrbaOfertas
                     break;
                 case 5:
                     MessageBox.Show("Carga exitosa");
+                    MenuFuncionalidades menu = new MenuFuncionalidades(usuario);
+                    menu.Show();
+                    this.Hide();
                     break;
                 case 6:
                     MessageBox.Show("Error en forma de pago");

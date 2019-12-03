@@ -34,7 +34,11 @@ namespace FrbaOfertas
             telefono = tel;
             habilitada = habilitado;
         }
-
+        public Proveedor(int _id, string rs)
+        {
+            id = _id;
+            razon_social = rs;
+        }
         public static Proveedor ProveedorConId(int _id, Usuario usu, string rs, string email, string direc, string cp, string ciud, string cuitt, int rubid, string nombre, string tel, bool _hab)
         {
             Proveedor p = new Proveedor(usu, rs,  email,  direc,  cp,  ciud,  cuitt,  rubid,  nombre, tel, _hab);

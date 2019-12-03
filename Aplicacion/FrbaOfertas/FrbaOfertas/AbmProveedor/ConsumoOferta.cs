@@ -34,7 +34,6 @@ namespace FrbaOfertas
         private void button1_Click(object sender, EventArgs e)
         {
             if (!utils.validarEntradaSoloNumeros(textBox1) ||
-            !utils.validarEntradaSoloNumeros(textBox2) ||
             !utils.validarNoVacio(textBox1) ||
             !utils.validarNoVacio(textBox2))
             {
@@ -48,14 +47,14 @@ namespace FrbaOfertas
                 return;
             }
             
-            if (!DBConnection.encontrar_cupon_para_canjear(Convert.ToInt16(textBox2.Text)))
+            if (!DBConnection.encontrar_cupon_para_canjear(textBox2.Text))
             {
                 MessageBox.Show("No esta disponible el cupon");
                 return;
 
             }
             
-            DBConnection.canjear_cupon(Convert.ToInt16(textBox2.Text), Convert.ToInt16(textBox1.Text), dateTimePicker1.Value);
+            DBConnection.canjear_cupon(textBox2.Text, Convert.ToInt16(textBox1.Text), dateTimePicker1.Value);
 
             MessageBox.Show("Cupon canjeado!");
             textBox1.Text = ""; textBox2.Text = "";

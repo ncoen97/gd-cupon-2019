@@ -49,7 +49,21 @@ namespace FrbaOfertas
             da2.Fill(dt2);
             dataGridView2.DataSource = dt2;
             dataGridView2.EditMode = DataGridViewEditMode.EditProgrammatically;
-           
+
+            List<Funcionalidad> funcs = DBConnection.getFuncs();
+
+            foreach (Funcionalidad f in funcs)
+            {
+                comboBox_funcionalidades.Items.Add(f.nombre);
+            }
+            comboBox_funcionalidades.SelectedIndex = 0;
+            List<Rol> roles = DBConnection.getRoles();
+
+            foreach (Rol r in roles)
+            {
+                comboBox_roles.Items.Add(r.nombre);
+            }
+            comboBox_roles.SelectedIndex = 0;
         }
 
         private void actualizar()
@@ -151,6 +165,21 @@ namespace FrbaOfertas
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             selectedRow = null;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+             SqlConnection conexion = DBConnection.getConnection();
+             SqlCommand command = new SqlCommand("insert into SOCORRO.FuncionalidadxRol values (@func_id,@rol_id)", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@func_id", comboBox_funcionalidades.SelectedIndex+1);
+            command.Parameters.AddWithValue("@rol_id", comboBox_roles.SelectedIndex+1);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            actualizar();
+            
         }
     }
 }

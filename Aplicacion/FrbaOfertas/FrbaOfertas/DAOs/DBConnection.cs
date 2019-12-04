@@ -281,5 +281,52 @@ namespace FrbaOfertas
             conexion.Dispose();
             return (int)ret.Value;
         }
+
+        public static List<Funcionalidad> getFuncs()
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Funcionalidad", conexion);
+            command.CommandType = CommandType.Text;
+            SqlDataReader reader = command.ExecuteReader();
+            List<Funcionalidad> funcs = new List<Funcionalidad>();
+            while (reader.Read())
+            {
+                int id = int.Parse(reader["func_id"].ToString());
+                string descripcion = reader["func_descripcion"].ToString();
+                Funcionalidad f = new Funcionalidad(id, descripcion);
+                funcs.Add(f);
+            }
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return funcs;
+        }
+
+        public static List<Rol> getRoles()
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Rol", conexion);
+            command.CommandType = CommandType.Text;
+            SqlDataReader reader = command.ExecuteReader();
+            List<Rol> roles = new List<Rol>();
+            while (reader.Read())
+            {
+                int id = int.Parse(reader["rol_id"].ToString());
+                string descripcion = reader["rol_nombre"].ToString();
+                bool hab = (bool)reader["rol_habilitado"];
+                Rol r = new Rol(id, descripcion,hab);
+                roles.Add(r);
+            }
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return roles;
+        }
     }
 }

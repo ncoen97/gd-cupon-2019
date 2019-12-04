@@ -37,12 +37,22 @@ namespace FrbaOfertas
 
         private void buttonCargar_Click(object sender, EventArgs e)
         {
+            
+            
             //faltan un monton de chequeos. de que la tarjeta que no tenga letras, que el mes y año sea futuro,
             //el nombre este lleno etc
-            if (comboBoxAnio.SelectedItem == null ||comboBoxMes.SelectedItem==null)
+
+            if (comboBoxAnio.SelectedItem == null || comboBoxMes.SelectedItem == null || !utils.validarNoVacio(textBoxNombreDelTitular) || !utils.validarNoVacio(textBoxNumeroDeTarjeta))
             {
                 MessageBox.Show("Faltan cargar datos");
                 return;
+            }
+
+            if (!utils.validarEntradaSoloNumeros(textBoxNumeroDeTarjeta))
+            {
+                MessageBox.Show("La tarjeta ingresada no es valida. Solo debe contener numeros");
+                return;
+            
             }
                 
  
@@ -76,6 +86,7 @@ namespace FrbaOfertas
             {
                 comboBoxAnio.Items.Add(i);
             }
+            comboBoxMes.SelectedIndex = 0;
             comboBoxAnio.SelectedIndex = 0;
         }
 

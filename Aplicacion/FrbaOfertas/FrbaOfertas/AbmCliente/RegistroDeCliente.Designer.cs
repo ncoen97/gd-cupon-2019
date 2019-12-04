@@ -212,7 +212,7 @@
             // 
             this.Cli_fecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.Cli_fecha.Location = new System.Drawing.Point(375, 302);
-            this.Cli_fecha.MaxDate = new System.DateTime(2019, 11, 13, 16, 26, 37, 0);
+            this.Cli_fecha.MaxDate = new System.DateTime(2019, 12, 4, 0, 0, 0, 0);
             this.Cli_fecha.MinDate = new System.DateTime(1920, 1, 1, 0, 0, 0, 0);
             this.Cli_fecha.Name = "Cli_fecha";
             this.Cli_fecha.Size = new System.Drawing.Size(214, 26);

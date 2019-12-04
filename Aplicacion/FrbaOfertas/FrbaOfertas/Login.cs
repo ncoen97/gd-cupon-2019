@@ -34,6 +34,7 @@ namespace FrbaOfertas
             if (respuesta == -1)
             {
                 MessageBox.Show("Error: Usuario o contraseña incorrectos");
+                usuario.password = "";
             }
             else if(respuesta == -2)
             {

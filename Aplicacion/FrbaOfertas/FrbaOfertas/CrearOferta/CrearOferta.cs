@@ -55,6 +55,20 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {//publicar oferta
+            if (!utils.validarNoVacio(Oferta_descripcion))
+            {
+                MessageBox.Show("Falta descripcion");
+                return;
+            }
+            
+            if (numericUpDownCantidad.Value>0 && numericUpDownMaximo.Value>0
+                    && numericUpDownPrecioLista.Value > 0 && numericUpDownPrecioOferta.Value > 0
+                    && numericUpDownPrecioOferta.Value < numericUpDownPrecioLista.Value)
+            {
+                MessageBox.Show("todos los valores deben ser mayores a 0");
+                return;
+            }
+
             Boolean resultado;
             if (esProveedor)
             {

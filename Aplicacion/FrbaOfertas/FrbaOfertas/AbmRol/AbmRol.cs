@@ -24,6 +24,12 @@ namespace FrbaOfertas
 
         private void Button1_Click(object sender, EventArgs e)
         {
+            if (!utils.validarNoVacio(rol_nombre))
+            {
+                MessageBox.Show("Designar nombre para rol nuevo");
+                return;
+            
+            }
             Rol r = new Rol(rol_nombre.Text, null);
             DBConnection.registrar_Rol(r);
             actualizar();

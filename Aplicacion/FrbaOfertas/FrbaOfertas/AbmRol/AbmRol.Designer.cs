@@ -74,7 +74,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(207, 44);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(218, 26);
             this.button1.TabIndex = 47;
@@ -89,9 +89,9 @@
             this.groupBox1.Controls.Add(this.label);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(21, 17);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(595, 109);
             this.groupBox1.TabIndex = 51;
             this.groupBox1.TabStop = false;
@@ -100,7 +100,7 @@
             // rol_nombre
             // 
             this.rol_nombre.Location = new System.Drawing.Point(60, 49);
-            this.rol_nombre.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rol_nombre.Margin = new System.Windows.Forms.Padding(2);
             this.rol_nombre.Name = "rol_nombre";
             this.rol_nombre.Size = new System.Drawing.Size(122, 20);
             this.rol_nombre.TabIndex = 63;
@@ -118,9 +118,9 @@
             this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.dataGridView1);
             this.groupBox2.Location = new System.Drawing.Point(21, 130);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(591, 236);
             this.groupBox2.TabIndex = 52;
             this.groupBox2.TabStop = false;
@@ -134,7 +134,7 @@
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView2.Location = new System.Drawing.Point(10, 125);
-            this.dataGridView2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 28;
             this.dataGridView2.Size = new System.Drawing.Size(356, 107);
@@ -144,7 +144,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(406, 183);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(133, 25);
             this.button6.TabIndex = 68;
@@ -155,7 +155,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(406, 154);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(133, 25);
             this.button4.TabIndex = 67;
@@ -169,7 +169,7 @@
             this.comboBox3.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Location = new System.Drawing.Point(406, 32);
-            this.comboBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox3.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(134, 21);
             this.comboBox3.TabIndex = 66;
@@ -177,7 +177,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(406, 125);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(133, 25);
             this.button3.TabIndex = 65;
@@ -187,7 +187,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(406, 96);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(133, 25);
             this.button2.TabIndex = 64;
@@ -220,7 +220,7 @@
             this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(406, 73);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(134, 21);
             this.comboBox1.TabIndex = 58;
@@ -231,7 +231,7 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(10, 19);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.Size = new System.Drawing.Size(356, 102);
@@ -242,7 +242,7 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(563, 370);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(65, 29);
             this.button5.TabIndex = 51;
@@ -258,9 +258,9 @@
             this.Controls.Add(this.button5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AbmRol";
-            this.Text = "Form1";
+            this.Text = "Abm Rol";
             this.Load += new System.EventHandler(this.AbmRol_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

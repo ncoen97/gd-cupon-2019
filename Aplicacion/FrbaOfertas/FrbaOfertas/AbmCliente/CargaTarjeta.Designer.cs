@@ -134,7 +134,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonCargar);
             this.Name = "CargaTarjeta";
-            this.Text = "CargaTarjeta";
+            this.Text = "Carga Tarjeta";
             this.Load += new System.EventHandler(this.CargaTarjeta_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

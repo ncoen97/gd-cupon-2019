@@ -47,7 +47,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(341, 180);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(119, 31);
             this.button6.TabIndex = 25;
@@ -58,7 +58,7 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(623, 291);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(89, 31);
             this.button5.TabIndex = 24;
@@ -69,7 +69,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(463, 180);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(119, 31);
             this.button3.TabIndex = 22;
@@ -83,7 +83,7 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(8, 8);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.Size = new System.Drawing.Size(704, 156);
@@ -93,7 +93,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(154, 284);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(89, 31);
             this.button2.TabIndex = 33;
@@ -104,7 +104,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(39, 284);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 31);
             this.button1.TabIndex = 32;
@@ -115,7 +115,7 @@
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(89, 248);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(121, 20);
             this.textBox2.TabIndex = 42;
@@ -133,7 +133,7 @@
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(145, 209);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(122, 20);
             this.textBox3.TabIndex = 40;
@@ -161,7 +161,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(15, 211);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(122, 20);
             this.textBox1.TabIndex = 35;
@@ -169,7 +169,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(586, 180);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(119, 31);
             this.button4.TabIndex = 43;
@@ -195,9 +195,9 @@
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dataGridView1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AbmProveedor";
-            this.Text = "AbmProveedor";
+            this.Text = "Abm Proveedor";
             this.Load += new System.EventHandler(this.AbmProveedor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

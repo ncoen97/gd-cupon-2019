@@ -38,7 +38,6 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.comboBox_roles = new System.Windows.Forms.ComboBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -105,7 +104,6 @@
             this.groupBox2.Controls.Add(this.button6);
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Controls.Add(this.comboBox_roles);
-            this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label6);
@@ -161,15 +159,6 @@
             this.comboBox_roles.Name = "comboBox_roles";
             this.comboBox_roles.Size = new System.Drawing.Size(199, 28);
             this.comboBox_roles.TabIndex = 66;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(609, 192);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(200, 38);
-            this.button3.TabIndex = 65;
-            this.button3.Text = "Quitar funcionalidad";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -267,7 +256,6 @@
         private System.Windows.Forms.TextBox rol_nombre;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox comboBox_roles;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox comboBox_funcionalidades;
         private System.Windows.Forms.Button button6;

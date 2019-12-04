@@ -29,7 +29,7 @@ namespace FrbaOfertas
             {
                 comboBox1.Items.Add(p.razon_social);
             }
-            
+            comboBox1.SelectedIndex = 0;
         }
 
         private void button2_Click(object sender, EventArgs e)

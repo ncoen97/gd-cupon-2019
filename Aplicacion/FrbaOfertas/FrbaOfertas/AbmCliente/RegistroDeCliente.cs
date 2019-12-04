@@ -83,7 +83,7 @@ namespace FrbaOfertas
 
         private void RegistroDeCliente_Load(object sender, EventArgs e)
         {
-
+            label_usu.Text = "Estas por registrarte con el usuario: " + usuarioNuevo.username;
         }
 
         private void button5_Click(object sender, EventArgs e)

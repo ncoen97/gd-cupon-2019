@@ -39,7 +39,10 @@ namespace FrbaOfertas
                     ComboboxItem item = new ComboboxItem(p.razon_social, p);
                     comboBoxProveedor.Items.Add(item);
                 }
+                comboBoxProveedor.SelectedIndex = 0;
+            
             }
+            
 
         }
 

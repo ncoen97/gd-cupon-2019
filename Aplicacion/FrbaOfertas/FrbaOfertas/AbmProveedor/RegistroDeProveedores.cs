@@ -130,6 +130,7 @@ namespace FrbaOfertas
                 Provee_rubro.Items.Add(r.descripcion);
                 Provee_rubro.Text = r.descripcion;
             }
+            label_usu.Text = "Estas por registrarte con el usuario: " + usuarioNuevo.username;
             
         }
 

@@ -53,10 +53,9 @@
             // 
             // buttonPublicar
             // 
-            this.buttonPublicar.Location = new System.Drawing.Point(192, 272);
-            this.buttonPublicar.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonPublicar.Location = new System.Drawing.Point(288, 451);
             this.buttonPublicar.Name = "buttonPublicar";
-            this.buttonPublicar.Size = new System.Drawing.Size(91, 26);
+            this.buttonPublicar.Size = new System.Drawing.Size(136, 40);
             this.buttonPublicar.TabIndex = 68;
             this.buttonPublicar.Text = "Publicar";
             this.buttonPublicar.UseVisualStyleBackColor = true;
@@ -64,78 +63,71 @@
             // 
             // Oferta_descripcion
             // 
-            this.Oferta_descripcion.Location = new System.Drawing.Point(209, 81);
-            this.Oferta_descripcion.Margin = new System.Windows.Forms.Padding(2);
+            this.Oferta_descripcion.Location = new System.Drawing.Point(314, 75);
+            this.Oferta_descripcion.Multiline = true;
             this.Oferta_descripcion.Name = "Oferta_descripcion";
-            this.Oferta_descripcion.Size = new System.Drawing.Size(144, 20);
+            this.Oferta_descripcion.Size = new System.Drawing.Size(214, 114);
             this.Oferta_descripcion.TabIndex = 56;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(201, 49);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Location = new System.Drawing.Point(284, 27);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 13);
+            this.label10.Size = new System.Drawing.Size(94, 20);
             this.label10.TabIndex = 55;
             this.label10.Text = "Crear oferta";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(97, 132);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Location = new System.Drawing.Point(146, 236);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 13);
+            this.label5.Size = new System.Drawing.Size(107, 20);
             this.label5.TabIndex = 53;
             this.label5.Text = "Precio de lista";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(97, 158);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Location = new System.Drawing.Point(146, 276);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(82, 13);
+            this.label6.Size = new System.Drawing.Size(121, 20);
             this.label6.TabIndex = 52;
             this.label6.Text = "Precio de oferta";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(97, 184);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Location = new System.Drawing.Point(146, 316);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(99, 13);
+            this.label7.Size = new System.Drawing.Size(148, 20);
             this.label7.TabIndex = 51;
             this.label7.Text = "Cantidad disponible";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(97, 111);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Location = new System.Drawing.Point(146, 204);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(112, 13);
+            this.label4.Size = new System.Drawing.Size(164, 20);
             this.label4.TabIndex = 50;
             this.label4.Text = "Fecha de vencimiento";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(97, 84);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(146, 79);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.Size = new System.Drawing.Size(92, 20);
             this.label1.TabIndex = 49;
             this.label1.Text = "Descripción";
             // 
             // buttonAtras
             // 
-            this.buttonAtras.Location = new System.Drawing.Point(192, 302);
-            this.buttonAtras.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonAtras.Location = new System.Drawing.Point(288, 498);
             this.buttonAtras.Name = "buttonAtras";
-            this.buttonAtras.Size = new System.Drawing.Size(91, 26);
+            this.buttonAtras.Size = new System.Drawing.Size(136, 40);
             this.buttonAtras.TabIndex = 69;
             this.buttonAtras.Text = "Atras";
             this.buttonAtras.UseVisualStyleBackColor = true;
@@ -143,86 +135,89 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(209, 105);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2);
+            this.dateTimePicker1.Location = new System.Drawing.Point(314, 195);
             this.dateTimePicker1.MinDate = new System.DateTime(2019, 11, 13, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(144, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(214, 26);
             this.dateTimePicker1.TabIndex = 70;
             // 
             // labelProveedor
             // 
             this.labelProveedor.AutoSize = true;
-            this.labelProveedor.Location = new System.Drawing.Point(97, 237);
-            this.labelProveedor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelProveedor.Location = new System.Drawing.Point(146, 398);
             this.labelProveedor.Name = "labelProveedor";
-            this.labelProveedor.Size = new System.Drawing.Size(56, 13);
+            this.labelProveedor.Size = new System.Drawing.Size(81, 20);
             this.labelProveedor.TabIndex = 71;
             this.labelProveedor.Text = "Proveedor";
             // 
             // comboBoxProveedor
             // 
+            this.comboBoxProveedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProveedor.FormattingEnabled = true;
-            this.comboBoxProveedor.Location = new System.Drawing.Point(209, 234);
+            this.comboBoxProveedor.Location = new System.Drawing.Point(314, 393);
+            this.comboBoxProveedor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxProveedor.Name = "comboBoxProveedor";
-            this.comboBoxProveedor.Size = new System.Drawing.Size(144, 21);
+            this.comboBoxProveedor.Size = new System.Drawing.Size(214, 28);
             this.comboBoxProveedor.TabIndex = 72;
             // 
             // numericUpDownPrecioLista
             // 
             this.numericUpDownPrecioLista.DecimalPlaces = 2;
-            this.numericUpDownPrecioLista.Location = new System.Drawing.Point(209, 130);
+            this.numericUpDownPrecioLista.Location = new System.Drawing.Point(314, 233);
+            this.numericUpDownPrecioLista.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numericUpDownPrecioLista.Maximum = new decimal(new int[] {
             -1486618625,
             232830643,
             0,
             131072});
             this.numericUpDownPrecioLista.Name = "numericUpDownPrecioLista";
-            this.numericUpDownPrecioLista.Size = new System.Drawing.Size(144, 20);
+            this.numericUpDownPrecioLista.Size = new System.Drawing.Size(216, 26);
             this.numericUpDownPrecioLista.TabIndex = 73;
             // 
             // numericUpDownPrecioOferta
             // 
             this.numericUpDownPrecioOferta.DecimalPlaces = 2;
-            this.numericUpDownPrecioOferta.Location = new System.Drawing.Point(209, 156);
+            this.numericUpDownPrecioOferta.Location = new System.Drawing.Point(314, 273);
+            this.numericUpDownPrecioOferta.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numericUpDownPrecioOferta.Maximum = new decimal(new int[] {
             -1486618625,
             232830643,
             0,
             131072});
             this.numericUpDownPrecioOferta.Name = "numericUpDownPrecioOferta";
-            this.numericUpDownPrecioOferta.Size = new System.Drawing.Size(144, 20);
+            this.numericUpDownPrecioOferta.Size = new System.Drawing.Size(216, 26);
             this.numericUpDownPrecioOferta.TabIndex = 74;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(97, 210);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(146, 356);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 13);
+            this.label2.Size = new System.Drawing.Size(140, 20);
             this.label2.TabIndex = 75;
             this.label2.Text = "Maximo por cliente";
             // 
             // numericUpDownCantidad
             // 
-            this.numericUpDownCantidad.Location = new System.Drawing.Point(209, 182);
+            this.numericUpDownCantidad.Location = new System.Drawing.Point(314, 313);
+            this.numericUpDownCantidad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numericUpDownCantidad.Name = "numericUpDownCantidad";
-            this.numericUpDownCantidad.Size = new System.Drawing.Size(144, 20);
+            this.numericUpDownCantidad.Size = new System.Drawing.Size(216, 26);
             this.numericUpDownCantidad.TabIndex = 76;
             // 
             // numericUpDownMaximo
             // 
-            this.numericUpDownMaximo.Location = new System.Drawing.Point(209, 208);
+            this.numericUpDownMaximo.Location = new System.Drawing.Point(314, 353);
+            this.numericUpDownMaximo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numericUpDownMaximo.Name = "numericUpDownMaximo";
-            this.numericUpDownMaximo.Size = new System.Drawing.Size(144, 20);
+            this.numericUpDownMaximo.Size = new System.Drawing.Size(216, 26);
             this.numericUpDownMaximo.TabIndex = 77;
             // 
             // CrearOferta
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(455, 359);
+            this.ClientSize = new System.Drawing.Size(682, 552);
             this.Controls.Add(this.numericUpDownMaximo);
             this.Controls.Add(this.numericUpDownCantidad);
             this.Controls.Add(this.label2);
@@ -240,7 +235,6 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "CrearOferta";
             this.Text = "Crear oferta";
             this.Load += new System.EventHandler(this.CrearOferta_Load);

@@ -124,7 +124,11 @@ IF OBJECT_ID('SOCORRO.sp_registro_rol') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_rol;
 IF OBJECT_ID('SOCORRO.sp_generarIdCupon') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_generarIdCupon;
-	
+IF OBJECT_ID('SOCORRO.sp_consumirOferta') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_consumirOferta;
+IF OBJECT_ID('SOCORRO.sp_facturar_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_facturar_proveedor
+
 IF NOT EXISTS
 	(SELECT *
 	FROM sys.schemas
@@ -182,7 +186,7 @@ CREATE TABLE SOCORRO.Rubro (
 CREATE TABLE SOCORRO.Tarjeta (
   tarj_id int IDENTITY PRIMARY KEY,
   tarj_clie_id int,
-  tarj_numero int,
+  tarj_numero nvarchar(16),
   tarj_vencimiento datetime,
   tarj_titular nvarchar(50)
 );
@@ -942,7 +946,7 @@ AS
 				where u.user_username = @username and t.tarj_vencimiento > @fechaActual)
 GO
 
-CREATE FUNCTION [SOCORRO].getTarjetaDeUsuario(@username nvarchar(50), @nrotarjeta int)
+CREATE FUNCTION [SOCORRO].getTarjetaDeUsuario(@username nvarchar(50), @nrotarjeta nvarchar(16))
 RETURNS TABLE
 AS
 	 RETURN (select *
@@ -1545,35 +1549,34 @@ BEGIN
 END
 GO
 
-create proc SOCORRO.sp_cargarTarjeta(
+CREATE PROCEDURE SOCORRO.sp_cargarTarjeta(
 	@user_name nvarchar(20),
-	@numero_tarjeta int,
+	@numero_tarjeta nvarchar(16),
 	@mes_vencimiento int,
 	@anio_vencimiento int,
-	@titular nvarchar(50)
+	@titular nvarchar(50),
+	@fechaActual datetime
 	)
-as 
-begin
-	declare @datetime datetime
-	declare @clie_id int
+AS 
+BEGIN
+	BEGIN TRY
+		DECLARE @datetime datetime
+		DECLARE @clie_id int
 
-	set @clie_id = (select c.clie_id from SOCORRO.Cliente c join SOCORRO.Usuario 
-		u on (c.clie_user_id = u.user_id) where u.user_username= @user_name)
-	set @datetime = DATETIMEFROMPARTS(@anio_vencimiento,@mes_vencimiento,1,0,0,0,0)
-	
-	insert into SOCORRO.Tarjeta(
-		tarj_clie_id,
-		tarj_numero,
-		tarj_vencimiento,
-		tarj_titular
-	)values(
-		@clie_id,
-		@numero_tarjeta,
-		@datetime,
-		@titular
-	)
-end
-go
+		SET @clie_id = (SELECT c.clie_id FROM SOCORRO.Cliente c join SOCORRO.Usuario 
+			u ON (c.clie_user_id = u.user_id) WHERE u.user_username= @user_name)
+		SET @datetime = DATETIMEFROMPARTS(@anio_vencimiento,@mes_vencimiento,1,0,0,0,0)
+		IF @datetime < @fechaActual
+		RETURN -1;
+		INSERT INTO SOCORRO.Tarjeta(tarj_clie_id, tarj_numero, tarj_vencimiento, tarj_titular)
+			VALUES(@clie_id, @numero_tarjeta, @datetime,@titular)
+		RETURN 0;
+	END TRY
+	BEGIN CATCH
+		RETURN -2;
+	END CATCH
+END
+GO
 CREATE PROC SOCORRO.sp_publicar_oferta (
 	@prov_id int,
 	@fecha_publicacion datetime, --> mayor o igual a la actual!, se chequea por programa
@@ -1730,7 +1733,6 @@ BEGIN
 END
 GO
 
--- DROP PROC SOCORRO.sp_facturar_proveedor;
 CREATE PROC SOCORRO.sp_facturar_proveedor (
 	@admin_id int,
 	@prov_id int,

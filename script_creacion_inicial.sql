@@ -171,7 +171,7 @@ CREATE TABLE SOCORRO.Proveedor (
   prov_ciudad nvarchar(255),
   prov_cuit nvarchar(20),
   prov_rubro_id int,
-  prov_nombre_contacto nvarchar(255), --> TODO: revisar?
+  prov_nombre_contacto nvarchar(255),
   prov_habilitado bit DEFAULT 1
 );
 
@@ -245,7 +245,7 @@ CREATE TABLE SOCORRO.Item (
 
 CREATE TABLE SOCORRO.Usuario (
   user_id int IDENTITY PRIMARY KEY,
-  user_username nvarchar(20),
+  user_username nvarchar(30),
   user_pass nvarchar(255),
   user_intentos int DEFAULT 0,
   user_habilitado bit DEFAULT 1
@@ -417,10 +417,10 @@ BEGIN
 		(3, 1),
 		(3, 2),
 		(3, 3),
-		(3, 4), --> TODO: hecho?
-		(3, 5), --> TODO: hecho?
-		(3, 6), --> TODO: hecho?
-		(3, 7), --> tODO: hecho?
+		(3, 4),
+		(3, 5),
+		(3, 6),
+		(3, 7),
 		(3, 8),
 		(3, 9);
 END
@@ -499,7 +499,19 @@ BEGIN
 		-- con los valores por defecto
 		-- (el user_id va autoincrementando y
 		-- lo dem�s es null por no inventar datos)
-		INSERT INTO SOCORRO.Usuario DEFAULT VALUES;
+		INSERT INTO SOCORRO.Usuario (
+			user_username,
+			user_pass,
+			user_intentos,
+			user_habilitado
+		) VALUES (
+			REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+				LOWER(@prov_ciudad + CAST(@prov_cuit AS NVARCHAR(2))),
+				' ', ''), 'ñ', 'n'), 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+			HASHBYTES('SHA2_256', REPLACE(@prov_cuit, '-', '')),
+			0,
+			1
+		);
 		-- para tener el user_id reci�n usado:
 		SET @prov_user_id = SCOPE_IDENTITY();
 		INSERT INTO SOCORRO.RolxUsuario (
@@ -575,10 +587,19 @@ BEGIN
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		-- creo un usuario para el cliente
-		-- con los valores por defecto
-		-- (el user_id va autoincrementando y
-		-- lo dem�s es null por no inventar datos)
-		INSERT INTO SOCORRO.Usuario DEFAULT VALUES;
+		INSERT INTO SOCORRO.Usuario (
+			user_username,
+			user_pass,
+			user_intentos,
+			user_habilitado
+		) VALUES (
+			REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE( --> transforma "ABNER Velázquez" en "abnervelazquez"
+				LOWER(@clie_nombre + @clie_apellido),
+				' ', ''), 'ñ', 'n'), 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+			HASHBYTES('SHA2_256', CAST(@clie_dni AS NVARCHAR(255))),
+			0,
+			1
+		);
 		-- para tener el user_id reci�n usado:
 		SET @clie_user_id = SCOPE_IDENTITY();
 		INSERT INTO SOCORRO.RolxUsuario (
@@ -1722,7 +1743,7 @@ BEGIN
 	SELECT TOP 5
 		p.prov_razon_social [Razon social],
 		r.rubro_descripcion [Rubro],
-		100*AVG((o.ofer_precio_lista - o.ofer_precio_oferta)/o.ofer_precio_lista) [Descuento promedio]  --> TODO: 2 decimales
+		CAST(100*AVG((o.ofer_precio_lista - o.ofer_precio_oferta)/o.ofer_precio_lista) AS NUMERIC(18, 2)) [Descuento promedio]
 	FROM SOCORRO.Proveedor p
 	JOIN SOCORRO.Oferta o
 		ON o.ofer_prov_id = p.prov_id
@@ -1750,7 +1771,7 @@ BEGIN
 	SELECT TOP 5
 		p.prov_razon_social [Razon social],
 		r.rubro_descripcion [Rubro],
-		SUM(i.item_precio * i.item_cantidad) [Facturacion] --> TODO: 2 decimales
+		CAST(SUM(i.item_precio * i.item_cantidad) AS NUMERIC(18, 2)) [Facturacion]
 	FROM SOCORRO.Proveedor p
 	JOIN SOCORRO.Factura f
 		ON f.fact_prov_id = p.prov_id

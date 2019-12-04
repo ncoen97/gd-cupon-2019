@@ -37,7 +37,8 @@ namespace FrbaOfertas
             {
                 comboBoxTarjeta.Items.Add(t.numero);
             }
-           
+            combo_formaDePago.SelectedIndex = 0;
+            comboBoxTarjeta.SelectedIndex = 0;
         }
 
         private void Button2_Click(object sender, EventArgs e)

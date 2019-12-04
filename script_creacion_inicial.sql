@@ -448,6 +448,9 @@ BEGIN
 	SELECT DISTINCT Tipo_Pago_Desc
 	FROM gd_esquema.Maestra
 	WHERE Tipo_Pago_Desc IS NOT NULL;
+	INSERT INTO SOCORRO.Tipo_de_pago (tipo_de_pago_descripcion) VALUES ('Débito')
+	UPDATE SOCORRO.Tipo_de_pago SET tipo_de_pago_habilitado = 0
+		WHERE tipo_de_pago_descripcion like 'Efectivo';
 END
 GO
 
@@ -942,7 +945,7 @@ RETURNS table
 AS
 	 RETURN (select tarj_id,tarj_numero
 				from SOCORRO.Tarjeta t join SOCORRO.Cliente c on t.tarj_clie_id = c.clie_id
-						join SOCORRO.Usuario u on u.user_id = c.clie_user_id
+										join SOCORRO.Usuario u on u.user_id = c.clie_user_id
 				where u.user_username = @username and t.tarj_vencimiento > @fechaActual)
 GO
 

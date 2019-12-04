@@ -246,7 +246,8 @@ namespace FrbaOfertas
             {
                 command.Parameters.AddWithValue("@tarj_id ", tarjeta.id);
             }
-            else {
+            else 
+            {
                 command.Parameters.AddWithValue("@tarj_id ", null);
             }
             command.Parameters.AddWithValue("@tipo_de_pago ", formaDePago);

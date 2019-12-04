@@ -157,9 +157,9 @@ namespace FrbaOfertas
             return (cantidad < _oferta.cantidad_max_por_persona);        
         }
 
-        public static Boolean cargarTarjeta(Usuario usuario,int numeroDeTarjeta, 
-            int mesVencimiento,int anioVencimiento,string nombreTitular)
+        public static int cargarTarjeta(Usuario usuario,string numeroDeTarjeta,int mesVencimiento,int anioVencimiento,string nombreTitular)
         {
+            DateTime fechaActual = utils.obtenerFecha();
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_cargarTarjeta", conexion);
             command.CommandType = CommandType.StoredProcedure;
@@ -168,6 +168,7 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@mes_vencimiento", mesVencimiento);
             command.Parameters.AddWithValue("@anio_vencimiento", anioVencimiento);
             command.Parameters.AddWithValue("@titular ", nombreTitular);
+            command.Parameters.AddWithValue("@fechaActual ", fechaActual);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -176,7 +177,8 @@ namespace FrbaOfertas
             command.Dispose();
             conexion.Close();
             conexion.Dispose();
-            return true;
+
+            return (int)ret.Value;
         }
         public static List<TipoDePago> getFormasDePago()
         {
@@ -221,8 +223,8 @@ namespace FrbaOfertas
             while (reader.Read())
             {
                 int id = int.Parse(reader["tarj_id"].ToString());
-                int numero = int.Parse(reader["tarj_numero"].ToString());
-                Tarjeta tarjeta = new Tarjeta(id, numero.ToString());
+                string numero = reader["tarj_numero"].ToString();
+                Tarjeta tarjeta = new Tarjeta(id, numero);
                 tarjetas.Add(tarjeta);
             }
             reader.Close();
@@ -244,7 +246,8 @@ namespace FrbaOfertas
             {
                 command.Parameters.AddWithValue("@tarj_id ", tarjeta.id);
             }
-            else {
+            else 
+            {
                 command.Parameters.AddWithValue("@tarj_id ", null);
             }
             command.Parameters.AddWithValue("@tipo_de_pago ", formaDePago);
@@ -279,7 +282,7 @@ namespace FrbaOfertas
 
 
 
-        public static Tarjeta obtenerTarjeta(Usuario usuario, int nrotarjeta)
+        public static Tarjeta obtenerTarjeta(Usuario usuario, string nrotarjeta)
         {
             string query = string.Format(@"SELECT * FROM SOCORRO.getTarjetaDeUsuario(@username, @nrotarjeta)");
 
@@ -292,8 +295,8 @@ namespace FrbaOfertas
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
             int id = int.Parse(reader["tarj_id"].ToString());
-            int numero = int.Parse(reader["tarj_numero"].ToString());
-            Tarjeta tarjeta = new Tarjeta(id, numero.ToString());
+            string numero = reader["tarj_numero"].ToString();
+            Tarjeta tarjeta = new Tarjeta(id, numero);
 
             reader.Close();
             reader.Dispose();

@@ -50,14 +50,17 @@ namespace FrbaOfertas
             int anio;
             Int32.TryParse(comboBoxAnio.SelectedItem.ToString(), out anio);
 
-                
-            bool resultado = ClienteDAO.cargarTarjeta(usuario,int.Parse(textBoxNumeroDeTarjeta.Text),mes,anio,textBoxNombreDelTitular.Text);
-            if (resultado)
+            int resultado = ClienteDAO.cargarTarjeta(usuario,textBoxNumeroDeTarjeta.Text,mes,anio,textBoxNombreDelTitular.Text);
+            if (resultado == 0)
             {
                 MessageBox.Show("Tarjeta cargada correctamente");
                 CargarCredito c = new CargarCredito(usuario);
                 c.Show();
                 this.Hide();
+            }
+            else if (resultado == -1)
+            {
+                MessageBox.Show("La fecha ingresada es menor a la actual");
             }
             else
             {
@@ -73,6 +76,7 @@ namespace FrbaOfertas
             {
                 comboBoxAnio.Items.Add(i);
             }
+            comboBoxAnio.SelectedIndex = 0;
         }
 
         private void comboBoxMes_SelectedIndexChanged(object sender, EventArgs e)

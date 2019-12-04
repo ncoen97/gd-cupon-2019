@@ -37,7 +37,8 @@ namespace FrbaOfertas
             {
                 comboBoxTarjeta.Items.Add(t.numero);
             }
-           
+            combo_formaDePago.SelectedIndex = 0;
+            comboBoxTarjeta.SelectedIndex = 0;
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -63,7 +64,7 @@ namespace FrbaOfertas
             }
             else if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "Crédito", CompareOptions.IgnoreCase) >= 0 || CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "Débito", CompareOptions.IgnoreCase) >= 0 || CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "tarjeta", CompareOptions.IgnoreCase) >= 0)
             {
-                Tarjeta tarjetaSeleccionada = ClienteDAO.obtenerTarjeta(usuario, int.Parse(comboBoxTarjeta.SelectedItem.ToString()));
+                Tarjeta tarjetaSeleccionada = ClienteDAO.obtenerTarjeta(usuario, comboBoxTarjeta.SelectedItem.ToString());
                 cargaRealizada = ClienteDAO.realizarCarga(usuario, double.Parse(numericUpDownMonto.Value.ToString()), tarjetaSeleccionada, 2);
             }
             else

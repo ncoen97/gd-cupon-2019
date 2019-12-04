@@ -79,6 +79,7 @@
             // textBoxNumeroDeTarjeta
             // 
             this.textBoxNumeroDeTarjeta.Location = new System.Drawing.Point(143, 46);
+            this.textBoxNumeroDeTarjeta.MaxLength = 16;
             this.textBoxNumeroDeTarjeta.Name = "textBoxNumeroDeTarjeta";
             this.textBoxNumeroDeTarjeta.Size = new System.Drawing.Size(172, 20);
             this.textBoxNumeroDeTarjeta.TabIndex = 4;

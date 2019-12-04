@@ -42,18 +42,18 @@ namespace FrbaOfertas
                 return;
 
             Cliente cliente = Cliente.ClienteConId (
-                (int)selectedRow.Cells[0].Value, //id
+                (int)selectedRow.Cells["clie_id"].Value, //id
                 usuario,
-                selectedRow.Cells[2].Value.ToString(), //nombre
-                selectedRow.Cells[3].Value.ToString(), //apellido
-                long.Parse(selectedRow.Cells[4].Value.ToString()), //dni
-                DateTime.Parse(selectedRow.Cells[9].Value.ToString()), //fecha nac
-                selectedRow.Cells[7].Value.ToString(), //direccion
-                selectedRow.Cells[8].Value.ToString(), //cod_p
-                selectedRow.Cells[5].Value.ToString(), //mail
-                selectedRow.Cells[6].Value.ToString(),//telefono
-                selectedRow.Cells[10].Value.ToString(), //ciudad
-                (bool)selectedRow.Cells[12].Value //habilitado
+                selectedRow.Cells["clie_nombre"].Value.ToString(), //nombre
+                selectedRow.Cells["clie_apellido"].Value.ToString(), //apellido
+                long.Parse(selectedRow.Cells["clie_dni"].Value.ToString()), //dni
+                DateTime.Parse(selectedRow.Cells["clie_fecha_nacimiento"].Value.ToString()), //fecha nac
+                selectedRow.Cells["clie_direccion"].Value.ToString(), //direccion
+                selectedRow.Cells["clie_codigo_postal"].Value.ToString(), //cod_p
+                selectedRow.Cells["clie_email"].Value.ToString(), //mail
+                selectedRow.Cells["clie_telefono"].Value.ToString(),//telefono
+                selectedRow.Cells["clie_ciudad"].Value.ToString(), //ciudad
+                (bool)selectedRow.Cells["clie_habilitado"].Value //habilitado
                 );
            ModificacionDeCliente mod = new ModificacionDeCliente(cliente,usuario);
            mod.Show();
@@ -62,15 +62,8 @@ namespace FrbaOfertas
 
         private void AbmCliente_Load(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente", conexion);
-            command.CommandType = CommandType.Text;
 
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+            actualizar();
 
         }
 
@@ -102,32 +95,17 @@ namespace FrbaOfertas
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente", conexion);
-            command.CommandType = CommandType.Text;
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+            actualizar();
 
             textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = ""; textBox4.Text = "";
         }
 
         private void actualizar()
         {
-            DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente", conexion);
             command.CommandType = CommandType.Text;
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
-
-        
+            DBConnection.fill_grid(dataGridView1, command);        
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -153,20 +131,19 @@ namespace FrbaOfertas
             if (result == DialogResult.Yes)
             {
                 Cliente cliente = Cliente.ClienteConId(
-                (int)selectedRow.Cells[0].Value, //id
+                (int)selectedRow.Cells["clie_id"].Value, //id
                 usuario,
-                selectedRow.Cells[2].Value.ToString(), //nombre
-                selectedRow.Cells[3].Value.ToString(), //apellido
-                long.Parse(selectedRow.Cells[4].Value.ToString()), //dni
-                DateTime.Parse(selectedRow.Cells[9].Value.ToString()), //fecha nac
-                selectedRow.Cells[7].Value.ToString(), //direccion
-                selectedRow.Cells[8].Value.ToString(), //cod_p
-                selectedRow.Cells[5].Value.ToString(), //mail
-                selectedRow.Cells[6].Value.ToString(),//telefono
-                selectedRow.Cells[10].Value.ToString(), //ciudad
-                (bool)selectedRow.Cells[12].Value //habilitado
+                selectedRow.Cells["clie_nombre"].Value.ToString(), //nombre
+                selectedRow.Cells["clie_apellido"].Value.ToString(), //apellido
+                long.Parse(selectedRow.Cells["clie_dni"].Value.ToString()), //dni
+                DateTime.Parse(selectedRow.Cells["clie_fecha_nacimiento"].Value.ToString()), //fecha nac
+                selectedRow.Cells["clie_direccion"].Value.ToString(), //direccion
+                selectedRow.Cells["clie_codigo_postal"].Value.ToString(), //cod_p
+                selectedRow.Cells["clie_email"].Value.ToString(), //mail
+                selectedRow.Cells["clie_telefono"].Value.ToString(),//telefono
+                selectedRow.Cells["clie_ciudad"].Value.ToString(), //ciudad
+                (bool)selectedRow.Cells["clie_habilitado"].Value //habilitado
                 );
-
                 ClienteDAO.darDeBajaCliente(cliente);
                 actualizar();
             }
@@ -186,19 +163,19 @@ namespace FrbaOfertas
 
             if (result == DialogResult.Yes)
             {
-                Cliente cliente = Cliente.ClienteConId(
-                (int)selectedRow.Cells[0].Value, //id
+                Cliente cliente = Cliente.ClienteConId (
+                (int)selectedRow.Cells["clie_id"].Value, //id
                 usuario,
-                selectedRow.Cells[2].Value.ToString(), //nombre
-                selectedRow.Cells[3].Value.ToString(), //apellido
-                long.Parse(selectedRow.Cells[4].Value.ToString()), //dni
-                DateTime.Parse(selectedRow.Cells[9].Value.ToString()), //fecha nac
-                selectedRow.Cells[7].Value.ToString(), //direccion
-                selectedRow.Cells[8].Value.ToString(), //cod_p
-                selectedRow.Cells[5].Value.ToString(), //mail
-                selectedRow.Cells[6].Value.ToString(),//telefono
-                selectedRow.Cells[10].Value.ToString(), //ciudad
-                (bool)selectedRow.Cells[12].Value //habilitado
+                selectedRow.Cells["clie_nombre"].Value.ToString(), //nombre
+                selectedRow.Cells["clie_apellido"].Value.ToString(), //apellido
+                long.Parse(selectedRow.Cells["clie_dni"].Value.ToString()), //dni
+                DateTime.Parse(selectedRow.Cells["clie_fecha_nacimiento"].Value.ToString()), //fecha nac
+                selectedRow.Cells["clie_direccion"].Value.ToString(), //direccion
+                selectedRow.Cells["clie_codigo_postal"].Value.ToString(), //cod_p
+                selectedRow.Cells["clie_email"].Value.ToString(), //mail
+                selectedRow.Cells["clie_telefono"].Value.ToString(),//telefono
+                selectedRow.Cells["clie_ciudad"].Value.ToString(), //ciudad
+                (bool)selectedRow.Cells["clie_habilitado"].Value //habilitado
                 );
 
                 ClienteDAO.darDeAltaCliente(cliente);

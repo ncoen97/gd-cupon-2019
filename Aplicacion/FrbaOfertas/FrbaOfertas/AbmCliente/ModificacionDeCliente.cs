@@ -28,17 +28,6 @@ namespace FrbaOfertas
            AbmCliente abmc = new AbmCliente(usuario);
            abmc.Show();
            this.Hide();
-           /* foreach (var tx in this.Controls.OfType<TextBox>())
-            {
-                if (tx.Text == null)
-                {
-                    return;
-                };
-            }*/
-            //estan todos los campos llenos
-
-
-            
         }
 
         private void RegistroDeCliente_Load(object sender, EventArgs e)

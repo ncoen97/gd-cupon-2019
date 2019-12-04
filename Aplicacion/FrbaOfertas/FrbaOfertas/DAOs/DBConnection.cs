@@ -41,6 +41,7 @@ namespace FrbaOfertas
 
             command.Dispose();
             adapter.Dispose();
+            dataGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
         }
 
         public static bool isAdmin(Rol Rol)

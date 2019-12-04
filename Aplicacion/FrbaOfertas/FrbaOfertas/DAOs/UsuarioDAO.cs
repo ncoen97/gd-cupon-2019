@@ -115,6 +115,17 @@ namespace FrbaOfertas.DAOs
 
             return false;
         }
-
+        public static void agregarFuncionalidad(int func_id,int rol_id)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_agregar_func", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@func_id", func_id+ 1);
+            command.Parameters.AddWithValue("@rol_id", rol_id + 1);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+        }
     }
 }

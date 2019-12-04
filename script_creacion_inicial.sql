@@ -128,6 +128,12 @@ IF OBJECT_ID('SOCORRO.sp_facturar_proveedor') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_facturar_proveedor;
 IF OBJECT_ID('SOCORRO.sp_consumirOferta') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_consumirOferta;
+IF OBJECT_ID('SOCORRO.sp_agregar_func') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_agregar_func;
+IF OBJECT_ID('SOCORRO.sp_mostrar_mis_cupones') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_mostrar_mis_cupones;
+
+
 
 IF NOT EXISTS
 	(SELECT *
@@ -1666,6 +1672,35 @@ BEGIN
 	END CATCH
 END
 GO
+CREATE PROCEDURE SOCORRO.sp_agregar_func(@func_id int,@rol_id int)
+AS
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Funcionalidad where func_id = @func_id)
+		return -1
+	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Rol where rol_id = @rol_id)
+		return -2
+	insert into SOCORRO.FuncionalidadxRol values (@func_id,@rol_id)
+
+END
+GO
+
+CREATE PROCEDURE SOCORRO.sp_mostrar_mis_cupones(@user_id int)
+AS
+BEGIN
+	Declare @func_id int,@rol_id int
+
+	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Usuario where user_id = @user_id)
+		return -1
+
+	Select cu.cupon_id,o.ofer_descripcion,o.ofer_fecha_vencimiento
+	from SOCORRO.Cliente cl join SOCORRO.Cupon cu
+		on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id
+		where cl.clie_user_id = @user_id
+
+END
+GO
+
+
 CREATE PROCEDURE SOCORRO.sp_generarIdCupon(@fechaPublicacion datetime,@ID NVARCHAR(50) OUTPUT)
 AS
 BEGIN

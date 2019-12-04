@@ -31,14 +31,16 @@ namespace FrbaOfertas
             foreach (TipoDePago t in tiposDePago)
             {
                 combo_formaDePago.Items.Add(t.descripcion);
+                combo_formaDePago.SelectedIndex = 0;
             }
 
             foreach (Tarjeta t in tarjetas)
             {
                 comboBoxTarjeta.Items.Add(t.numero);
+                comboBoxTarjeta.SelectedIndex = 0;
             }
-            combo_formaDePago.SelectedIndex = 0;
-            comboBoxTarjeta.SelectedIndex = 0;
+            
+            
         }
 
         private void Button2_Click(object sender, EventArgs e)

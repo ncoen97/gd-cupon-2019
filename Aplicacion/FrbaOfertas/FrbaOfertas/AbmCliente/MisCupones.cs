@@ -24,15 +24,13 @@ namespace FrbaOfertas
 
         private void MisCupones_Load(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
+            
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("Select cu.cupon_id,o.ofer_descripcion,o.ofer_fecha_vencimiento from SOCORRO.Cliente cl join SOCORRO.Cupon cu on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id where cl.clie_user_id = @id", conexion);
-            command.CommandType = CommandType.Text;
-            command.Parameters.AddWithValue("@id ", usuActivo.id);
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+            SqlCommand command = new SqlCommand("SOCORRO.sp_mostrar_mis_cupones", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@user_id", usuActivo.id);
+            command.ExecuteNonQuery();
+            DBConnection.fill_grid(dataGridView1, command);
         }
 
         private void button1_Click(object sender, EventArgs e)

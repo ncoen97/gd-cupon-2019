@@ -31,24 +31,14 @@ namespace FrbaOfertas
 
         private void AbmRol_Load(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("select r.rol_habilitado, r.rol_id, r.rol_nombre from SOCORRO.Rol r order by rol_id", conexion);
             command.CommandType = CommandType.Text;
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
-
-            DataTable dt2 = new DataTable();
+            DBConnection.fill_grid(dataGridView1, command);
+            
             SqlCommand command2 = new SqlCommand("select rol_nombre, func_descripcion from SOCORRO.Rol r join(SOCORRO.FuncionalidadxRol fxr join SOCORRO.Funcionalidad f on fxr.func_id = f.func_id) on r.rol_id = fxr.rol_id order by r.rol_id", conexion);
             command2.CommandType = CommandType.Text;
-
-            SqlDataAdapter da2 = new SqlDataAdapter(command2);
-            da2.Fill(dt2);
-            dataGridView2.DataSource = dt2;
-            dataGridView2.EditMode = DataGridViewEditMode.EditProgrammatically;
+            DBConnection.fill_grid(dataGridView2, command2);
 
             List<Funcionalidad> funcs = DBConnection.getFuncs();
 
@@ -72,20 +62,13 @@ namespace FrbaOfertas
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("select r.rol_habilitado, r.rol_id, r.rol_nombre from SOCORRO.Rol r order by rol_id", conexion);
             command.CommandType = CommandType.Text;
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+            DBConnection.fill_grid(dataGridView1, command);
+            
 
             DataTable dt2 = new DataTable();
             SqlCommand command2 = new SqlCommand("select rol_nombre, func_descripcion from SOCORRO.Rol r join(SOCORRO.FuncionalidadxRol fxr join SOCORRO.Funcionalidad f on fxr.func_id = f.func_id) on r.rol_id = fxr.rol_id order by r.rol_id", conexion);
             command2.CommandType = CommandType.Text;
-
-            SqlDataAdapter da2 = new SqlDataAdapter(command2);
-            da2.Fill(dt2);
-            dataGridView2.DataSource = dt2;
-            dataGridView2.EditMode = DataGridViewEditMode.EditProgrammatically;
+            DBConnection.fill_grid(dataGridView2, command2);
 
         }
 
@@ -169,15 +152,7 @@ namespace FrbaOfertas
 
         private void button2_Click(object sender, EventArgs e)
         {
-             SqlConnection conexion = DBConnection.getConnection();
-             SqlCommand command = new SqlCommand("insert into SOCORRO.FuncionalidadxRol values (@func_id,@rol_id)", conexion);
-            command.CommandType = CommandType.Text;
-            command.Parameters.AddWithValue("@func_id", comboBox_funcionalidades.SelectedIndex+1);
-            command.Parameters.AddWithValue("@rol_id", comboBox_roles.SelectedIndex+1);
-            command.ExecuteNonQuery();
-            command.Dispose();
-            conexion.Close();
-            conexion.Dispose();
+            UsuarioDAO.agregarFuncionalidad(comboBox_funcionalidades.SelectedIndex, comboBox_roles.SelectedIndex);
             actualizar();
             
         }

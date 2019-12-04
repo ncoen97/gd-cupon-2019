@@ -42,39 +42,31 @@ namespace FrbaOfertas
                 return;
 
             Proveedor prov = Proveedor.ProveedorConId(
-                 (int)selectedRow.Cells[0].Value, //id 0
-                 usuario,
-                 selectedRow.Cells[2].Value.ToString(), //rs 2
-                 selectedRow.Cells[9].Value.ToString(), //mail 9
-                 selectedRow.Cells[7].Value.ToString(), //dir 7
-                 selectedRow.Cells[6].Value.ToString(), //cp 6 
-                 selectedRow.Cells[5].Value.ToString(), //ciudad 5
-                 selectedRow.Cells[1].Value.ToString(), //cuit 1
-                 (int)selectedRow.Cells[11].Value, //id rubro 11
-                 selectedRow.Cells[3].Value.ToString(),//contacto 3
-                 selectedRow.Cells[8].Value.ToString(), //telefono 8
-                 (bool)selectedRow.Cells[10].Value //habilitado 10
-                 );
-         
-            ModificacionDeProveedores rdp = new ModificacionDeProveedores(prov,usuario);
+                (int)selectedRow.Cells["prov_id"].Value, //id
+                usuario,
+                selectedRow.Cells["prov_razon_social"].Value.ToString(), //rs
+                selectedRow.Cells["prov_email"].Value.ToString(), //mail
+                selectedRow.Cells["prov_direccion"].Value.ToString(), //dir
+                selectedRow.Cells["prov_codigo_postal"].Value.ToString(), //cp
+                selectedRow.Cells["prov_ciudad"].Value.ToString(), //ciudad
+                selectedRow.Cells["prov_cuit"].Value.ToString(), //cuit
+                (int)selectedRow.Cells["prov_rubro_id"].Value,//rubt
+                selectedRow.Cells["prov_nombre_contacto"].Value.ToString(), //contc
+                selectedRow.Cells["prov_telefono"].Value.ToString(), //tel  
+                (bool)selectedRow.Cells["prov_habilitado"].Value //habilitado
+                );
+
+            ModificacionDeProveedores rdp = new ModificacionDeProveedores(prov, usuario);
             rdp.Show();
             this.Hide();
         }
 
         private void AbmProveedor_Load(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select p.prov_id, p.prov_cuit,p.prov_razon_social,p.prov_nombre_contacto,r.rubro_descripcion,p.prov_ciudad,p.prov_codigo_postal,p.prov_direccion,p.prov_telefono,p.prov_email, p.prov_habilitado, p.prov_rubro_id from SOCORRO.Proveedor p join SOCORRO.Rubro r on p.prov_rubro_id = r.rubro_id", conexion);
-            command.CommandType = CommandType.Text;
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+            actualizar();
 
             textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = "";
-         
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -85,7 +77,7 @@ namespace FrbaOfertas
             {
                 razonsocial = textBox1.Text;
             }
-         
+
             if (!string.IsNullOrWhiteSpace(textBox2.Text))
             {
                 email = textBox2.Text;
@@ -101,30 +93,18 @@ namespace FrbaOfertas
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select * from SOCORRO.Proveedor", conexion);
-            command.CommandType = CommandType.Text;
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
-
+            actualizar();
             textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = "";
         }
 
         private void actualizar()
         {
-            DataTable dt = new DataTable();
+            
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select p.prov_id, p.prov_cuit,p.prov_razon_social,p.prov_nombre_contacto,r.rubro_descripcion, p.prov_ciudad,p.prov_codigo_postal,p.prov_direccion,p.prov_telefono,p.prov_email, p.prov_habilitado from SOCORRO.Proveedor p join SOCORRO.Rubro r on p.prov_rubro_id = r.rubro_id", conexion);
+            SqlCommand command = new SqlCommand("select p.prov_id, p.prov_cuit,p.prov_razon_social,p.prov_nombre_contacto,r.rubro_descripcion, p.prov_ciudad,p.prov_codigo_postal,p.prov_direccion,p.prov_telefono,p.prov_email, p.prov_habilitado,p.prov_rubro_id from SOCORRO.Proveedor p join SOCORRO.Rubro r on p.prov_rubro_id = r.rubro_id", conexion);
             command.CommandType = CommandType.Text;
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+            DBConnection.fill_grid(dataGridView1, command);
+            dataGridView1.Columns["prov_rubro_id"].Visible = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -153,21 +133,19 @@ namespace FrbaOfertas
             if (result == DialogResult.Yes)
             {
                 Proveedor prov = Proveedor.ProveedorConId(
-                (int)selectedRow.Cells[0].Value, //id 0
+                (int)selectedRow.Cells["prov_id"].Value, //id
                 usuario,
-                selectedRow.Cells[2].Value.ToString(), //rs 2
-                selectedRow.Cells[9].Value.ToString(), //mail 9
-                selectedRow.Cells[7].Value.ToString(), //dir 7
-                selectedRow.Cells[6].Value.ToString(), //cp 6 
-                selectedRow.Cells[5].Value.ToString(), //ciudad 5
-                selectedRow.Cells[1].Value.ToString(), //cuit 1
-                (int)selectedRow.Cells[11].Value, //id rubro 11
-                selectedRow.Cells[3].Value.ToString(),//contacto 3
-                selectedRow.Cells[8].Value.ToString(), //telefono 8
-                (bool)selectedRow.Cells[10].Value //habilitado 10
+                selectedRow.Cells["prov_razon_social"].Value.ToString(), //rs
+                selectedRow.Cells["prov_email"].Value.ToString(), //mail
+                selectedRow.Cells["prov_direccion"].Value.ToString(), //dir
+                selectedRow.Cells["prov_codigo_postal"].Value.ToString(), //cp
+                selectedRow.Cells["prov_ciudad"].Value.ToString(), //ciudad
+                selectedRow.Cells["prov_cuit"].Value.ToString(), //cuit
+                (int)selectedRow.Cells["prov_rubro_id"].Value,//rubt
+                selectedRow.Cells["prov_nombre_contacto"].Value.ToString(), //contc
+                selectedRow.Cells["prov_telefono"].Value.ToString(), //tel  
+                (bool)selectedRow.Cells["prov_habilitado"].Value //habilitado
                 );
-
-
                 ProveedorDAO.darDeBajaProveedor(prov);
                 actualizar();
             }
@@ -180,7 +158,7 @@ namespace FrbaOfertas
 
             if ((bool)selectedRow.Cells[11].Value)
                 return;
-                
+
             const string message =
             "Esta por dar de alta este proveedor. Es lo que quiere hacer?";
             const string caption = "Habilitar proveedor";
@@ -191,18 +169,18 @@ namespace FrbaOfertas
             if (result == DialogResult.Yes)
             {
                 Proveedor prov = Proveedor.ProveedorConId(
-                (int)selectedRow.Cells[0].Value, //id
+                (int)selectedRow.Cells["prov_id"].Value, //id
                 usuario,
-                selectedRow.Cells[2].Value.ToString(), //rs
-                selectedRow.Cells[9].Value.ToString(), //mail
-                selectedRow.Cells[7].Value.ToString(), //dir
-                selectedRow.Cells[6].Value.ToString(), //cp
-                selectedRow.Cells[5].Value.ToString(), //ciudad
-                selectedRow.Cells[1].Value.ToString(), //cuit
-                (int)selectedRow.Cells[12].Value,//rubt
-                selectedRow.Cells[3].Value.ToString(), //contc
-                selectedRow.Cells[8].Value.ToString(), //tel  
-                (bool)selectedRow.Cells[11].Value //habilitado
+                selectedRow.Cells["prov_razon_social"].Value.ToString(), //rs
+                selectedRow.Cells["prov_email"].Value.ToString(), //mail
+                selectedRow.Cells["prov_direccion"].Value.ToString(), //dir
+                selectedRow.Cells["prov_codigo_postal"].Value.ToString(), //cp
+                selectedRow.Cells["prov_ciudad"].Value.ToString(), //ciudad
+                selectedRow.Cells["prov_cuit"].Value.ToString(), //cuit
+                (int)selectedRow.Cells["prov_rubro_id"].Value,//rubt
+                selectedRow.Cells["prov_nombre_contacto"].Value.ToString(), //contc
+                selectedRow.Cells["prov_telefono"].Value.ToString(), //tel  
+                (bool)selectedRow.Cells["prov_habilitado"].Value //habilitado
                 );
 
 

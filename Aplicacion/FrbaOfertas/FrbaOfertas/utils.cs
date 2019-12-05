@@ -51,13 +51,14 @@ namespace FrbaOfertas
 
         public static bool validarEntradaSoloNumeros(TextBox txb)
         {
-            int parsedValue;
-            if (!int.TryParse(txb.Text, out parsedValue))
+            try
             {
-                txb.BackColor = Color.Tomato;
+                Convert.ToInt64(txb.Text);
+            }
+            catch (Exception ex)
+            {
                 return false;
             }
-            txb.BackColor = Color.White;
             return true;
         }
 

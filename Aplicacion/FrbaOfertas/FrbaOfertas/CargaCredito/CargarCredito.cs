@@ -39,7 +39,13 @@ namespace FrbaOfertas
                 comboBoxTarjeta.Items.Add(t.numero);
                 comboBoxTarjeta.SelectedIndex = 0;
             }
+
+            if (comboBoxTarjeta.Items.Count == 0)
+            {
+                comboBoxTarjeta.Enabled = false;    
             
+            }
+                
             
         }
 
@@ -63,6 +69,12 @@ namespace FrbaOfertas
             if (combo_formaDePago.SelectedItem.ToString() == "Efectivo")
             {
                 cargaRealizada = ClienteDAO.realizarCarga(usuario, double.Parse(numericUpDownMonto.Value.ToString()), null,1);
+            }
+            else if(!comboBoxTarjeta.Enabled && (combo_formaDePago.SelectedItem.ToString() == "Débito" || combo_formaDePago.SelectedItem.ToString() == "Crédito"))
+            {
+
+                MessageBox.Show("No hay tarjetas disponibles, cargar una tarjeta");
+                return;
             }
             else if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "Crédito", CompareOptions.IgnoreCase) >= 0 || CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "Débito", CompareOptions.IgnoreCase) >= 0 || CultureInfo.InvariantCulture.CompareInfo.IndexOf(combo_formaDePago.SelectedItem.ToString(), "tarjeta", CompareOptions.IgnoreCase) >= 0)
             {

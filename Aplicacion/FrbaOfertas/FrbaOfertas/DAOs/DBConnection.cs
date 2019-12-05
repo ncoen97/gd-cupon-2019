@@ -329,5 +329,25 @@ namespace FrbaOfertas
             conexion.Dispose();
             return roles;
         }
+
+        public static Usuario usuario_from_cliente(int idclie)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select user_id,user_username from SOCORRO.Usuario usu join SOCORRO.Cliente cl on cl.clie_user_id = usu.user_id where clie_id = @clie_id", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@clie_id", idclie);
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+
+            int id_usuario = int.Parse(reader["user_id"].ToString());
+            string user_usu = reader["user_username"].ToString();
+            Usuario usuario = new Usuario();
+            usuario.id = id_usuario;
+            usuario.username = user_usu;
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return usuario;
+        }
     }
 }

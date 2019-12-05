@@ -14,10 +14,23 @@ namespace FrbaOfertas
     public partial class CargaTarjeta : Form
     {
         Usuario usuario;
-        public CargaTarjeta(Usuario _usuario)
+        Usuario usuADevolver;
+        public CargaTarjeta(Usuario _usuarioActivo,Usuario _usuAcargar)
         {
             InitializeComponent();
-            usuario = _usuario;
+            if (_usuAcargar != null)
+            {
+                
+                usuario = _usuAcargar;
+                label4.Visible = true;
+                label4.Text ="cargar tarjeta para usuario:" + usuario.username+ " id "+usuario.id;
+            }
+            else {
+                label4.Visible = false;
+                usuario = _usuarioActivo;
+                
+            }
+            usuADevolver = _usuarioActivo;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -64,7 +77,7 @@ namespace FrbaOfertas
             if (resultado == 0)
             {
                 MessageBox.Show("Tarjeta cargada correctamente");
-                CargarCredito c = new CargarCredito(usuario);
+                CargarCredito c = new CargarCredito(usuADevolver);
                 c.Show();
                 this.Hide();
             }
@@ -97,7 +110,7 @@ namespace FrbaOfertas
 
         private void buttonCancelar_Click(object sender, EventArgs e)
         {
-            CargarCredito c = new CargarCredito(usuario);
+            CargarCredito c = new CargarCredito(usuADevolver);
             c.Show();
             this.Hide();
         }

@@ -1278,7 +1278,7 @@ BEGIN
 END
 GO
 
-alter PROC SOCORRO.sp_rehabilitar_proveedor (
+Create PROC SOCORRO.sp_rehabilitar_proveedor (
 	@prov_id int
 ) AS
 BEGIN

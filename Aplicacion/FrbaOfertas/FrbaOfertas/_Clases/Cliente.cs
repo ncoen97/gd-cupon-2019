@@ -61,6 +61,13 @@ namespace FrbaOfertas
             return c;
         }
 
+        public Cliente (int _id, string nombre)
+        {
+            
+            this.nombre = nombre;
+            this.id = _id;
+            
+        }
         
     }
 }

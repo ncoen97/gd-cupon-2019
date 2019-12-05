@@ -38,6 +38,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.buttonCargarTarjeta = new System.Windows.Forms.Button();
             this.numericUpDownMonto = new System.Windows.Forms.NumericUpDown();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMonto)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,7 +56,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(192, 66);
+            this.label1.Location = new System.Drawing.Point(86, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 20);
             this.label1.TabIndex = 1;
@@ -117,7 +119,7 @@
             // 
             // buttonCargarTarjeta
             // 
-            this.buttonCargarTarjeta.Location = new System.Drawing.Point(168, 288);
+            this.buttonCargarTarjeta.Location = new System.Drawing.Point(167, 310);
             this.buttonCargarTarjeta.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonCargarTarjeta.Name = "buttonCargarTarjeta";
             this.buttonCargarTarjeta.Size = new System.Drawing.Size(192, 35);
@@ -140,11 +142,32 @@
             this.numericUpDownMonto.Size = new System.Drawing.Size(123, 26);
             this.numericUpDownMonto.TabIndex = 1;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(90, 67);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(192, 28);
+            this.comboBox1.TabIndex = 8;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(314, 71);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(51, 20);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "label2";
+            // 
             // CargarCredito
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(537, 453);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.numericUpDownMonto);
             this.Controls.Add(this.buttonCargarTarjeta);
             this.Controls.Add(this.button2);
@@ -176,5 +199,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button buttonCargarTarjeta;
         private System.Windows.Forms.NumericUpDown numericUpDownMonto;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label2;
     }
 }

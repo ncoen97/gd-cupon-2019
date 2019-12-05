@@ -37,6 +37,7 @@
             this.buttonCancelar = new System.Windows.Forms.Button();
             this.comboBoxMes = new System.Windows.Forms.ComboBox();
             this.comboBoxAnio = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonCargar
@@ -131,11 +132,21 @@
             this.comboBoxAnio.Size = new System.Drawing.Size(122, 28);
             this.comboBoxAnio.TabIndex = 9;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(210, 37);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 20);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "label4";
+            // 
             // CargaTarjeta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(546, 402);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBoxAnio);
             this.Controls.Add(this.comboBoxMes);
             this.Controls.Add(this.buttonCancelar);
@@ -165,5 +176,6 @@
         private System.Windows.Forms.Button buttonCancelar;
         private System.Windows.Forms.ComboBox comboBoxMes;
         private System.Windows.Forms.ComboBox comboBoxAnio;
+        private System.Windows.Forms.Label label4;
     }
 }

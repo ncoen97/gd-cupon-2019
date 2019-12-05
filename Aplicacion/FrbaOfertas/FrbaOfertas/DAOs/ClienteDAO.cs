@@ -370,5 +370,31 @@ namespace FrbaOfertas
 
         }
 
+        public static List<Cliente> getClientes()
+        {
+            List<Cliente> clientes = new List<Cliente>();
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente", conexion);
+            command.CommandType = CommandType.Text;
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+              
+                string c = reader["clie_nombre"].ToString();
+                int id = Convert.ToInt16(reader["clie_id"].ToString());
+                Cliente clie = new Cliente(id, c);
+                clientes.Add(clie);
+            }
+
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+
+            return clientes;
+        }
+
     }
 }

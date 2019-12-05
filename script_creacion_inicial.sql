@@ -1240,7 +1240,7 @@ BEGIN
 END
 GO
 
-CREATE PROC SOCORRO.sp_rehabilitar_proveedor (
+alter PROC SOCORRO.sp_rehabilitar_proveedor (
 	@prov_id int
 ) AS
 BEGIN
@@ -1252,6 +1252,9 @@ BEGIN
 	UPDATE SOCORRO.Proveedor
 	SET prov_habilitado = 1
 	WHERE prov_id = @prov_id;
+	UPDATE Usuario
+	SET user_intentos = 0,user_habilitado = 1
+	WHERE user_id = (select user_id from SOCORRO.Usuario u join SOCORRO.Proveedor p on u.user_id = p.prov_user_id where prov_id = @prov_id)
 	RETURN 0;
 END
 GO

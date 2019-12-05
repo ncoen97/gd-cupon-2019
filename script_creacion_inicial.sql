@@ -1037,6 +1037,24 @@ BEGIN
 				ROLLBACK;
                 RETURN 1;
 			END
+			IF @clie_dni IN (
+				SELECT clie_dni
+				FROM SOCORRO.Cliente
+			)
+			BEGIN
+				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el dni ya esta registrado';
+				ROLLBACK;
+                RETURN 2;
+			END
+			IF @clie_email IN (
+				SELECT clie_email
+				FROM SOCORRO.Cliente
+			)
+			BEGIN
+				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el mail ya esta registrado';
+				ROLLBACK;
+                RETURN 3;
+			END
 			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el username no existia; es valido';
             DECLARE
                 @user_id int,
@@ -1124,6 +1142,24 @@ BEGIN
 				ROLLBACK;
                 RETURN 1;
             END
+			IF @prov_rs IN (
+				SELECT prov_rs
+				FROM SOCORRO.Proveedor
+			)
+			BEGIN
+				PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': la razon social ya esta registrada';
+				ROLLBACK;
+                RETURN 2;
+			END
+			IF @prov_cuit IN (
+				SELECT prov_cuit
+				FROM SOCORRO.Proveedor
+			)
+			BEGIN
+				PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el cuit ya esta registrado';
+				ROLLBACK;
+                RETURN 3;
+			END
 			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el usuario no figura';
 			DECLARE
                 @user_id int,

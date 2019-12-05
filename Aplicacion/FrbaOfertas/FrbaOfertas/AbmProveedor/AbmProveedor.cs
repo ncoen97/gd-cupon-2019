@@ -156,7 +156,7 @@ namespace FrbaOfertas
             if (selectedRow == null)
                 return;
 
-            if ((bool)selectedRow.Cells[11].Value)
+            if (!(bool)selectedRow.Cells["prov_habilitado"].Value)
                 return;
 
             const string message =

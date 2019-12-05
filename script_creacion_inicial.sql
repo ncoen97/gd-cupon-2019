@@ -616,7 +616,8 @@ BEGIN
 			clie_telefono,
 			clie_email,
 			clie_fecha_nacimiento,
-			clie_ciudad
+			clie_ciudad,
+			clie_saldo
 		) VALUES (
 			@clie_user_id,
 			@clie_nombre,
@@ -626,7 +627,8 @@ BEGIN
 			@clie_telefono,
 			@clie_email,
 			@clie_fecha_nacimiento,
-			@clie_ciudad
+			@clie_ciudad,
+			0
 		);
 		FETCH NEXT FROM curs_cliente INTO
 			@clie_nombre,
@@ -1035,6 +1037,24 @@ BEGIN
 				ROLLBACK;
                 RETURN 1;
 			END
+			IF @clie_dni IN (
+				SELECT clie_dni
+				FROM SOCORRO.Cliente
+			)
+			BEGIN
+				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el dni ya esta registrado';
+				ROLLBACK;
+                RETURN 2;
+			END
+			IF @clie_email IN (
+				SELECT clie_email
+				FROM SOCORRO.Cliente
+			)
+			BEGIN
+				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el mail ya esta registrado';
+				ROLLBACK;
+                RETURN 3;
+			END
 			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el username no existia; es valido';
             DECLARE
                 @user_id int,
@@ -1122,6 +1142,24 @@ BEGIN
 				ROLLBACK;
                 RETURN 1;
             END
+			IF @prov_rs IN (
+				SELECT prov_rs
+				FROM SOCORRO.Proveedor
+			)
+			BEGIN
+				PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': la razon social ya esta registrada';
+				ROLLBACK;
+                RETURN 2;
+			END
+			IF @prov_cuit IN (
+				SELECT prov_cuit
+				FROM SOCORRO.Proveedor
+			)
+			BEGIN
+				PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el cuit ya esta registrado';
+				ROLLBACK;
+                RETURN 3;
+			END
 			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el usuario no figura';
 			DECLARE
                 @user_id int,
@@ -1711,6 +1749,7 @@ BEGIN
 END
 GO
 
+-- DROP PROC SOCORRO.sp_mostrar_mis_cupones
 CREATE PROCEDURE SOCORRO.sp_mostrar_mis_cupones(@user_id int)
 AS
 BEGIN
@@ -1722,7 +1761,8 @@ BEGIN
 	Select cu.cupon_id,o.ofer_descripcion,o.ofer_fecha_vencimiento
 	from SOCORRO.Cliente cl join SOCORRO.Cupon cu
 		on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id
-		where cl.clie_user_id = @user_id
+		where (cl.clie_user_id = @user_id)
+			AND (cupon_clie_id_consumo IS NULL)
 
 END
 GO

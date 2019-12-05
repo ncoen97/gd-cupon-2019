@@ -1143,7 +1143,7 @@ BEGIN
                 RETURN 1;
             END
 			IF @prov_rs IN (
-				SELECT prov_rs
+				SELECT prov_razon_social
 				FROM SOCORRO.Proveedor
 			)
 			BEGIN
@@ -1847,6 +1847,12 @@ BEGIN
 		return -2
 	if (@fecha_desde > @fecha_hasta)
 		return -3
+	SET @fecha_hasta = DATETIMEFROMPARTS(
+		YEAR(@fecha_hasta),
+		MONTH(@fecha_hasta),
+		DAY(@fecha_hasta),
+		23, 58, 59, 999
+	);
 	SELECT o.ofer_id [ID Oferta], COUNT(*) [Cantidad], o.ofer_precio_oferta [Precio], o.ofer_descripcion [Descripcion]
 	FROM SOCORRO.Cupon cup JOIN SOCORRO.Oferta o ON o.ofer_id = cup.cupon_ofer_id
 	WHERE (o.ofer_prov_id = @prov_id) AND (cup.cupon_fecha_compra < @fecha_hasta) AND (cup.cupon_fecha_compra >= @fecha_desde)

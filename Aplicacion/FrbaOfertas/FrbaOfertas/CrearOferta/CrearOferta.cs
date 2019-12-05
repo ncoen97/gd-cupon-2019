@@ -61,11 +61,11 @@ namespace FrbaOfertas
                 return;
             }
             
-            if (numericUpDownCantidad.Value>0 && numericUpDownMaximo.Value>0
-                    && numericUpDownPrecioLista.Value > 0 && numericUpDownPrecioOferta.Value > 0
-                    && numericUpDownPrecioOferta.Value < numericUpDownPrecioLista.Value)
+            if (numericUpDownCantidad.Value<=0 || numericUpDownMaximo.Value<=0
+                    || numericUpDownPrecioLista.Value <= 0 || numericUpDownPrecioOferta.Value <= 0
+                    || numericUpDownPrecioOferta.Value > numericUpDownPrecioLista.Value)
             {
-                MessageBox.Show("todos los valores deben ser mayores a 0");
+                MessageBox.Show("todos los valores deben ser mayores a 0; el precio de oferta debe ser menor o igual al de lista");
                 return;
             }
 

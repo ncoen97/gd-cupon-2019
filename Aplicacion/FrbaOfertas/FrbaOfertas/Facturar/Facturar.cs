@@ -87,8 +87,10 @@ namespace FrbaOfertas
         { 
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SELECT o.ofer_id [ID Oferta], COUNT(*) [Cantidad],o.ofer_precio_oferta [Precio],o.ofer_descripcion [Descripcion]	FROM SOCORRO.Cupon cup	JOIN SOCORRO.Oferta o		ON o.ofer_id = cup.cupon_ofer_id	WHERE (o.ofer_prov_id = @prov_id)		AND (cup.cupon_fecha_compra < @fecha_hasta)	AND (cup.cupon_fecha_compra >= @fecha_desde) GROUP BY o.ofer_id,o.ofer_precio_oferta,o.ofer_descripcion ORDER BY o.ofer_descripcion;", conexion);
-            command.CommandType = CommandType.Text;            
+            command.CommandType = CommandType.Text;
             command.Parameters.AddWithValue("@prov_id",prov_id);
+            dateTimePicker1.Value = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0);
+            dateTimePicker2.Value = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
             command.Parameters.AddWithValue("@fecha_desde",dateTimePicker1.Value);
             command.Parameters.AddWithValue("@fecha_hasta",dateTimePicker2.Value);
             SqlParameter ret = new SqlParameter();

@@ -50,25 +50,25 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(284, 112);
-            this.textBox1.MaxLength = 10;
+            this.textBox1.Location = new System.Drawing.Point(250, 112);
+            this.textBox1.MaxLength = 4;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(154, 26);
+            this.textBox1.Size = new System.Drawing.Size(236, 26);
             this.textBox1.TabIndex = 2;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(284, 145);
-            this.textBox2.MaxLength = 16;
+            this.textBox2.Location = new System.Drawing.Point(250, 145);
+            this.textBox2.MaxLength = 10;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(154, 26);
+            this.textBox2.Size = new System.Drawing.Size(236, 26);
             this.textBox2.TabIndex = 3;
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(284, 177);
+            this.dateTimePicker1.Location = new System.Drawing.Point(250, 177);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 26);
+            this.dateTimePicker1.Size = new System.Drawing.Size(234, 26);
             this.dateTimePicker1.TabIndex = 4;
             // 
             // label2

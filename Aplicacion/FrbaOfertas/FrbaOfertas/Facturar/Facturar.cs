@@ -70,7 +70,7 @@ namespace FrbaOfertas
                     MessageBox.Show("no se encontro el proveedor");
                     break;
                 case -3:
-                    MessageBox.Show("las fechas no son coherentes, u dummy");
+                    MessageBox.Show("las fechas no son coherentes");
                     break;
                 case 0:
                         label5.Text = "Nro factura: "+id_nueva_factura.Value.ToString()+ "  Total facturado: "+total_facturado.Value.ToString();

@@ -42,7 +42,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(231, 123);
+            this.label1.Location = new System.Drawing.Point(51, 103);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 20);
             this.label1.TabIndex = 1;
@@ -50,9 +50,9 @@
             // 
             // buttonRegistrarse
             // 
-            this.buttonRegistrarse.Location = new System.Drawing.Point(310, 264);
+            this.buttonRegistrarse.Location = new System.Drawing.Point(161, 244);
             this.buttonRegistrarse.Name = "buttonRegistrarse";
-            this.buttonRegistrarse.Size = new System.Drawing.Size(182, 35);
+            this.buttonRegistrarse.Size = new System.Drawing.Size(270, 35);
             this.buttonRegistrarse.TabIndex = 3;
             this.buttonRegistrarse.Text = "Registrarse";
             this.buttonRegistrarse.UseVisualStyleBackColor = true;
@@ -61,7 +61,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(231, 175);
+            this.label2.Location = new System.Drawing.Point(51, 155);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(92, 20);
             this.label2.TabIndex = 2;
@@ -70,17 +70,17 @@
             // 
             // textbox_contraseña
             // 
-            this.textbox_contraseña.Location = new System.Drawing.Point(335, 172);
+            this.textbox_contraseña.Location = new System.Drawing.Point(155, 152);
             this.textbox_contraseña.Name = "textbox_contraseña";
             this.textbox_contraseña.PasswordChar = '*';
-            this.textbox_contraseña.Size = new System.Drawing.Size(188, 26);
+            this.textbox_contraseña.Size = new System.Drawing.Size(276, 26);
             this.textbox_contraseña.TabIndex = 1;
             // 
             // buttonIniciarSesion
             // 
-            this.buttonIniciarSesion.Location = new System.Drawing.Point(310, 222);
+            this.buttonIniciarSesion.Location = new System.Drawing.Point(161, 203);
             this.buttonIniciarSesion.Name = "buttonIniciarSesion";
-            this.buttonIniciarSesion.Size = new System.Drawing.Size(182, 35);
+            this.buttonIniciarSesion.Size = new System.Drawing.Size(270, 35);
             this.buttonIniciarSesion.TabIndex = 2;
             this.buttonIniciarSesion.Text = "Iniciar sesión";
             this.buttonIniciarSesion.UseVisualStyleBackColor = true;
@@ -88,9 +88,9 @@
             // 
             // buttonSalir
             // 
-            this.buttonSalir.Location = new System.Drawing.Point(310, 402);
+            this.buttonSalir.Location = new System.Drawing.Point(161, 285);
             this.buttonSalir.Name = "buttonSalir";
-            this.buttonSalir.Size = new System.Drawing.Size(182, 35);
+            this.buttonSalir.Size = new System.Drawing.Size(270, 35);
             this.buttonSalir.TabIndex = 6;
             this.buttonSalir.Text = "Salir";
             this.buttonSalir.UseVisualStyleBackColor = true;
@@ -99,7 +99,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(349, 71);
+            this.label3.Location = new System.Drawing.Point(240, 49);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(101, 20);
             this.label3.TabIndex = 3;
@@ -107,9 +107,9 @@
             // 
             // textbox_usuario
             // 
-            this.textbox_usuario.Location = new System.Drawing.Point(335, 120);
+            this.textbox_usuario.Location = new System.Drawing.Point(155, 100);
             this.textbox_usuario.Name = "textbox_usuario";
-            this.textbox_usuario.Size = new System.Drawing.Size(188, 26);
+            this.textbox_usuario.Size = new System.Drawing.Size(276, 26);
             this.textbox_usuario.TabIndex = 0;
             // 
             // menuStrip1
@@ -117,7 +117,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(539, 24);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -125,7 +125,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 449);
+            this.ClientSize = new System.Drawing.Size(539, 391);
             this.Controls.Add(this.buttonRegistrarse);
             this.Controls.Add(this.buttonSalir);
             this.Controls.Add(this.textbox_contraseña);

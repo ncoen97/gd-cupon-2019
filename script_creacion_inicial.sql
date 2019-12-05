@@ -1705,6 +1705,7 @@ BEGIN
 END
 GO
 
+-- DROP PROC SOCORRO.sp_mostrar_mis_cupones
 CREATE PROCEDURE SOCORRO.sp_mostrar_mis_cupones(@user_id int)
 AS
 BEGIN
@@ -1716,7 +1717,8 @@ BEGIN
 	Select cu.cupon_id,o.ofer_descripcion,o.ofer_fecha_vencimiento
 	from SOCORRO.Cliente cl join SOCORRO.Cupon cu
 		on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id
-		where cl.clie_user_id = @user_id
+		where (cl.clie_user_id = @user_id)
+			AND (cupon_clie_id_consumo IS NULL)
 
 END
 GO

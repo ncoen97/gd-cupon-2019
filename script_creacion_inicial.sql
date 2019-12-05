@@ -616,7 +616,8 @@ BEGIN
 			clie_telefono,
 			clie_email,
 			clie_fecha_nacimiento,
-			clie_ciudad
+			clie_ciudad,
+			clie_saldo
 		) VALUES (
 			@clie_user_id,
 			@clie_nombre,
@@ -626,7 +627,8 @@ BEGIN
 			@clie_telefono,
 			@clie_email,
 			@clie_fecha_nacimiento,
-			@clie_ciudad
+			@clie_ciudad,
+			0
 		);
 		FETCH NEXT FROM curs_cliente INTO
 			@clie_nombre,

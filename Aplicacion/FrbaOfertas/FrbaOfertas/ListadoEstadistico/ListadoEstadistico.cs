@@ -62,6 +62,11 @@ namespace FrbaOfertas
 
         private void btn_mayorFactr_Click(object sender, EventArgs e)
         {
+            if (!utils.validarEntradaSoloNumeros(textBox1) || !utils.validarNoVacio(textBox1) || textBox1.Text.Length != 4)
+            {
+                MessageBox.Show("Hubo un error con la entrada del año ");
+                return;
+            }
 
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_lista_prov_mayor_facturacion", conexion);

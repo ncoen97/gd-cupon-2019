@@ -505,9 +505,7 @@ BEGIN
 			user_intentos,
 			user_habilitado
 		) VALUES (
-			REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-				LOWER(@prov_ciudad + CAST(@prov_cuit AS NVARCHAR(2))),
-				' ', ''), 'ñ', 'n'), 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+			REPLACE(@prov_cuit, '-', ''),
 			HASHBYTES('SHA2_256', REPLACE(@prov_cuit, '-', '')),
 			0,
 			1

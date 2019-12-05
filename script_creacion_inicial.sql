@@ -1212,9 +1212,14 @@ BEGIN
 		PRINT 'no existe el cliente';
 		RETURN 1;
 	END
-	UPDATE Cliente
-	SET clie_habilitado = 1
-	WHERE clie_id = @clie_id;
+	BEGIN
+		UPDATE Cliente
+		SET clie_habilitado = 1
+		WHERE clie_id = @clie_id;
+		UPDATE Usuario
+		SET user_intentos = 0,user_habilitado = 1
+		WHERE user_id = (select user_id from SOCORRO.Usuario u join SOCORRO.Cliente c on u.user_id = c.clie_user_id where clie_id =@clie_id)
+	END
 	RETURN 0;
 END
 GO

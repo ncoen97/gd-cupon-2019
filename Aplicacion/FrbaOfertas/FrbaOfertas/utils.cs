@@ -31,7 +31,7 @@ namespace FrbaOfertas
             int parsedValue;
             if (int.TryParse(txb.Text, out parsedValue))
             {
-                txb.Text = "valor invalido";
+                txb.Text = "";
                 txb.BackColor = Color.Tomato;
                 return false;
             }

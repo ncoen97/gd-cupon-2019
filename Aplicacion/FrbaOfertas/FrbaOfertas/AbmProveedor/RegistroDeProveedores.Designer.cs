@@ -92,7 +92,7 @@
             this.Provee_rs.Location = new System.Drawing.Point(298, 109);
             this.Provee_rs.Name = "Provee_rs";
             this.Provee_rs.Size = new System.Drawing.Size(214, 26);
-            this.Provee_rs.TabIndex = 29;
+            this.Provee_rs.TabIndex = 0;
             // 
             // label10
             // 
@@ -187,7 +187,7 @@
             this.Provee_nombrecontacto.Location = new System.Drawing.Point(298, 365);
             this.Provee_nombrecontacto.Name = "Provee_nombrecontacto";
             this.Provee_nombrecontacto.Size = new System.Drawing.Size(214, 26);
-            this.Provee_nombrecontacto.TabIndex = 43;
+            this.Provee_nombrecontacto.TabIndex = 51;
             // 
             // label8
             // 
@@ -200,10 +200,10 @@
             // 
             // buttonAtras
             // 
-            this.buttonAtras.Location = new System.Drawing.Point(710, 472);
+            this.buttonAtras.Location = new System.Drawing.Point(298, 455);
             this.buttonAtras.Name = "buttonAtras";
-            this.buttonAtras.Size = new System.Drawing.Size(114, 46);
-            this.buttonAtras.TabIndex = 49;
+            this.buttonAtras.Size = new System.Drawing.Size(214, 48);
+            this.buttonAtras.TabIndex = 55;
             this.buttonAtras.Text = "Atras";
             this.buttonAtras.UseCompatibleTextRendering = true;
             this.buttonAtras.UseVisualStyleBackColor = true;
@@ -211,11 +211,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(176, 418);
+            this.button1.Location = new System.Drawing.Point(298, 399);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(336, 62);
-            this.button1.TabIndex = 48;
+            this.button1.Size = new System.Drawing.Size(214, 48);
+            this.button1.TabIndex = 52;
             this.button1.Text = "Registrar proveedor";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -243,7 +243,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 535);
+            this.ClientSize = new System.Drawing.Size(627, 535);
             this.Controls.Add(this.label_usu);
             this.Controls.Add(this.Provee_rubro);
             this.Controls.Add(this.buttonAtras);

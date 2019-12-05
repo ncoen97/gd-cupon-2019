@@ -44,7 +44,6 @@ namespace FrbaOfertas
             utils.validarEntradaSoloNumeros(Provee_telefono);
             utils.validarEntradaSoloTexto(Provee_rs);
             utils.validarEntradaSoloTexto(Provee_nombrecontacto);
-            utils.validarEntradaSoloTexto(Provee_direccion);
             utils.validarEntradaSoloTexto(Provee_ciudad);
             utils.validarEntradaMail(Provee_mail);
            // utils.validarEntradaComboBoxNoNull(Provee_rubro);

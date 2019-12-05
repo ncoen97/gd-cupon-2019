@@ -85,7 +85,7 @@ namespace FrbaOfertas
                 button.Visible = false;
             }
             label_credito.Visible = false;
-            labelCredito.Visible = false;
+            
 
             var texto_roles = new System.Text.StringBuilder();
             if (usuario.roles.Count == 1)
@@ -104,7 +104,7 @@ namespace FrbaOfertas
                 if (rol.nombre == "Cliente")
                 {
                     label_credito.Visible = true;
-                    labelCredito.Visible = true;
+                
                 }
 
                 foreach (Funcionalidad f in rol.funcionalidades)
@@ -131,9 +131,9 @@ namespace FrbaOfertas
                 }
             }
             btn_cerrarsesion.Visible = true;
-            labelUsuario.Text = usuario.username;
+            label3.Text = "Su usuario es: \n" + usuario.username;
             //get cliente de usuario
-            labelCredito.Text = ClienteDAO.montoUsuario(usuario).ToString();
+            label_credito.Text ="Su crédito es: \n" + ClienteDAO.montoUsuario(usuario).ToString();
             labelroles.Text = texto_roles.ToString();
 
         }

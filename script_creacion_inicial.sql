@@ -1744,8 +1744,10 @@ BEGIN
 		return -1
 	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Rol where rol_id = @rol_id)
 		return -2
+	IF EXISTS (SELECT 1 FROM SOCORRO.FuncionalidadxRol WHERE rol_id = @rol_id AND func_id = @func_id)
+		UPDATE SOCORRO.FuncionalidadxRol SET func_id = @func_id, rol_id = @rol_id
 	insert into SOCORRO.FuncionalidadxRol values (@func_id,@rol_id)
-
+	RETURN 0
 END
 GO
 

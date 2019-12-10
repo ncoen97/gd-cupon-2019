@@ -16,6 +16,8 @@ namespace FrbaOfertas
     public partial class ListadoEstadistico : Form
     {
         private Usuario usuario;
+        SqlDataAdapter adapter1;
+        DataTable table1;
         public ListadoEstadistico(Usuario _usuario)
         {
             InitializeComponent();
@@ -24,6 +26,8 @@ namespace FrbaOfertas
 
         private void ListadoEstadistico_Load(object sender, EventArgs e)
         {
+            adapter1 = new SqlDataAdapter();
+            table1 = new DataTable();
             comboBox1.Items.Add("1er semestre");
             comboBox1.Items.Add("2do semestre");
             comboBox1.SelectedIndex = 0;
@@ -54,7 +58,7 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@semestre", comboBox1.SelectedIndex + 1);
             command.Parameters.AddWithValue("@anio", textBox1.Text);
 
-            DBConnection.fill_grid(dataGridView1, command);
+            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
 
             conexion.Close();
             conexion.Dispose();
@@ -74,7 +78,7 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@semestre", comboBox1.SelectedIndex+1);
             command.Parameters.AddWithValue("@anio", textBox1.Text);
             
-            DBConnection.fill_grid(dataGridView1, command);  
+            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);  
             
             conexion.Close();
             conexion.Dispose();

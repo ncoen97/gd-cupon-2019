@@ -16,6 +16,8 @@ namespace FrbaOfertas
     {
         Usuario usuario;
         DataGridViewRow selectedRow = null;
+        SqlDataAdapter adapter1;
+        DataTable table1;
         public AbmProveedor(Usuario _usuario)
         {
             InitializeComponent();
@@ -38,31 +40,68 @@ namespace FrbaOfertas
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (selectedRow == null)
-                return;
-
-            Proveedor prov = Proveedor.ProveedorConId(
-                (int)selectedRow.Cells["prov_id"].Value, //id
-                usuario,
-                selectedRow.Cells["prov_razon_social"].Value.ToString(), //rs
-                selectedRow.Cells["prov_email"].Value.ToString(), //mail
-                selectedRow.Cells["prov_direccion"].Value.ToString(), //dir
-                selectedRow.Cells["prov_codigo_postal"].Value.ToString(), //cp
-                selectedRow.Cells["prov_ciudad"].Value.ToString(), //ciudad
-                selectedRow.Cells["prov_cuit"].Value.ToString(), //cuit
-                (int)selectedRow.Cells["prov_rubro_id"].Value,//rubt
-                selectedRow.Cells["prov_nombre_contacto"].Value.ToString(), //contc
-                selectedRow.Cells["prov_telefono"].Value.ToString(), //tel  
-                (bool)selectedRow.Cells["prov_habilitado"].Value //habilitado
-                );
-
-            ModificacionDeProveedores rdp = new ModificacionDeProveedores(prov, usuario);
-            rdp.Show();
-            this.Hide();
+            try
+            {
+                adapter1.Update(table1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en el update: "+ex.Message);
+            }
         }
 
         private void AbmProveedor_Load(object sender, EventArgs e)
         {
+
+            adapter1 = new SqlDataAdapter();
+            table1 = new DataTable();
+            SqlCommand command_update = new SqlCommand("SOCORRO.sp_modificar_proveedor",DBConnection.getConnection());
+            command_update.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter parametro1 = new SqlParameter();
+            parametro1.ParameterName = "@prov_id";
+            parametro1.SqlDbType = SqlDbType.Int;
+            parametro1.SourceVersion = DataRowVersion.Original;
+            parametro1.SourceColumn = "prov_id";
+            command_update.Parameters.Add(parametro1);
+            SqlParameter parametro2 = new SqlParameter();
+            parametro2.ParameterName = "@nuevo_rs";
+            parametro2.SourceColumn = "prov_razon_social";
+            command_update.Parameters.Add(parametro2);
+            SqlParameter parametro3 = new SqlParameter();
+            parametro3.ParameterName = "@nuevo_email";
+            parametro3.SourceColumn = "prov_email";
+            command_update.Parameters.Add(parametro3);
+            SqlParameter parametro4 = new SqlParameter();
+            parametro4.ParameterName = "@nuevo_dom";
+            parametro4.SourceColumn = "prov_direccion";
+            command_update.Parameters.Add(parametro4);
+            SqlParameter parametro5 = new SqlParameter();
+            parametro5.ParameterName = "@nuevo_cp";
+            parametro5.SourceColumn = "prov_codigo_postal";
+            command_update.Parameters.Add(parametro5);
+            SqlParameter parametro6 = new SqlParameter();
+            parametro6.ParameterName = "@nuevo_ciudad";
+            parametro6.SourceColumn = "prov_ciudad";
+            command_update.Parameters.Add(parametro6);
+            SqlParameter parametro7 = new SqlParameter();
+            parametro7.ParameterName = "@nuevo_telefono";
+            parametro7.SourceColumn = "prov_telefono";
+            command_update.Parameters.Add(parametro7);
+            SqlParameter parametro8 = new SqlParameter();
+            parametro8.ParameterName = "@nuevo_cuit";
+            parametro8.SourceColumn = "prov_cuit";
+            command_update.Parameters.Add(parametro8);
+            SqlParameter parametro9 = new SqlParameter();
+            parametro9.ParameterName = "@nuevo_rubro_id";
+            parametro9.SourceColumn = "prov_rubro_id";
+            command_update.Parameters.Add(parametro9);
+            SqlParameter parametro10 = new SqlParameter();
+            parametro10.ParameterName = "@nuevo_nombre_contacto";
+            parametro10.SourceColumn = "prov_nombre_contacto";
+            command_update.Parameters.Add(parametro10);
+            adapter1.UpdateCommand = command_update;
+
             actualizar();
 
             textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = "";
@@ -88,7 +127,7 @@ namespace FrbaOfertas
                 cuit = textBox3.Text;
             }
 
-            ProveedorDAO.filtros_proveedores(dataGridView1, razonsocial, cuit, email);
+            ProveedorDAO.filtros_proveedores(dataGridView1, razonsocial, cuit, email,adapter1,table1);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -103,7 +142,7 @@ namespace FrbaOfertas
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("select p.prov_id, p.prov_cuit,p.prov_razon_social,p.prov_nombre_contacto,r.rubro_descripcion, p.prov_ciudad,p.prov_codigo_postal,p.prov_direccion,p.prov_telefono,p.prov_email, p.prov_habilitado,p.prov_rubro_id from SOCORRO.Proveedor p join SOCORRO.Rubro r on p.prov_rubro_id = r.rubro_id", conexion);
             command.CommandType = CommandType.Text;
-            DBConnection.fill_grid(dataGridView1, command);
+            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
             dataGridView1.Columns["prov_rubro_id"].Visible = false;
         }
 
@@ -187,6 +226,13 @@ namespace FrbaOfertas
                 ProveedorDAO.darDeAltaProveedor(prov);
                 actualizar();
             }
+        }
+
+        private void buttonRegistrarProveedor_Click(object sender, EventArgs e)
+        {
+            RegistroDeUsuario regUsu = new RegistroDeUsuario(false, usuario);
+            this.Hide();
+            regUsu.Show();
         }
     }
 }

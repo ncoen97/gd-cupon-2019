@@ -27,21 +27,17 @@ namespace FrbaOfertas
             return conexion;
         }
 
-        public static void fill_grid(DataGridView dataGrid, SqlCommand command)
+        public static void fill_grid(DataGridView dataGrid, SqlCommand command, SqlDataAdapter adapter, DataTable table)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter();
             adapter.SelectCommand = command;
-            DataTable table = new DataTable();
             adapter.Fill(table);
-            BindingSource source = new BindingSource();
 
+            BindingSource source = new BindingSource();
             source.DataSource = table;
             dataGrid.DataSource = source;
             adapter.Update(table);
 
             command.Dispose();
-            adapter.Dispose();
-            dataGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
         }
 
         public static bool isAdmin(Rol Rol)

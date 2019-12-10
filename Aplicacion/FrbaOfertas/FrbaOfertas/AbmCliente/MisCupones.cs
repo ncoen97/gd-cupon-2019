@@ -16,6 +16,8 @@ namespace FrbaOfertas
     {
         Usuario usuActivo;
         DataGridViewRow selectedRow = null;
+        SqlDataAdapter adapter1;
+        DataTable table1;
         public MisCupones(Usuario usu)
         {
             usuActivo = usu;
@@ -50,7 +52,10 @@ namespace FrbaOfertas
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@user_id", usuActivo.id);
             command.ExecuteNonQuery();
-            DBConnection.fill_grid(dataGridView1, command);
+
+            adapter1 = new SqlDataAdapter();
+            table1 = new DataTable();
+            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -93,7 +98,7 @@ namespace FrbaOfertas
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@user_id", Convert.ToInt16(comboBox1.SelectedItem));
             command.ExecuteNonQuery();
-            DBConnection.fill_grid(dataGridView1, command);
+            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -103,7 +108,7 @@ namespace FrbaOfertas
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@user_id", usuActivo.id);
             command.ExecuteNonQuery();
-            DBConnection.fill_grid(dataGridView1, command);
+            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
         }
     }
 }

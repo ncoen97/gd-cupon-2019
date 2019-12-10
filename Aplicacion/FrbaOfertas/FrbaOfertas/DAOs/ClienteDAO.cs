@@ -75,7 +75,7 @@ namespace FrbaOfertas
           
         }
 
-        public static void filtros_clientes(DataGridView grid, string filtroNombre, string filtroApellido, int filtroDNI, string filtroemail)
+        public static void filtros_clientes(DataGridView grid, string filtroNombre, string filtroApellido, int filtroDNI, string filtroemail,SqlDataAdapter adapter1,DataTable table1)
         {
             
             SqlConnection conn = DBConnection.getConnection();
@@ -87,7 +87,7 @@ namespace FrbaOfertas
             comando.Parameters.AddWithValue("@dni", filtroDNI);
             comando.Parameters.AddWithValue("@nombre", filtroNombre);
 
-            DBConnection.fill_grid(grid, comando);
+            DBConnection.fill_grid(grid, comando,adapter1,table1);
             comando.Dispose();
             conn.Close();
             conn.Dispose();

@@ -49,7 +49,7 @@ namespace FrbaOfertas
             return true;
         }
 
-        public static void filtros_proveedores(DataGridView grid, string razonSocial, string cuit, string email)
+        public static void filtros_proveedores(DataGridView grid, string razonSocial, string cuit, string email,SqlDataAdapter adapter1,DataTable table1)
         {
 
             SqlConnection conn = DBConnection.getConnection();
@@ -60,7 +60,9 @@ namespace FrbaOfertas
             comando.Parameters.AddWithValue("@cuit", cuit);
             comando.Parameters.AddWithValue("@mail", email);
 
-            DBConnection.fill_grid(grid, comando);
+            adapter1 = new SqlDataAdapter();
+            table1 = new DataTable();
+            DBConnection.fill_grid(grid, comando,adapter1,table1);
             comando.Dispose();
             conn.Close();
             conn.Dispose();

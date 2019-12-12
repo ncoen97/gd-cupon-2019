@@ -14,19 +14,19 @@ namespace FrbaOfertas
 {
     public partial class RegistroDeProveedores : Form
     {
-        bool vieneDeLogin;
+        int deDondeViene;
         Usuario usuarioNuevo;
         Usuario usuarioActivo;
         public RegistroDeProveedores()
         {
             InitializeComponent();
         }
-        public RegistroDeProveedores(Usuario _usuActivo, Usuario _usuNuevo, bool _vieneDeLogin)
+        public RegistroDeProveedores(Usuario _usuActivo, Usuario _usuNuevo, int _deDondeViene)
         {
             InitializeComponent();
             usuarioNuevo = _usuNuevo;
             usuarioActivo = _usuActivo;
-            vieneDeLogin = _vieneDeLogin;
+            deDondeViene = _deDondeViene;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -50,7 +50,7 @@ namespace FrbaOfertas
 
             foreach (ComboBox cbx in this.Controls.OfType<ComboBox>())
             {
-                if (cbx.BackColor == Color.Tomato)
+                if (cbx.BackColor == Color.WhiteSmoke)
                 {
                     MessageBox.Show("Combobox vacio");
                     return;
@@ -58,7 +58,7 @@ namespace FrbaOfertas
             }
             foreach (TextBox txb in this.Controls.OfType<TextBox>())
             {
-                if (txb.BackColor == Color.Tomato)
+                if (txb.BackColor == Color.WhiteSmoke)
                 {
                     MessageBox.Show("hay campos con errores en el  tipo de datos");
                     return;
@@ -89,23 +89,31 @@ namespace FrbaOfertas
             Proveedor prov = new Proveedor(usuarioNuevo, Provee_rs.Text, Provee_mail.Text, Provee_direccion.Text, Provee_cp.Text, Provee_ciudad.Text, Provee_cuit.Text, prov_id, Provee_nombrecontacto.Text, Provee_telefono.Text, true);
             ProveedorDAO.insertarProveedor(prov, usuarioNuevo);
 
-            if (vieneDeLogin)
+            switch (deDondeViene)
             {
-                Login login = new Login();
-                login.Show();
-                this.Hide();
-            }
-            else {
-                RegistroDeUsuario r = new RegistroDeUsuario(vieneDeLogin, usuarioActivo);
-                r.Show();
-                this.Hide();
+                case 1:
+                    Login log = new Login();
+                    log.Show();
+                    break;
+                case 2:
+                    AbmCliente cli = new AbmCliente(usuarioActivo);
+                    cli.Show();
+                    break;
+                case 3:
+                    AbmProveedor prove = new AbmProveedor(usuarioActivo);
+                    prove.Show();
+                    break;
+                default:
+                    MenuFuncionalidades menu = new MenuFuncionalidades(usuarioActivo);
+                    menu.Show();
+                    break;
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {//atras
 
-            RegistroDeUsuario reg = new RegistroDeUsuario(vieneDeLogin, usuarioActivo);
+            RegistroDeUsuario reg = new RegistroDeUsuario(deDondeViene, usuarioActivo);
             reg.Show();
             this.Hide();
         }

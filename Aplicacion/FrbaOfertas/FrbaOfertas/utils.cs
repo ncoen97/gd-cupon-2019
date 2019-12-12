@@ -32,7 +32,7 @@ namespace FrbaOfertas
             if (int.TryParse(txb.Text, out parsedValue))
             {
                 txb.Text = "";
-                txb.BackColor = Color.Tomato;
+                txb.BackColor = Color.WhiteSmoke;
                 return false;
             }
             txb.BackColor = Color.White;
@@ -42,7 +42,7 @@ namespace FrbaOfertas
         public static bool validarEntradaMail(TextBox txb)
         {
             if(!txb.Text.Contains("@") || !(txb.Text.Length >5)){
-            txb.BackColor = Color.Tomato;
+                txb.BackColor = Color.WhiteSmoke;
             return false;
             }
             txb.BackColor = Color.White;
@@ -67,7 +67,7 @@ namespace FrbaOfertas
             
             if (cbx.SelectedValue==null)
             {
-                cbx.BackColor = Color.Tomato;
+                cbx.BackColor = Color.WhiteSmoke;
                 return false;
             }
             cbx.BackColor = Color.White;
@@ -79,7 +79,7 @@ namespace FrbaOfertas
 
             if (txb.Text == "")
             {
-                txb.BackColor = Color.Tomato;
+                txb.BackColor = Color.WhiteSmoke;
                 return false;
             }
             txb.BackColor = Color.White;

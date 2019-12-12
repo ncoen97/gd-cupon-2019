@@ -80,6 +80,10 @@ IF OBJECT_ID('SOCORRO.sp_registro_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_cliente;
 IF OBJECT_ID('SOCORRO.sp_registro_proveedor') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_proveedor;
+IF OBJECT_ID('SOCORRO.sp_registro_usuario') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_registro_usuario;
+IF OBJECT_ID('SOCORRO.sp_modificar_usuario') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_modificar_usuario;
 IF OBJECT_ID('SOCORRO.sp_deshabilitar_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_deshabilitar_cliente;
 IF OBJECT_ID('SOCORRO.sp_rehabilitar_cliente') IS NOT NULL
@@ -116,10 +120,8 @@ IF OBJECT_ID('SOCORRO.sp_obtener_id_proveedor') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_obtener_id_proveedor;	
 IF OBJECT_ID('SOCORRO.sp_obtener_descripcion_rubro') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_obtener_descripcion_rubro;	
-IF OBJECT_ID('SOCORRO.sp_deshabilitar_rol') IS NOT NULL
-	DROP PROCEDURE SOCORRO.sp_deshabilitar_rol;
-	IF OBJECT_ID('SOCORRO.sp_rehabilitar_rol') IS NOT NULL
-	DROP PROCEDURE SOCORRO.sp_rehabilitar_rol;
+IF OBJECT_ID('SOCORRO.sp_modificar_rol') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_modificar_rol;
 IF OBJECT_ID('SOCORRO.sp_registro_rol') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_rol;
 IF OBJECT_ID('SOCORRO.sp_generarIdCupon') IS NOT NULL
@@ -132,8 +134,12 @@ IF OBJECT_ID('SOCORRO.sp_agregar_func') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_agregar_func;
 IF OBJECT_ID('SOCORRO.sp_mostrar_mis_cupones') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_mostrar_mis_cupones;
+IF OBJECT_ID('SOCORRO.sp_cupones_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_cupones_cliente;
+IF OBJECT_ID('SOCORRO.sp_quitar_func') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_quitar_func;	
 
-
+	
 
 IF NOT EXISTS
 	(SELECT *
@@ -1225,6 +1231,64 @@ BEGIN
 END
 GO
 
+CREATE PROC SOCORRO.sp_registro_usuario (
+		@user_username nvarchar(30),
+		@user_pass nvarchar(255),
+		@rol_name int
+) AS
+BEGIN
+	if not EXists (select 1 from SOCORRO.Rol where rol_nombre = @rol_name)
+		return -1
+	INSERT INTO SOCORRO.Usuario (
+			user_username,
+			user_pass,
+			user_intentos,
+			user_habilitado
+		) VALUES (
+			@user_username,
+			HASHBYTES('SHA2_256', @user_pass),
+			0,
+			1
+		);
+		declare @id_rol int
+		set @id_rol = (select rol_id from SOCORRO.Rol where rol_nombre = @rol_name)
+	INSERT INTO SOCORRO.RolxUsuario(
+			user_id,
+			rol_id
+			
+		) VALUES (
+			@user_username,
+			@id_rol
+		);
+
+END
+GO
+
+
+CREATE PROC SOCORRO.sp_modificar_usuario (
+		@user_username nvarchar(30),
+		@user_pass_nueva nvarchar(255),
+		@user_pass_actual nvarchar(255)
+) AS
+BEGIN
+	if not EXists (select 1 from SOCORRO.Usuario where user_username = @user_username)
+		return -1
+	Declare @pass_actual nvarchar(255)
+	set @pass_actual = HASHBYTES('SHA2_256', @user_pass_actual)
+	
+	if (@pass_actual != (select user_pass from SOCORRO.Usuario where user_username = @user_username))
+		return -2
+
+	Declare @user_id int
+	set @user_id = (select user_id from SOCORRO.Usuario where user_username = @user_username)
+	UPDATE SOCORRO.Usuario SET 
+			user_username = @user_username,
+			user_pass =HASHBYTES('SHA2_256', @user_pass_nueva)
+			where user_id = @user_id			
+			
+	return 0	
+END
+GO
 CREATE PROC SOCORRO.sp_deshabilitar_cliente (
 	@clie_id int
 ) AS
@@ -1297,8 +1361,10 @@ BEGIN
 END
 GO
 
-CREATE PROC SOCORRO.sp_deshabilitar_rol (
-	@rol_id int
+CREATE PROC SOCORRO.sp_modificar_rol (
+	@rol_id int,
+	@rol_nombre nvarchar(20),
+	@rol_habilitado bit
 ) AS
 BEGIN
 	IF NOT(@rol_id IN (SELECT rol_id FROM SOCORRO.Rol))
@@ -1306,25 +1372,11 @@ BEGIN
 		PRINT 'no existe el rol';
 		RETURN 1;
 	END
-	UPDATE Rol
-	SET rol_habilitado = 0
-	WHERE rol_id = @rol_id;
-	RETURN 0;
-END
-GO
 
-CREATE PROC SOCORRO.sp_rehabilitar_rol (
-	@rol_id int
-) AS
-BEGIN
-	IF NOT(@rol_id IN (SELECT rol_id FROM SOCORRO.Rol))
-	BEGIN
-		PRINT 'no existe el rol';
-		RETURN 1;
-	END
-	UPDATE Rol
-	SET rol_habilitado = 1
-	WHERE rol_id = @rol_id;
+	UPDATE SOCORRO.ROl SET rol_nombre = @rol_nombre, rol_habilitado = @rol_habilitado where rol_id = @rol_id
+	IF @rol_habilitado = 0
+	Delete from SOCORRO.RolxUsuario where rol_id = @rol_id;
+	
 	RETURN 0;
 END
 GO
@@ -1369,7 +1421,8 @@ CREATE PROC SOCORRO.sp_modificar_cliente (
     @nuevo_direccion nvarchar(255),
     @nuevo_codigo_postal char(5),
     @nuevo_fecha_nacimiento datetime,
-    @nuevo_ciudad nvarchar(255) --> TODO: duda, ver enunciado (ABM Cliente)
+    @nuevo_ciudad nvarchar(255),
+	@nuevo_habilitado bit --> TODO: duda, ver enunciado (ABM Cliente)
 ) AS
 BEGIN
 	IF NOT(@clie_id IN (SELECT c.clie_id FROM SOCORRO.Cliente c))
@@ -1387,7 +1440,8 @@ BEGIN
 		clie_direccion = @nuevo_direccion,
 		clie_codigo_postal = @nuevo_codigo_postal,
 		clie_fecha_nacimiento = @nuevo_fecha_nacimiento,
-		clie_ciudad = @nuevo_ciudad
+		clie_ciudad = @nuevo_ciudad,
+		clie_habilitado = @nuevo_habilitado
 	where clie_id = @clie_id
  
 	RETURN 0;
@@ -1404,8 +1458,8 @@ CREATE PROC SOCORRO.sp_modificar_proveedor (
 	@nuevo_telefono numeric(18, 0),
 	@nuevo_cuit nvarchar(20),
 	@nuevo_rubro_id int,
-	@nuevo_nombre_contacto nvarchar(255)
-
+	@nuevo_nombre_contacto nvarchar(255),
+	@nuevo_habilitado bit
 ) AS
 BEGIN
 	IF NOT(@prov_id IN (SELECT p.prov_id FROM SOCORRO.Proveedor p))
@@ -1423,8 +1477,8 @@ BEGIN
 		prov_telefono = @nuevo_telefono,
 		prov_cuit = @nuevo_cuit,
 		prov_rubro_id = @nuevo_rubro_id,
-		prov_nombre_contacto = @nuevo_nombre_contacto
-
+		prov_nombre_contacto = @nuevo_nombre_contacto,
+		prov_habilitado = @nuevo_habilitado
 		where prov_id = @prov_id;
 	RETURN 0;
 END
@@ -1744,9 +1798,21 @@ BEGIN
 		return -1
 	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Rol where rol_id = @rol_id)
 		return -2
-	IF EXISTS (SELECT 1 FROM SOCORRO.FuncionalidadxRol WHERE rol_id = @rol_id AND func_id = @func_id)
-		UPDATE SOCORRO.FuncionalidadxRol SET func_id = @func_id, rol_id = @rol_id
+	IF NOT EXISTS (SELECT 1 FROM SOCORRO.FuncionalidadxRol WHERE rol_id = @rol_id AND func_id = @func_id)
 	insert into SOCORRO.FuncionalidadxRol values (@func_id,@rol_id)
+	RETURN 0
+END
+GO
+
+CREATE PROCEDURE SOCORRO.sp_quitar_func(@func_id int,@rol_id int)
+AS
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Funcionalidad where func_id = @func_id)
+		return -1
+	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Rol where rol_id = @rol_id)
+		return -2
+	IF EXISTS (SELECT 1 FROM SOCORRO.FuncionalidadxRol WHERE rol_id = @rol_id AND func_id = @func_id)
+	delete from SOCORRO.FuncionalidadxRol where @func_id = func_id and @rol_id =rol_id
 	RETURN 0
 END
 GO
@@ -1769,6 +1835,22 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SOCORRO.sp_cupones_cliente(@clie_id int)
+AS
+BEGIN
+	Declare @func_id int,@rol_id int,@user_id int
+
+	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Cliente where clie_id = @clie_id)
+		return -1
+	set @user_id =(SELECT clie_user_id from SOCORRO.Cliente where clie_id = @clie_id)
+	Select cu.cupon_id,o.ofer_descripcion,o.ofer_fecha_vencimiento
+	from SOCORRO.Cliente cl join SOCORRO.Cupon cu
+		on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id
+		where (cl.clie_user_id = @user_id)
+			AND (cupon_clie_id_consumo IS NULL)
+
+END
+GO
 
 CREATE PROCEDURE SOCORRO.sp_generarIdCupon(@fechaPublicacion datetime,@ID NVARCHAR(50) OUTPUT)
 AS

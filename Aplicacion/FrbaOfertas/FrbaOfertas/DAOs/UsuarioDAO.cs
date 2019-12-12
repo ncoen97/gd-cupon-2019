@@ -34,6 +34,7 @@ namespace FrbaOfertas.DAOs
 
         public static void cargarRolesUsuario(Usuario usuario)
         {
+            usuario.roles.Clear();
             string query = string.Format(@"SELECT * FROM SOCORRO.getRolesUsuario(@username)");
 
             SqlConnection conexion = DBConnection.getConnection();
@@ -121,6 +122,18 @@ namespace FrbaOfertas.DAOs
             SqlCommand command = new SqlCommand("SOCORRO.sp_agregar_func", conexion);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@func_id", func_id+ 1);
+            command.Parameters.AddWithValue("@rol_id", rol_id + 1);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+        }
+        public static void quitarFuncionalidad(int func_id, int rol_id)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_quitar_func", conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@func_id", func_id + 1);
             command.Parameters.AddWithValue("@rol_id", rol_id + 1);
             command.ExecuteNonQuery();
             command.Dispose();

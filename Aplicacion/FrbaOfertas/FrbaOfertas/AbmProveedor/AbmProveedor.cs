@@ -48,6 +48,9 @@ namespace FrbaOfertas
             {
                 MessageBox.Show("Error en el update: "+ex.Message);
             }
+            timer1.Interval = 1000;
+            timer1.Start();
+            button6.BackColor = Color.LawnGreen;
         }
 
         private void AbmProveedor_Load(object sender, EventArgs e)
@@ -100,6 +103,10 @@ namespace FrbaOfertas
             parametro10.ParameterName = "@nuevo_nombre_contacto";
             parametro10.SourceColumn = "prov_nombre_contacto";
             command_update.Parameters.Add(parametro10);
+            SqlParameter parametro11 = new SqlParameter();
+            parametro11.ParameterName = "@nuevo_habilitado";
+            parametro11.SourceColumn = "prov_habilitado";
+            command_update.Parameters.Add(parametro11);
             adapter1.UpdateCommand = command_update;
 
             actualizar();
@@ -146,93 +153,18 @@ namespace FrbaOfertas
             dataGridView1.Columns["prov_rubro_id"].Visible = false;
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int index = e.RowIndex;
-            if (index >= 0)
-            {
-                this.selectedRow = dataGridView1.Rows[index];
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-            if (selectedRow == null)
-                return;
-            if ((bool)selectedRow.Cells[11].Value)
-                return;
-            const string message =
-            "Esta por dar de baja este proveedor. Es lo que quiere hacer?";
-            const string caption = "Inhabilitar proveedor";
-            var result = MessageBox.Show(message, caption,
-                                         MessageBoxButtons.YesNo,
-                                         MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                Proveedor prov = Proveedor.ProveedorConId(
-                (int)selectedRow.Cells["prov_id"].Value, //id
-                usuario,
-                selectedRow.Cells["prov_razon_social"].Value.ToString(), //rs
-                selectedRow.Cells["prov_email"].Value.ToString(), //mail
-                selectedRow.Cells["prov_direccion"].Value.ToString(), //dir
-                selectedRow.Cells["prov_codigo_postal"].Value.ToString(), //cp
-                selectedRow.Cells["prov_ciudad"].Value.ToString(), //ciudad
-                selectedRow.Cells["prov_cuit"].Value.ToString(), //cuit
-                (int)selectedRow.Cells["prov_rubro_id"].Value,//rubt
-                selectedRow.Cells["prov_nombre_contacto"].Value.ToString(), //contc
-                selectedRow.Cells["prov_telefono"].Value.ToString(), //tel  
-                (bool)selectedRow.Cells["prov_habilitado"].Value //habilitado
-                );
-                ProveedorDAO.darDeBajaProveedor(prov);
-                actualizar();
-            }
-        }
-
-        private void button4_Click_1(object sender, EventArgs e)
-        {
-            if (selectedRow == null)
-                return;
-
-            if (!(bool)selectedRow.Cells["prov_habilitado"].Value)
-                return;
-
-            const string message =
-            "Esta por dar de alta este proveedor. Es lo que quiere hacer?";
-            const string caption = "Habilitar proveedor";
-            var result = MessageBox.Show(message, caption,
-                                         MessageBoxButtons.YesNo,
-                                         MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                Proveedor prov = Proveedor.ProveedorConId(
-                (int)selectedRow.Cells["prov_id"].Value, //id
-                usuario,
-                selectedRow.Cells["prov_razon_social"].Value.ToString(), //rs
-                selectedRow.Cells["prov_email"].Value.ToString(), //mail
-                selectedRow.Cells["prov_direccion"].Value.ToString(), //dir
-                selectedRow.Cells["prov_codigo_postal"].Value.ToString(), //cp
-                selectedRow.Cells["prov_ciudad"].Value.ToString(), //ciudad
-                selectedRow.Cells["prov_cuit"].Value.ToString(), //cuit
-                (int)selectedRow.Cells["prov_rubro_id"].Value,//rubt
-                selectedRow.Cells["prov_nombre_contacto"].Value.ToString(), //contc
-                selectedRow.Cells["prov_telefono"].Value.ToString(), //tel  
-                (bool)selectedRow.Cells["prov_habilitado"].Value //habilitado
-                );
-
-
-                ProveedorDAO.darDeAltaProveedor(prov);
-                actualizar();
-            }
-        }
-
         private void buttonRegistrarProveedor_Click(object sender, EventArgs e)
         {
-            RegistroDeUsuario regUsu = new RegistroDeUsuario(false, usuario);
+            RegistroDeUsuario regUsu = new RegistroDeUsuario(3, usuario);
             this.Hide();
             regUsu.Show();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            button6.BackColor = default(Color);
+            timer1.Stop();
         }
     }
 }

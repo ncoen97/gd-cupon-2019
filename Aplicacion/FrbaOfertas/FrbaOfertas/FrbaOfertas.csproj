@@ -98,6 +98,12 @@
     <Compile Include="AbmRol\AbmRol.Designer.cs">
       <DependentUpon>AbmRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="CambiarContrasenia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CambiarContrasenia.Designer.cs">
+      <DependentUpon>CambiarContrasenia.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAOs\ClienteDAO.cs" />
     <Compile Include="DAOs\DBConnection.cs" />
     <Compile Include="DAOs\ProveedorDAO.cs" />
@@ -199,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\AbmRol.resx">
       <DependentUpon>AbmRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CambiarContrasenia.resx">
+      <DependentUpon>CambiarContrasenia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CargaCredito\CargarCredito.resx">
       <DependentUpon>CargarCredito.cs</DependentUpon>

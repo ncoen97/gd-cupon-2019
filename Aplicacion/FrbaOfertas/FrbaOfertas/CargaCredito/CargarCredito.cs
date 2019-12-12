@@ -55,17 +55,6 @@ namespace FrbaOfertas
                 combo_formaDePago.SelectedIndex = 0;
             }
 
-            foreach (Tarjeta t in tarjetas)
-            {
-                comboBoxTarjeta.Items.Add(t.numero);
-                comboBoxTarjeta.SelectedIndex = 0;
-            }
-
-            if (comboBoxTarjeta.Items.Count == 0)
-            {
-                comboBoxTarjeta.Enabled = false;    
-            
-            }
                 
             
         }
@@ -162,9 +151,7 @@ namespace FrbaOfertas
                     break;
                 case 5:
                     MessageBox.Show("Carga exitosa");
-                    MenuFuncionalidades menu = new MenuFuncionalidades(usuario);
-                    menu.Show();
-                    this.Hide();
+                    numericUpDownMonto.Value = 0;
                     break;
                 case 6:
                     MessageBox.Show("Error en forma de pago");
@@ -192,6 +179,7 @@ namespace FrbaOfertas
 
                 foreach (Tarjeta t in tarjetas)
                 {
+                    comboBoxTarjeta.Items.Clear();
                     comboBoxTarjeta.Items.Add(t.numero);
                     comboBoxTarjeta.SelectedIndex = 0;
                 }
@@ -200,6 +188,9 @@ namespace FrbaOfertas
                 {
                     comboBoxTarjeta.Enabled = false;
 
+                }
+                else {
+                    comboBoxTarjeta.Enabled = true;
                 }
             }
             else {

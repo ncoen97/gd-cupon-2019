@@ -13,19 +13,20 @@ namespace FrbaOfertas
 {
     public partial class RegistroDeCliente : Form
     {
-        bool vieneDeLogin;
+        int deDondeViene;
         Usuario usuarioNuevo;
         Usuario usuarioActivo;
         public RegistroDeCliente()
         {
             InitializeComponent();
         }
-        public RegistroDeCliente(Usuario usuNuevo, Usuario usuActivo,bool _vieneDeLogin)
+        public RegistroDeCliente(Usuario usuNuevo, Usuario usuActivo,int _deDondeViene)
         {
             InitializeComponent();
             usuarioNuevo = usuNuevo;
             usuarioActivo = usuActivo;
-            vieneDeLogin = _vieneDeLogin;
+            deDondeViene = _deDondeViene;
+           
         }
 
         public bool verificarTodosLosCamposNoVacios()
@@ -60,7 +61,7 @@ namespace FrbaOfertas
             
             foreach(TextBox txb in this.Controls.OfType<TextBox>())
             {
-                if (txb.BackColor == Color.Tomato)
+                if (txb.BackColor == Color.WhiteSmoke)
                 {
                     MessageBox.Show("hay campos con errores en el  tipo de datos");
                     return;
@@ -68,17 +69,28 @@ namespace FrbaOfertas
             }
             Cliente cli = new Cliente(usuarioNuevo, Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text, Cli_ciudad.Text, true);
             ClienteDAO.insertarCliente(cli, usuarioNuevo);
-            if (vieneDeLogin)
+            switch (deDondeViene)
             {
-                Login login = new Login();
-                login.Show();
-                this.Hide();
+                case 1:
+                    Login login = new Login();
+                    login.Show();
+                    this.Hide();
+                    break;
+
+                case 2:
+                    //ABMcliente
+                    AbmCliente abmcli = new AbmCliente(usuarioActivo);
+                    abmcli.Show();
+                    this.Hide();
+                    break;
+                case 3:
+                    //ABMProveedor
+                    AbmProveedor abmProv = new AbmProveedor(usuarioActivo);
+                    abmProv.Show();
+                    this.Hide();
+                    break;
             }
-            else {
-                RegistroDeUsuario login = new RegistroDeUsuario(vieneDeLogin, usuarioActivo);
-                login.Show();
-                this.Hide();
-            }         
+         
         }
 
         private void RegistroDeCliente_Load(object sender, EventArgs e)
@@ -88,7 +100,7 @@ namespace FrbaOfertas
 
         private void button5_Click(object sender, EventArgs e)
         {
-            RegistroDeUsuario reg = new RegistroDeUsuario(vieneDeLogin, usuarioActivo);
+            RegistroDeUsuario reg = new RegistroDeUsuario(deDondeViene, usuarioActivo);
             reg.Show();
             this.Hide();
         }

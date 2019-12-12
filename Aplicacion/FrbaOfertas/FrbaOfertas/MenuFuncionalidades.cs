@@ -43,7 +43,7 @@ namespace FrbaOfertas
 
         private void button4_Click(object sender, EventArgs e)
         {
-            RegistroDeUsuario ru = new RegistroDeUsuario(false,usuario);
+            RegistroDeUsuario ru = new RegistroDeUsuario(0,usuario);
             ru.Show();
             this.Hide();
         }
@@ -79,7 +79,7 @@ namespace FrbaOfertas
 
         private void MenuAdministrador_Load(object sender, EventArgs e)
         {
-  
+            UsuarioDAO.cargarRolesUsuario(usuario);
             foreach (Button button in this.Controls.OfType<Button>())
             { //Si hay alguna funcionalidad que coincide con un buton
                 button.Visible = false;
@@ -97,15 +97,23 @@ namespace FrbaOfertas
                 texto_roles.AppendLine("Tiene activado los roles: ");
             }
 
+
+
             foreach (Rol rol in usuario.roles)
             {
                 texto_roles.AppendLine(" " + rol.nombre);
                 DBConnection.asociar_roles_x_funciones(rol);
-                if (rol.nombre == "Cliente")
+                if (rol.funcionalidades.Exists(f => f.nombre.Contains("Comprar")))
                 {
                     label_credito.Visible = true;
-                
+                    buttonCupones.Visible = true;
+
                 }
+
+                if (DBConnection.isAdmin(rol))
+                {
+                    button4.Visible = true;
+                }            
 
                 foreach (Funcionalidad f in rol.funcionalidades)
                 {
@@ -118,15 +126,7 @@ namespace FrbaOfertas
                             button.Visible = true;
 
                         }
-                        if (rol.nombre == "Administrador" && button.Name.Contains("usuario"))
-                        {
-                            button.Visible = true;
-                        }
-                        if (rol.nombre == "Cliente" && button.Name.Contains("cupones"))
-                        {
-                            button.Visible = true;
-                        }
-                      
+                                
                     }
                 }
             }
@@ -135,6 +135,7 @@ namespace FrbaOfertas
             //get cliente de usuario
             label_credito.Text ="Su crédito es: \n" + ClienteDAO.montoUsuario(usuario).ToString();
             labelroles.Text = texto_roles.ToString();
+            button8.Visible = true;
 
         }
 
@@ -165,6 +166,13 @@ namespace FrbaOfertas
         {
             MisCupones mc = new MisCupones(usuario);
             mc.Show(); this.Hide();
+        }
+
+        private void button8_Click_1(object sender, EventArgs e)
+        {
+            CambiarContrasenia cc = new CambiarContrasenia(usuario);
+            cc.Show();
+            this.Hide();
         }
 
     }

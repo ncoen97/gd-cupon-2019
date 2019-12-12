@@ -16,8 +16,7 @@ namespace FrbaOfertas
     {
         Usuario usuActivo;
         DataGridViewRow selectedRow = null;
-        SqlDataAdapter adapter1;
-        DataTable table1;
+      
         public MisCupones(Usuario usu)
         {
             usuActivo = usu;
@@ -26,36 +25,40 @@ namespace FrbaOfertas
 
         private void MisCupones_Load(object sender, EventArgs e)
         {
-            comboBox1.Visible = false;
-            label3.Visible = false;
-            button3.Visible = false;
-            foreach (Rol r in usuActivo.roles)
-            {
-                if (DBConnection.isAdmin(r))
-                {
-                    comboBox1.Visible = true;
-                    List<Cliente> clientes = ClienteDAO.getClientes();
-                    foreach (Cliente c in clientes)
-                    {
-                        comboBox1.Items.Add(c.id);
-                    
-                    }
-                    label3.Visible = true;
-                    button3.Visible = true;
-                    comboBox1.SelectedIndex = 0;
-                    return;
-                }
-            }
-            
-            SqlConnection conexion = DBConnection.getConnection();
+          SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_mostrar_mis_cupones", conexion);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@user_id", usuActivo.id);
             command.ExecuteNonQuery();
 
-            adapter1 = new SqlDataAdapter();
-            table1 = new DataTable();
-            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            DataTable table1 = new DataTable(); 
+             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
+
+             comboBox1.Visible = false;
+             label3.Visible = false;
+             button3.Visible = false;
+
+             foreach (Rol r in usuActivo.roles)
+             {
+                 if (DBConnection.isAdmin(r))
+                 {
+                     comboBox1.Visible = true;
+                     List<Cliente> clientes = ClienteDAO.getClientes();
+                     foreach (Cliente c in clientes)
+                     {
+                         comboBox1.Items.Add(c.id);
+
+                     }
+                     label3.Visible = true;
+                     button3.Visible = true;
+                     comboBox1.SelectedItem = ClienteDAO.obtenerIdCliente(usuActivo);
+                     return;
+                 }
+
+             }
+
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -77,12 +80,7 @@ namespace FrbaOfertas
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            int index = e.RowIndex;
-            if (index >= 0)
-            {
-                this.selectedRow = dataGridView1.Rows[index];
-                label2.Text = selectedRow.Cells["ofer_descripcion"].Value.ToString();
-            }
+          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -94,10 +92,12 @@ namespace FrbaOfertas
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SOCORRO.sp_mostrar_mis_cupones", conexion);
+            SqlCommand command = new SqlCommand("SOCORRO.sp_cupones_cliente", conexion);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@user_id", Convert.ToInt16(comboBox1.SelectedItem));
+            command.Parameters.AddWithValue("@clie_id", Convert.ToInt16(comboBox1.SelectedItem));
             command.ExecuteNonQuery();
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            DataTable table1 = new DataTable(); 
             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
         }
 
@@ -106,9 +106,17 @@ namespace FrbaOfertas
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_mostrar_mis_cupones", conexion);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@user_id", usuActivo.id);
+            command.Parameters.AddWithValue("@clie_id", usuActivo.id);
             command.ExecuteNonQuery();
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            DataTable table1 = new DataTable(); 
             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
+            comboBox1.SelectedIndex = -1;
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

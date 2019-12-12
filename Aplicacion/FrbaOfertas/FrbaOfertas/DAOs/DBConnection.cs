@@ -29,15 +29,21 @@ namespace FrbaOfertas
 
         public static void fill_grid(DataGridView dataGrid, SqlCommand command, SqlDataAdapter adapter, DataTable table)
         {
+            dataGrid.DataSource = null;
+            dataGrid.Rows.Clear();
+            dataGrid.Refresh();
             adapter.SelectCommand = command;
+            table.Clear();
             adapter.Fill(table);
 
             BindingSource source = new BindingSource();
             source.DataSource = table;
             dataGrid.DataSource = source;
-            adapter.Update(table);
+            //adapter.Update(table);
 
             command.Dispose();
+            dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+         
         }
 
         public static bool isAdmin(Rol Rol)
@@ -96,60 +102,26 @@ namespace FrbaOfertas
             
         }
 
-        public static bool deshabilitar_rol(Rol r)
+
+        public static bool esRolHabilitado(string unRol)
         {
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SOCORRO.sp_deshabilitar_rol", conexion);
-            command.CommandType = CommandType.StoredProcedure;
-          
-            command.Parameters.AddWithValue("@rol_id", r.id);
+            SqlCommand command = new SqlCommand("Select * from SOCORRO.Rol where rol_nombre = @rol_nombre", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@rol_nombre", unRol);
 
-            SqlParameter ret = new SqlParameter();
-            ret.Direction = ParameterDirection.ReturnValue;
-            command.Parameters.Add(ret);
-            command.ExecuteReader();
-            command.Dispose();
-            conexion.Close();
-            conexion.Dispose();
-            if ((int)ret.Value == 1)
-            {
-                MessageBox.Show("Hubo un error");
-                return false;
-            }
-            MessageBox.Show("Rol inhabilitado con exito");
-            return true;
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            bool habilitado = (bool)(reader["rol_habilitado"]);
 
+
+            return habilitado;
         }
-
-        public static bool rehabilitar_rol(Rol r)
-        {
-            DataTable dt = new DataTable();
-            SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SOCORRO.sp_rehabilitar_rol", conexion);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@rol_id", r.id);
-
-            SqlParameter ret = new SqlParameter();
-            ret.Direction = ParameterDirection.ReturnValue;
-            command.Parameters.Add(ret);
-            command.ExecuteReader();
-            command.Dispose();
-            conexion.Close();
-            conexion.Dispose();
-            if ((int)ret.Value == 1)
-            {
-                MessageBox.Show("Hubo un error");
-                return false;
-            }
-            MessageBox.Show("Rol habilitado con exito");
-            return true;
-
-        }
-
 
         public static void asociar_roles_x_funciones(Rol r)
         {
+            r.funcionalidades.Clear();
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("select rol_nombre,f.func_id,func_descripcion from SOCORRO.Rol r join(SOCORRO.FuncionalidadxRol fxr join SOCORRO.Funcionalidad f on fxr.func_id = f.func_id) on r.rol_id = fxr.rol_id", conexion);

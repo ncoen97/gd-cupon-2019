@@ -79,8 +79,7 @@ namespace FrbaOfertas
             
             }
 
-            
-            
+            dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;            
         }
 
         public void mostrar_items(int prov_id)

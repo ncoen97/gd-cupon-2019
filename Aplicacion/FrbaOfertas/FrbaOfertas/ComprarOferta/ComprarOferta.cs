@@ -46,6 +46,8 @@ namespace FrbaOfertas
 
             label2.Text = "su monto disponible es " + ClienteDAO.montoUsuario(usuario);
             this.dataGridView1.Columns["ofer_id"].Visible = false;
+            dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            
         }
 
         private void button2_Click(object sender, EventArgs e)

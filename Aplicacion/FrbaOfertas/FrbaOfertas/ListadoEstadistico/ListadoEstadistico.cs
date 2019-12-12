@@ -62,6 +62,7 @@ namespace FrbaOfertas
 
             conexion.Close();
             conexion.Dispose();
+
         }
 
         private void btn_mayorFactr_Click(object sender, EventArgs e)

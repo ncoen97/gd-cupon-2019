@@ -37,19 +37,27 @@ namespace FrbaOfertas
             Rol r = new Rol(rol_nombre.Text, null);
             DBConnection.registrar_Rol(r);
             actualizar();
+            List<Rol> roles = DBConnection.getRoles();
+            comboBox_roles.Items.Clear();
+            foreach (Rol ro in roles)
+            {
+                comboBox_roles.Items.Add(ro.nombre);
+            }
+            comboBox_roles.SelectedIndex = 0;
             rol_nombre.Text = "";
         }
 
         private void AbmRol_Load(object sender, EventArgs e)
         {
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select r.rol_id,r.rol_habilitado, r.rol_id, r.rol_nombre from SOCORRO.Rol r order by r.rol_id", conexion);
+            SqlCommand command = new SqlCommand("select r.rol_id,r.rol_habilitado, r.rol_nombre from SOCORRO.Rol r order by r.rol_id", conexion);
             command.CommandType = CommandType.Text;
 
             adapter1 = new SqlDataAdapter();
             table1 = new DataTable();
 
-            adapter1.UpdateCommand = new SqlCommand("UPDATE SOCORRO.Rol SET rol_nombre = @rol_nombre,rol_habilitado = @rol_habilitado WHERE rol_id = @rol_id",conexion);
+            adapter1.UpdateCommand = new SqlCommand("SOCORRO.sp_modificar_rol", conexion);
+            adapter1.UpdateCommand.CommandType = CommandType.StoredProcedure;
             adapter1.UpdateCommand.Parameters.Add("@rol_habilitado", SqlDbType.Bit, 1, "rol_habilitado");
             adapter1.UpdateCommand.Parameters.Add("@rol_nombre", SqlDbType.NVarChar, 20, "rol_nombre");
             SqlParameter parameter = adapter1.UpdateCommand.Parameters.Add("@rol_id", SqlDbType.Int);
@@ -80,6 +88,8 @@ namespace FrbaOfertas
                 comboBox_roles.Items.Add(r.nombre);
             }
             comboBox_roles.SelectedIndex = 0;
+           
+       
         }
 
         private void actualizar()
@@ -89,7 +99,7 @@ namespace FrbaOfertas
             command.CommandType = CommandType.Text;
             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
             
-            SqlCommand command2 = new SqlCommand("select rol_nombre, func_descripcion from SOCORRO.Rol r join(SOCORRO.FuncionalidadxRol fxr join SOCORRO.Funcionalidad f on fxr.func_id = f.func_id) on r.rol_id = fxr.rol_id order by r.rol_id", conexion);
+            SqlCommand command2 = new SqlCommand("select rol_nombre,r.rol_id,f.func_id, func_descripcion from SOCORRO.Rol r join(SOCORRO.FuncionalidadxRol fxr join SOCORRO.Funcionalidad f on fxr.func_id = f.func_id) on r.rol_id = fxr.rol_id order by r.rol_id", conexion);
             command2.CommandType = CommandType.Text;
             DBConnection.fill_grid(dataGridView2, command2,adapter2,table2);
 
@@ -102,58 +112,8 @@ namespace FrbaOfertas
             this.Hide();
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            if (selectedRow == null)
-                return;
-
-            const string message =
-            "Esta por habilitar este rol. Es lo que quiere hacer?";
-            const string caption = "Habilitar rol";
-            var result = MessageBox.Show(message, caption,
-                                         MessageBoxButtons.YesNo,
-                                         MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                Rol rol = new Rol(
-                (int)selectedRow.Cells[1].Value,
-                selectedRow.Cells[2].Value.ToString(),
-                (bool)selectedRow.Cells[0].Value
-                );
-
-                DBConnection.rehabilitar_rol(rol);
-                actualizar();
-            }
-
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            if (selectedRow == null)
-                return;
-
-            const string message =
-            "Esta por deshabilitar este rol. Es lo que quiere hacer?";
-            const string caption = "Deshabilitar rol";
-            var result = MessageBox.Show(message, caption,
-                                         MessageBoxButtons.YesNo,
-                                         MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-             
-                Rol rol = new Rol(
-                (int)selectedRow.Cells[1].Value,
-                selectedRow.Cells[2].Value.ToString(),
-                (bool)selectedRow.Cells[0].Value
-                );
-
-                DBConnection.deshabilitar_rol(rol);
-                actualizar();
-            }
-        }
-
+  
+     
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -185,16 +145,38 @@ namespace FrbaOfertas
             try
             {
                 adapter1.Update(table1);
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error en el update: " + ex.Message);
             }
+            timer1.Interval = 1000;
+            timer1.Start();
+            buttonUpdate.BackColor = Color.LawnGreen;
+            actualizar();
         }
 
         private void label5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            UsuarioDAO.quitarFuncionalidad(comboBox_funcionalidades.SelectedIndex, comboBox_roles.SelectedIndex);
+            actualizar();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            buttonUpdate.BackColor = default(Color);
+            timer1.Stop();
         }
     }
 }

@@ -40,15 +40,17 @@ namespace FrbaOfertas
 
         private void button6_Click(object sender, EventArgs e)
         {
-            adapter1.Update(table1);
             try
             {
-
+                adapter1.Update(table1);
             }
             catch (Exception)
             {
                 MessageBox.Show("Error en el update");
-            }  
+            }
+            timer1.Interval = 1000;
+            timer1.Start();
+            button6.BackColor = Color.LawnGreen;
         }
 
         private void AbmCliente_Load(object sender, EventArgs e)
@@ -92,7 +94,7 @@ namespace FrbaOfertas
             command_update.Parameters.Add(parametro7);
             SqlParameter parametro8 = new SqlParameter();
             parametro8.ParameterName = "@nuevo_codigo_postal";
-            parametro8.SourceColumn = "clie_direccion";
+            parametro8.SourceColumn = "clie_codigo_postal";
             command_update.Parameters.Add(parametro8);
             SqlParameter parametro9 = new SqlParameter();
             parametro9.ParameterName = "@nuevo_fecha_nacimiento";
@@ -102,6 +104,10 @@ namespace FrbaOfertas
             parametro10.ParameterName = "@nuevo_ciudad";
             parametro10.SourceColumn = "clie_ciudad";
             command_update.Parameters.Add(parametro10);
+            SqlParameter parametro11 = new SqlParameter();
+            parametro11.ParameterName = "@nuevo_habilitado";
+            parametro11.SourceColumn = "clie_habilitado";
+            command_update.Parameters.Add(parametro11);
             adapter1.UpdateCommand = command_update;
 
             actualizar();
@@ -161,68 +167,18 @@ namespace FrbaOfertas
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (selectedRow == null)
-                return;
-            const string message =
-            "Esta por dar de baja este cliente. Es lo que quiere hacer?";
-            const string caption = "Inhabilitar cliente";
-            var result = MessageBox.Show(message, caption,
-                                         MessageBoxButtons.YesNo,
-                                         MessageBoxIcon.Question);
-            
-            if (result == DialogResult.Yes)
-            {
-                Cliente cliente = Cliente.ClienteConId(
-                (int)selectedRow.Cells["clie_id"].Value, //id
-                usuario,
-                selectedRow.Cells["clie_nombre"].Value.ToString(), //nombre
-                selectedRow.Cells["clie_apellido"].Value.ToString(), //apellido
-                long.Parse(selectedRow.Cells["clie_dni"].Value.ToString()), //dni
-                DateTime.Parse(selectedRow.Cells["clie_fecha_nacimiento"].Value.ToString()), //fecha nac
-                selectedRow.Cells["clie_direccion"].Value.ToString(), //direccion
-                selectedRow.Cells["clie_codigo_postal"].Value.ToString(), //cod_p
-                selectedRow.Cells["clie_email"].Value.ToString(), //mail
-                selectedRow.Cells["clie_telefono"].Value.ToString(),//telefono
-                selectedRow.Cells["clie_ciudad"].Value.ToString(), //ciudad
-                (bool)selectedRow.Cells["clie_habilitado"].Value //habilitado
-                );
-                ClienteDAO.darDeBajaCliente(cliente);
-                actualizar();
-            }
+            RegistroDeUsuario ru = new RegistroDeUsuario(2,usuario);
+            ru.Show();
+            this.Hide();
 
         }
 
-        private void button4_Click_1(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            if (selectedRow == null)
-                return;
-            const string message =
-            "Esta por dar de alta este cliente. Es lo que quiere hacer?";
-            const string caption = "Habilitar cliente";
-            var result = MessageBox.Show(message, caption,
-                                         MessageBoxButtons.YesNo,
-                                         MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                Cliente cliente = Cliente.ClienteConId (
-                (int)selectedRow.Cells["clie_id"].Value, //id
-                usuario,
-                selectedRow.Cells["clie_nombre"].Value.ToString(), //nombre
-                selectedRow.Cells["clie_apellido"].Value.ToString(), //apellido
-                long.Parse(selectedRow.Cells["clie_dni"].Value.ToString()), //dni
-                DateTime.Parse(selectedRow.Cells["clie_fecha_nacimiento"].Value.ToString()), //fecha nac
-                selectedRow.Cells["clie_direccion"].Value.ToString(), //direccion
-                selectedRow.Cells["clie_codigo_postal"].Value.ToString(), //cod_p
-                selectedRow.Cells["clie_email"].Value.ToString(), //mail
-                selectedRow.Cells["clie_telefono"].Value.ToString(),//telefono
-                selectedRow.Cells["clie_ciudad"].Value.ToString(), //ciudad
-                (bool)selectedRow.Cells["clie_habilitado"].Value //habilitado
-                );
-
-                ClienteDAO.darDeAltaCliente(cliente);
-                actualizar();
-            }
+            button6.BackColor =default(Color);
+            timer1.Stop();
         }
+
+   
     }
 }

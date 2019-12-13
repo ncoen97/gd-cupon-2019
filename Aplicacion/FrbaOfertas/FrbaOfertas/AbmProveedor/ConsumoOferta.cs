@@ -47,14 +47,14 @@ namespace FrbaOfertas
                 return;
             }
             
-            if (!DBConnection.encontrar_cupon_para_canjear(textBox2.Text))
+            if (!DBConnection.encontrar_cupon_para_canjear(int.Parse(textBox3.Text),textBox2.Text))
             {
                 MessageBox.Show("No esta disponible el cupon");
                 return;
 
             }
             
-            DBConnection.canjear_cupon(textBox2.Text, Convert.ToInt16(textBox1.Text), dateTimePicker1.Value);
+            DBConnection.canjear_cupon(int.Parse(textBox3.Text),textBox2.Text, Convert.ToInt16(textBox1.Text), dateTimePicker1.Value);
 
             MessageBox.Show("Cupon canjeado!");
             textBox1.Text = ""; textBox2.Text = "";

@@ -37,6 +37,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonCancelar = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -58,7 +60,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(250, 145);
+            this.textBox2.Location = new System.Drawing.Point(250, 176);
             this.textBox2.MaxLength = 16;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(236, 26);
@@ -66,7 +68,7 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(250, 177);
+            this.dateTimePicker1.Location = new System.Drawing.Point(250, 208);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(234, 26);
             this.dateTimePicker1.TabIndex = 4;
@@ -83,7 +85,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(104, 148);
+            this.label3.Location = new System.Drawing.Point(104, 179);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(107, 20);
             this.label3.TabIndex = 6;
@@ -92,7 +94,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(104, 182);
+            this.label4.Location = new System.Drawing.Point(104, 213);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(145, 20);
             this.label4.TabIndex = 7;
@@ -119,11 +121,30 @@
             this.buttonCancelar.UseVisualStyleBackColor = true;
             this.buttonCancelar.Click += new System.EventHandler(this.buttonCancelar_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(104, 147);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(74, 20);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "ID cupón";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(250, 144);
+            this.textBox3.MaxLength = 16;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(236, 26);
+            this.textBox3.TabIndex = 10;
+            // 
             // ConsumoOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 448);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label4);
@@ -152,5 +173,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonCancelar;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

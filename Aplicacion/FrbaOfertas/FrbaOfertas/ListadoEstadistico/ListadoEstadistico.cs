@@ -52,14 +52,19 @@ namespace FrbaOfertas
                 MessageBox.Show("Hubo un error con la entrada del año ");
                 return;
             }
+           
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_lista_prov_mayor_descuento", conexion);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@semestre", comboBox1.SelectedIndex + 1);
             command.Parameters.AddWithValue("@anio", textBox1.Text);
 
+
             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
 
+            adapter1.Dispose();
+            adapter1 = new SqlDataAdapter();
+            table1 = new DataTable();
             conexion.Close();
             conexion.Dispose();
 
@@ -73,14 +78,17 @@ namespace FrbaOfertas
                 return;
             }
 
+            
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_lista_prov_mayor_facturacion", conexion);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@semestre", comboBox1.SelectedIndex+1);
             command.Parameters.AddWithValue("@anio", textBox1.Text);
             
-            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);  
-            
+            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
+            adapter1.Dispose();
+            table1 = new DataTable();
+            adapter1 = new SqlDataAdapter();
             conexion.Close();
             conexion.Dispose();
         }

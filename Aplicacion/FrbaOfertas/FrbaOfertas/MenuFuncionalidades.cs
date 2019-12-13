@@ -116,6 +116,15 @@ namespace FrbaOfertas
                     button12.Visible = true;
                 }
 
+
+                if (DBConnection.isCliente(rol) && !ClienteDAO.esClienteHabilitado(usuario))
+                {
+                    button9.Enabled = false;
+                    button10.Enabled = false;
+                    MessageBox.Show("Tus funcionalidades como cliente estan restringidas. Si es un error, ponerse en contacto con un administrador");
+                    
+                }     
+
                 if (DBConnection.isProveedor(rol) && !ProveedorDAO.esProveedorHabilitado(usuario))
                 {
                     button5.Enabled = false;

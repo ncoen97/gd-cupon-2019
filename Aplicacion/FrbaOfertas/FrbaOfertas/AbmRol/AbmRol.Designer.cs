@@ -55,7 +55,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(28, 78);
+            this.label3.Location = new System.Drawing.Point(29, 58);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 20);
             this.label3.TabIndex = 42;
@@ -64,7 +64,7 @@
             // label
             // 
             this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(28, 23);
+            this.label.Location = new System.Drawing.Point(28, 18);
             this.label.Name = "label";
             this.label.Size = new System.Drawing.Size(142, 20);
             this.label.TabIndex = 46;
@@ -72,7 +72,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(310, 68);
+            this.button1.Location = new System.Drawing.Point(310, 48);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(327, 40);
             this.button1.TabIndex = 47;
@@ -88,9 +88,9 @@
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.label);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(32, 26);
+            this.groupBox1.Location = new System.Drawing.Point(32, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1004, 365);
+            this.groupBox1.Size = new System.Drawing.Size(975, 327);
             this.groupBox1.TabIndex = 51;
             this.groupBox1.TabStop = false;
             // 
@@ -100,20 +100,20 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(33, 129);
+            this.dataGridView1.Location = new System.Drawing.Point(33, 109);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(699, 229);
+            this.dataGridView1.Size = new System.Drawing.Size(699, 198);
             this.dataGridView1.TabIndex = 71;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.Location = new System.Drawing.Point(760, 251);
+            this.buttonUpdate.Location = new System.Drawing.Point(759, 231);
             this.buttonUpdate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(204, 35);
+            this.buttonUpdate.Size = new System.Drawing.Size(199, 35);
             this.buttonUpdate.TabIndex = 70;
             this.buttonUpdate.Text = "Guardar cambios de Rol";
             this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -121,7 +121,7 @@
             // 
             // rol_nombre
             // 
-            this.rol_nombre.Location = new System.Drawing.Point(90, 75);
+            this.rol_nombre.Location = new System.Drawing.Point(90, 55);
             this.rol_nombre.Name = "rol_nombre";
             this.rol_nombre.Size = new System.Drawing.Size(181, 26);
             this.rol_nombre.TabIndex = 63;
@@ -135,9 +135,9 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.comboBox_funcionalidades);
-            this.groupBox2.Location = new System.Drawing.Point(32, 397);
+            this.groupBox2.Location = new System.Drawing.Point(32, 334);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1004, 292);
+            this.groupBox2.Size = new System.Drawing.Size(975, 292);
             this.groupBox2.TabIndex = 52;
             this.groupBox2.TabStop = false;
             this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
@@ -218,7 +218,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(1022, 718);
+            this.button5.Location = new System.Drawing.Point(1026, 581);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(98, 45);
             this.button5.TabIndex = 51;
@@ -234,7 +234,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1136, 780);
+            this.ClientSize = new System.Drawing.Size(1136, 629);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);

@@ -87,9 +87,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(104, 179);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(107, 20);
+            this.label3.Size = new System.Drawing.Size(105, 20);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Código cupón";
+            this.label3.Text = "Código oferta";
             // 
             // label4
             // 

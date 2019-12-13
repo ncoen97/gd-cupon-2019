@@ -370,6 +370,26 @@ namespace FrbaOfertas
 
         }
 
+        public static bool esClienteHabilitado(Usuario usuario)
+        {
+
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("Select clie_habilitado from SOCORRO.Cliente where clie_user_id = @clie_id", conexion);
+            command.Parameters.AddWithValue("@clie_id", usuario.id);
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            int id_cliente = Convert.ToInt16(reader["clie_habilitado"]);
+            reader.Close();
+            reader.Dispose();
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+            return (id_cliente==1);
+
+        }
+        
+
         public static List<Cliente> getClientes()
         {
             List<Cliente> clientes = new List<Cliente>();

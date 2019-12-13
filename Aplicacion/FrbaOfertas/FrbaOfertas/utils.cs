@@ -18,6 +18,7 @@ namespace FrbaOfertas
             try
             {
                 fecha = DateTime.Parse(sFecha);
+                fecha = new DateTime(fecha.Year,fecha.Month,fecha.Day,fecha.Hour,fecha.Minute,fecha.Second);
             }
             catch
             {

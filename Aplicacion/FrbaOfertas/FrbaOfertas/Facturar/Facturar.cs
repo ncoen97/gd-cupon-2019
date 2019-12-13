@@ -86,7 +86,7 @@ namespace FrbaOfertas
         public void mostrar_items(int prov_id)
         { 
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SELECT cupon_ofer_id, COUNT(cupon_ofer_id) cantidad, ofer_descripcion FROM SOCORRO.Cupon cup JOIN SOCORRO.Oferta o ON o.ofer_id = cup.cupon_ofer_id where ofer_prov_id = @prov_id and @fecha_desde < cupon_fecha_compra and cupon_fecha_compra<@fecha_hasta  group by cupon_ofer_id, ofer_descripcion order by cantidad desc", conexion);
+            SqlCommand command = new SqlCommand("SELECT cupon_ofer_id, ofer_descripcion, COUNT(cupon_ofer_id) cantidad, ofer_precio_oferta, (ofer_precio_oferta*COUNT(cupon_ofer_id)) precioxcantidad FROM SOCORRO.Cupon cup JOIN SOCORRO.Oferta o ON o.ofer_id = cup.cupon_ofer_id where ofer_prov_id = @prov_id and @fecha_desde < cupon_fecha_compra and cupon_fecha_compra<@fecha_hasta group by cupon_ofer_id, ofer_descripcion,ofer_precio_oferta order by cantidad desc", conexion);
             command.CommandType = CommandType.Text;
             command.Parameters.AddWithValue("@prov_id",prov_id);
             dateTimePicker1.Value = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0);

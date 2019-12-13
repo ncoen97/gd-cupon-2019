@@ -43,33 +43,38 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(115, 22);
+            this.label1.Location = new System.Drawing.Point(172, 34);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(61, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "usuario";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(87, 130);
+            this.label2.Location = new System.Drawing.Point(130, 200);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 13);
+            this.label2.Size = new System.Drawing.Size(136, 20);
             this.label2.TabIndex = 1;
             this.label2.Text = "nueva contraseña";
             // 
             // passNueva
             // 
-            this.passNueva.Location = new System.Drawing.Point(69, 157);
+            this.passNueva.Location = new System.Drawing.Point(104, 242);
+            this.passNueva.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.passNueva.Name = "passNueva";
-            this.passNueva.Size = new System.Drawing.Size(144, 20);
+            this.passNueva.PasswordChar = '*';
+            this.passNueva.Size = new System.Drawing.Size(214, 26);
             this.passNueva.TabIndex = 2;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(69, 253);
+            this.button1.Location = new System.Drawing.Point(104, 389);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(144, 23);
+            this.button1.Size = new System.Drawing.Size(216, 35);
             this.button1.TabIndex = 3;
             this.button1.Text = "Guardar contraseña nueva";
             this.button1.UseVisualStyleBackColor = true;
@@ -77,9 +82,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(105, 290);
+            this.button2.Location = new System.Drawing.Point(158, 446);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 4;
             this.button2.Text = "Atras";
             this.button2.UseVisualStyleBackColor = true;
@@ -87,48 +93,55 @@
             // 
             // passNueva2
             // 
-            this.passNueva2.Location = new System.Drawing.Point(69, 217);
+            this.passNueva2.Location = new System.Drawing.Point(104, 334);
+            this.passNueva2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.passNueva2.Name = "passNueva2";
-            this.passNueva2.Size = new System.Drawing.Size(144, 20);
+            this.passNueva2.PasswordChar = '*';
+            this.passNueva2.Size = new System.Drawing.Size(214, 26);
             this.passNueva2.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(87, 191);
+            this.label3.Location = new System.Drawing.Point(130, 294);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(125, 13);
+            this.label3.Size = new System.Drawing.Size(185, 20);
             this.label3.TabIndex = 6;
             this.label3.Text = "repetir nueva contraseña";
             // 
             // passActual
             // 
-            this.passActual.Location = new System.Drawing.Point(69, 100);
+            this.passActual.Location = new System.Drawing.Point(104, 154);
+            this.passActual.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.passActual.Name = "passActual";
-            this.passActual.Size = new System.Drawing.Size(144, 20);
+            this.passActual.PasswordChar = '*';
+            this.passActual.Size = new System.Drawing.Size(214, 26);
             this.passActual.TabIndex = 8;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(87, 73);
+            this.label4.Location = new System.Drawing.Point(130, 112);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 13);
+            this.label4.Size = new System.Drawing.Size(136, 20);
             this.label4.TabIndex = 7;
             this.label4.Text = "contraseña actual";
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(69, 45);
+            this.username.Location = new System.Drawing.Point(104, 69);
+            this.username.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.username.Name = "username";
-            this.username.Size = new System.Drawing.Size(144, 20);
+            this.username.Size = new System.Drawing.Size(214, 26);
             this.username.TabIndex = 9;
             // 
             // CambiarContrasenia
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 338);
+            this.ClientSize = new System.Drawing.Size(426, 520);
             this.Controls.Add(this.username);
             this.Controls.Add(this.passActual);
             this.Controls.Add(this.label4);
@@ -139,6 +152,7 @@
             this.Controls.Add(this.passNueva);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "CambiarContrasenia";
             this.Text = "CambiarContrasenia";
             this.Load += new System.EventHandler(this.CambiarContrasenia_Load);

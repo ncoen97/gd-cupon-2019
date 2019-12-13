@@ -22,8 +22,8 @@ namespace FrbaOfertas
             deDondeViene = _deDondeViene;
             comboBoxTipoDeUsuario.Items.Add("Cliente");
             comboBoxTipoDeUsuario.Items.Add("Proveedor");
-          
-            
+
+            comboBoxTipoDeUsuario.SelectedIndex = 0;
             switch (_deDondeViene)
             { 
                 
@@ -39,7 +39,7 @@ namespace FrbaOfertas
                     break;
             }
 
-            comboBoxTipoDeUsuario.SelectedIndex = 0;
+            
             usuarioActivo = _usuario;
         }
         private void Atras_Click(object sender, EventArgs e)

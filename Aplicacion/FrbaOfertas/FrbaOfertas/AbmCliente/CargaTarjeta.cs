@@ -114,5 +114,13 @@ namespace FrbaOfertas
             c.Show();
             this.Hide();
         }
+
+        private void textBoxNumeroDeTarjeta_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

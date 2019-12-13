@@ -65,19 +65,24 @@ namespace FrbaOfertas
             switch ((int)ret.Value)
             {
                 case -1:
-                    MessageBox.Show("no se encontro el admin");
+                    MessageBox.Show("No se encontro el admin");
                     break;
                 case -2:
-                    MessageBox.Show("no se encontro el proveedor");
+                    MessageBox.Show("No se encontro el proveedor");
                     break;
                 case -3:
-                    MessageBox.Show("las fechas no son coherentes");
+                    MessageBox.Show("Las fechas no son coherentes");
                     break;
                 case 0:
                         label5.Text = "Nro factura: "+id_nueva_factura.Value.ToString()+ "  Total facturado: "+total_facturado.Value.ToString();
                         mostrar_items(prov_id);        
                     break;
-            
+                case -4:
+                    MessageBox.Show("No hay facturas en ese periodo");
+                    break;
+                default:
+                    MessageBox.Show("Error generando la facutra");
+                    break;
             }
 
             dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;            

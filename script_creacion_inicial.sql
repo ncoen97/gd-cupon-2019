@@ -1943,6 +1943,11 @@ BEGIN
 		return -2
 	if (@fecha_desde > @fecha_hasta)
 		return -3
+	if NOT EXISTS (SELECT o.ofer_id [ID Oferta], COUNT(*) [Cantidad], o.ofer_precio_oferta [Precio], o.ofer_descripcion [Descripcion]
+					FROM SOCORRO.Cupon cup JOIN SOCORRO.Oferta o ON o.ofer_id = cup.cupon_ofer_id
+					WHERE (o.ofer_prov_id = @prov_id) AND (cup.cupon_fecha_compra < @fecha_hasta) AND (cup.cupon_fecha_compra >= @fecha_desde)
+					GROUP BY o.ofer_id, o.ofer_precio_oferta, o.ofer_descripcion)
+		RETURN -4
 	SET @fecha_hasta = DATETIMEFROMPARTS(
 		YEAR(@fecha_hasta),
 		MONTH(@fecha_hasta),

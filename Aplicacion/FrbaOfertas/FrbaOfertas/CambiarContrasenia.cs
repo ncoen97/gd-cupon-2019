@@ -57,19 +57,33 @@ namespace FrbaOfertas
                 return;
             }
 
+            if (passNueva.Text == passActual.Text)
+            {
+                MessageBox.Show("Las contraseñas nueva y actual no deben coincidir");
+                foreach (TextBox txb in this.Controls.OfType<TextBox>())
+                {
+                    txb.Text = "";
+
+                }
+                return;
+            }
+
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_modificar_usuario", conexion);
             command.CommandType = CommandType.StoredProcedure;
+            string usuName;
             if (username.Visible)
             {
-                command.Parameters.AddWithValue("@username", username.Text.ToString());
+                usuName = username.Text;
             }
             else
             {
-                command.Parameters.AddWithValue("@username", usuActivo.username);
+                usuName = usuActivo.username;
             }
-         
-            command.Parameters.AddWithValue("@password", passNueva.Text);
+            
+            command.Parameters.AddWithValue("@user_username", usuName);
+            command.Parameters.AddWithValue("@user_pass_nueva", passNueva.Text);
+            command.Parameters.AddWithValue("@user_pass_actual",passActual.Text);
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
             command.Parameters.Add(ret);
@@ -83,7 +97,7 @@ namespace FrbaOfertas
                     MessageBox.Show("No se encontro usuario");
                     break;
                 case -2:
-                    MessageBox.Show("La contraseña anterior no es correcta");
+                    MessageBox.Show("La contraseña actual no es correcta");
                     break;
                 case 0:
                     MessageBox.Show("Contraseña cambiada");

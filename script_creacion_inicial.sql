@@ -597,9 +597,10 @@ BEGIN
 			user_intentos,
 			user_habilitado
 		) VALUES (
-			REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE( --> transforma "ABNER Velázquez" en "abnervelazquez"
-				LOWER(@clie_nombre + @clie_apellido),
-				' ', ''), 'ñ', 'n'), 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+			--REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE( --> transforma "ABNER Velázquez" en "abnervelazquez"
+			--	LOWER(@clie_nombre + @clie_apellido),
+			--	' ', ''), 'ñ', 'n'), 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+			CAST(@clie_dni AS nvarchar(30)),
 			HASHBYTES('SHA2_256', CAST(@clie_dni AS NVARCHAR(255))),
 			0,
 			1

@@ -46,6 +46,7 @@ namespace FrbaOfertas
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@usuario_id", usuario.id);
             int prov_id = ProveedorDAO.obtenerProveedorIdConNombre(comboBox1.SelectedItem.ToString());
+
             command.Parameters.AddWithValue("@prov_id",prov_id);
             command.Parameters.AddWithValue("@fecha_desde",dateTimePicker1.Value);
             command.Parameters.AddWithValue("@fecha_hasta",dateTimePicker2.Value);
@@ -85,23 +86,19 @@ namespace FrbaOfertas
         public void mostrar_items(int prov_id)
         { 
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SELECT o.ofer_id [ID Oferta], COUNT(*) [Cantidad],o.ofer_precio_oferta [Precio],o.ofer_descripcion [Descripcion]	FROM SOCORRO.Cupon cup	JOIN SOCORRO.Oferta o		ON o.ofer_id = cup.cupon_ofer_id	WHERE (o.ofer_prov_id = @prov_id)		AND (cup.cupon_fecha_compra < @fecha_hasta)	AND (cup.cupon_fecha_compra >= @fecha_desde) GROUP BY o.ofer_id,o.ofer_precio_oferta,o.ofer_descripcion ORDER BY o.ofer_descripcion;", conexion);
+            SqlCommand command = new SqlCommand("SELECT cupon_ofer_id, COUNT(cupon_ofer_id) cantidad, ofer_descripcion FROM SOCORRO.Cupon cup JOIN SOCORRO.Oferta o ON o.ofer_id = cup.cupon_ofer_id where ofer_prov_id = @prov_id and @fecha_desde < cupon_fecha_compra and cupon_fecha_compra<@fecha_hasta  group by cupon_ofer_id, ofer_descripcion order by cantidad desc", conexion);
             command.CommandType = CommandType.Text;
             command.Parameters.AddWithValue("@prov_id",prov_id);
             dateTimePicker1.Value = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0);
             dateTimePicker2.Value = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
-            command.Parameters.AddWithValue("@fecha_desde",dateTimePicker1.Value);
-            command.Parameters.AddWithValue("@fecha_hasta",dateTimePicker2.Value);
-            SqlParameter ret = new SqlParameter();
-            ret.Direction = ParameterDirection.ReturnValue;
-
+            command.Parameters.AddWithValue("@fecha_desde",dateTimePicker1.Value.ToString());
+            command.Parameters.AddWithValue("@fecha_hasta",dateTimePicker2.Value.ToString());
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
+            DBConnection.fill_grid(dataGridView1, command, da, dt);
             dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
 
-            command.Parameters.Add(ret);
+            
             command.ExecuteReader();        
             command.Dispose();
             conexion.Close();

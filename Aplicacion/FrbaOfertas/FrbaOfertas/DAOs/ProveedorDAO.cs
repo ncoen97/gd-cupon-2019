@@ -118,7 +118,7 @@ namespace FrbaOfertas
 
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
-            int i =(int)reader["prov_user_id"];
+            int i =(int)reader["prov_id"];
 
             reader.Close();
             reader.Dispose();

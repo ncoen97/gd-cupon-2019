@@ -1826,7 +1826,7 @@ BEGIN
 	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Usuario where user_id = @user_id)
 		return -1
 
-	Select cu.cupon_id,o.ofer_descripcion,o.ofer_fecha_vencimiento
+	Select cu.cupon_id,cu.cupon_ofer_id,o.ofer_descripcion,o.ofer_fecha_vencimiento
 	from SOCORRO.Cliente cl join SOCORRO.Cupon cu
 		on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id
 		where (cl.clie_user_id = @user_id)
@@ -1843,7 +1843,7 @@ BEGIN
 	IF NOT EXISTS (SELECT 1 FROM SOCORRO.Cliente where clie_id = @clie_id)
 		return -1
 	set @user_id =(SELECT clie_user_id from SOCORRO.Cliente where clie_id = @clie_id)
-	Select cu.cupon_id,o.ofer_descripcion,o.ofer_fecha_vencimiento
+	Select cu.cupon_id,cu.cupon_ofer_id,o.ofer_descripcion,o.ofer_fecha_vencimiento
 	from SOCORRO.Cliente cl join SOCORRO.Cupon cu
 		on cl.clie_id = cu.cupon_clie_id_compra join SOCORRO.Oferta o on o.ofer_id = cu.cupon_ofer_id
 		where (cl.clie_user_id = @user_id)

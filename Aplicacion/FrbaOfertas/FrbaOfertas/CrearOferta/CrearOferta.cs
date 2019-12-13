@@ -23,9 +23,10 @@ namespace FrbaOfertas
 
         private void CrearOferta_Load(object sender, EventArgs e)
         {
-            esProveedor = ProveedorDAO.esProveedor(usuario);
+            esProveedor = ProveedorDAO.esProveedorHabilitado(usuario);
 
             dateTimePicker1.MinDate = utils.obtenerFecha();
+            dateTimePicker2.MinDate = utils.obtenerFecha();
             if (esProveedor)
             {
                 labelProveedor.Hide();
@@ -69,29 +70,39 @@ namespace FrbaOfertas
                 return;
             }
 
+            if (dateTimePicker1.Value == dateTimePicker2.Value)
+            {
+                MessageBox.Show("La fecha de publicacion y vencimiento no deberian coincidir");
+                return;            
+            }
+
+
             Boolean resultado;
             if (esProveedor)
             {
                 int idProveedor = ProveedorDAO.obtenerIdProveedor(usuario);
-                resultado = ProveedorDAO.publicarOferta(idProveedor, Oferta_descripcion.Text, dateTimePicker1.Value, (double)numericUpDownPrecioOferta.Value, (double)numericUpDownPrecioLista.Value, (int)numericUpDownCantidad.Value, (int)numericUpDownMaximo.Value);
+                resultado = ProveedorDAO.publicarOferta(idProveedor, Oferta_descripcion.Text, dateTimePicker1.Value, dateTimePicker2.Value, (double)numericUpDownPrecioOferta.Value, (double)numericUpDownPrecioLista.Value, (int)numericUpDownCantidad.Value, (int)numericUpDownMaximo.Value);
             }
             else
             {
                 ComboboxItem item = (ComboboxItem)comboBoxProveedor.SelectedItem;
                 Proveedor proveedorSeleccionado = (Proveedor)item.value;
-                resultado = ProveedorDAO.publicarOferta(proveedorSeleccionado.id, Oferta_descripcion.Text, dateTimePicker1.Value, (double)numericUpDownPrecioOferta.Value, (double)numericUpDownPrecioLista.Value, (int)numericUpDownCantidad.Value, (int)numericUpDownMaximo.Value);
+                resultado = ProveedorDAO.publicarOferta(proveedorSeleccionado.id, Oferta_descripcion.Text, dateTimePicker1.Value, dateTimePicker2.Value, (double)numericUpDownPrecioOferta.Value, (double)numericUpDownPrecioLista.Value, (int)numericUpDownCantidad.Value, (int)numericUpDownMaximo.Value);
             }
             if (resultado)
             {
                 MessageBox.Show("Oferta publicada con exito");
-                MenuFuncionalidades o = new MenuFuncionalidades(usuario);
-                o.Show();
-                this.Hide();
+                
             }
             else
             {
                 MessageBox.Show("Error publicando la oferta, verifique los datos e intente nuevamente");
             }
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

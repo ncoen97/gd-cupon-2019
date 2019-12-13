@@ -383,7 +383,8 @@ namespace FrbaOfertas
               
                 string c = reader["clie_nombre"].ToString();
                 int id = Convert.ToInt16(reader["clie_id"].ToString());
-                Cliente clie = new Cliente(id, c);
+                bool habilitado =(bool)reader["clie_habilitado"];
+                Cliente clie = new Cliente(id, c,habilitado);
                 clientes.Add(clie);
             }
 

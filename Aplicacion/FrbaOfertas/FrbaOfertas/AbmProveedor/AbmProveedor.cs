@@ -15,7 +15,7 @@ namespace FrbaOfertas
     public partial class AbmProveedor : Form
     {
         Usuario usuario;
-        DataGridViewRow selectedRow = null;
+        
         SqlDataAdapter adapter1;
         DataTable table1;
         public AbmProveedor(Usuario _usuario)

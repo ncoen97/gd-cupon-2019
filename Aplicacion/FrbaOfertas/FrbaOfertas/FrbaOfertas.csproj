@@ -62,12 +62,6 @@
     <Compile Include="AbmCliente\MisCupones.Designer.cs">
       <DependentUpon>MisCupones.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmCliente\ModificacionDeCliente.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmCliente\ModificacionDeCliente.Designer.cs">
-      <DependentUpon>ModificacionDeCliente.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmProveedor\AbmProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,12 +73,6 @@
     </Compile>
     <Compile Include="AbmProveedor\ConsumoOferta.Designer.cs">
       <DependentUpon>ConsumoOferta.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmProveedor\ModificacionDeProveedores.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmProveedor\ModificacionDeProveedores.Designer.cs">
-      <DependentUpon>ModificacionDeProveedores.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmProveedor\RegistroDeProveedores.cs">
       <SubType>Form</SubType>
@@ -108,6 +96,12 @@
     <Compile Include="DAOs\DBConnection.cs" />
     <Compile Include="DAOs\ProveedorDAO.cs" />
     <Compile Include="DAOs\UsuarioDAO.cs" />
+    <Compile Include="EstadoUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EstadoUsuarios.Designer.cs">
+      <DependentUpon>EstadoUsuarios.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListadoEstadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,17 +182,11 @@
     <EmbeddedResource Include="AbmCliente\MisCupones.resx">
       <DependentUpon>MisCupones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmCliente\ModificacionDeCliente.resx">
-      <DependentUpon>ModificacionDeCliente.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\AbmProveedor.resx">
       <DependentUpon>AbmProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\ConsumoOferta.resx">
       <DependentUpon>ConsumoOferta.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmProveedor\ModificacionDeProveedores.resx">
-      <DependentUpon>ModificacionDeProveedores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\RegistroDeProveedores.resx">
       <DependentUpon>RegistroDeProveedores.cs</DependentUpon>
@@ -217,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CrearOferta\CrearOferta.resx">
       <DependentUpon>CrearOferta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EstadoUsuarios.resx">
+      <DependentUpon>EstadoUsuarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar\Facturar.resx">
       <DependentUpon>Facturar.cs</DependentUpon>

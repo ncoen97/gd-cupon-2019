@@ -113,7 +113,15 @@ namespace FrbaOfertas
                 if (DBConnection.isAdmin(rol))
                 {
                     button4.Visible = true;
-                }            
+                    button12.Visible = true;
+                }
+
+                if (DBConnection.isProveedor(rol) && !ProveedorDAO.esProveedorHabilitado(usuario))
+                {
+                    button5.Enabled = false;
+                    MessageBox.Show("Tus funcionalidades como proveedor estan restringidas. Si es un error, ponerse en contacto con un administrador");
+                    
+                }     
 
                 foreach (Funcionalidad f in rol.funcionalidades)
                 {
@@ -156,7 +164,6 @@ namespace FrbaOfertas
 
         private void button9_Click(object sender, EventArgs e)
         {
-           
             ComprarOferta co = new ComprarOferta(usuario);
             co.Show();
             this.Hide();
@@ -172,6 +179,13 @@ namespace FrbaOfertas
         {
             CambiarContrasenia cc = new CambiarContrasenia(usuario);
             cc.Show();
+            this.Hide();
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            EstadoUsuarios eu = new EstadoUsuarios(usuario);
+            eu.Show();
             this.Hide();
         }
 

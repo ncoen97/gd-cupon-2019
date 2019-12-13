@@ -37,6 +37,7 @@ namespace FrbaOfertas
                     List<Cliente> clientes = ClienteDAO.getClientes();
                     foreach (Cliente c in clientes)
                     {
+                        if(c.habilitado)
                         comboBox1.Items.Add(c.id);
 
                     }

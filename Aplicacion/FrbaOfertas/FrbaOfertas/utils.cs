@@ -57,6 +57,7 @@ namespace FrbaOfertas
             }
             catch (Exception ex)
             {
+                
                 return false;
             }
             return true;

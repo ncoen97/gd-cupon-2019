@@ -221,14 +221,14 @@ namespace FrbaOfertas
             conn.Dispose();
 
         }
-        public static Boolean publicarOferta(int provId, string descripcion, DateTime fechaVencimiento, double precioOferta, double precioLista, int cantidad, int maxPorUsuario)
+        public static Boolean publicarOferta(int provId, string descripcion, DateTime fechaVencimiento,DateTime fechaPublicacion, double precioOferta, double precioLista, int cantidad, int maxPorUsuario)
         {
-            DateTime fechaActual = utils.obtenerFecha();
+
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_publicar_oferta", conexion);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@prov_id", provId);
-            command.Parameters.AddWithValue("@fecha_publicacion", fechaActual);
+            command.Parameters.AddWithValue("@fecha_publicacion", fechaPublicacion);
             command.Parameters.AddWithValue("@fecha_vencimiento", fechaVencimiento);
             command.Parameters.AddWithValue("@precio_rebajado", precioOferta);
             command.Parameters.AddWithValue("@precio_original", precioLista);
@@ -249,28 +249,37 @@ namespace FrbaOfertas
             }
             return true;
         }
-        public static Boolean esProveedor(Usuario usuario)
+        public static Boolean esProveedorHabilitado(Usuario usuario)
         {
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select rol_nombre from SOCORRO.RolxUsuario rxu join SOCORRO.Rol r on r.rol_id = rxu.rol_id join SOCORRO.Usuario u on u.user_id = rxu.user_id where u.user_id = @user_id", conexion);
+            SqlCommand command = new SqlCommand("select prov_habilitado from SOCORRO.Proveedor p join SOCORRO.RolxUsuario rxu on p.prov_user_id=rxu.user_id where user_id = @user_id", conexion);
             command.CommandType = CommandType.Text;
             command.Parameters.AddWithValue("@user_id", usuario.id);
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
-            string rol = reader["rol_nombre"].ToString();
-
-            reader.Close();
-            reader.Dispose();
-            command.Dispose();
-            conexion.Close();
-            conexion.Dispose();
-
-            if (rol.Equals("proveedor", StringComparison.InvariantCultureIgnoreCase))
+            try
             {
-                return true;
+                bool habilitado = (bool)reader["prov_habilitado"];
+                reader.Close();
+                reader.Dispose();
+                command.Dispose();
+                conexion.Close();
+                conexion.Dispose();
+                return habilitado;
             }
-            return false;
+            catch {
+                reader.Close();
+                reader.Dispose();
+                command.Dispose();
+                conexion.Close();
+                conexion.Dispose();
+                return false;
+            }
+            
+         
         }
+
+
         public static List<Proveedor> getProveedores()
         {
             List<Proveedor> proveedores = new List<Proveedor>();

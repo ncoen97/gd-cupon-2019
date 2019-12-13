@@ -18,37 +18,11 @@ namespace FrbaOfertas
         Usuario usuario;
         DataGridViewRow selectedRow = null;
 
-        public ComprarOferta()
-        {
-            InitializeComponent();
-        }
-
         public ComprarOferta(Usuario _usuario)
         {
             InitializeComponent();
-      
             usuario = _usuario;
-        }
-
-        private void ComprarOferta_Load(object sender, EventArgs e)
-        {
-            DataTable dt = new DataTable();
-            SqlConnection conexion = DBConnection.getConnection();
-            DateTime hoy = utils.obtenerFecha();
-            SqlCommand command = new SqlCommand("Select ofer_id, ofer_descripcion [Descripcion],ofer_fecha_vencimiento [Fecha de Vencimiento], ofer_precio_lista [Precio original],ofer_precio_oferta [Precio de oferta],p.prov_razon_social [Proveedor] from SOCORRO.Oferta o join SOCORRO.Proveedor p on o.ofer_prov_id = p.prov_id  where p.prov_habilitado=1 and o.ofer_fecha_vencimiento>@fecha and o.ofer_stock>0 and o.ofer_habilitada=1", conexion);
-            command.CommandType = CommandType.Text;
-            command.Parameters.AddWithValue("@fecha", hoy);
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
-
-            label2.Text = "su monto disponible es " + ClienteDAO.montoUsuario(usuario);
-            this.dataGridView1.Columns["ofer_id"].Visible = false;
-            dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            
-        }
+        }       
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -112,5 +86,28 @@ namespace FrbaOfertas
             MisCupones mc = new MisCupones(usuario);
             mc.Show(); this.Hide();
         }
+
+        private void ComprarOferta_Load(object sender, EventArgs e)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conexion = DBConnection.getConnection();
+            DateTime hoy = utils.obtenerFecha();
+            SqlCommand command = new SqlCommand("Select ofer_id, ofer_descripcion [Descripcion],ofer_fecha_vencimiento [Fecha de Vencimiento], ofer_precio_lista [Precio original],ofer_precio_oferta [Precio de oferta],p.prov_razon_social [Proveedor] from SOCORRO.Oferta o join SOCORRO.Proveedor p on o.ofer_prov_id = p.prov_id  where p.prov_habilitado=1 and o.ofer_fecha_vencimiento>@fecha and o.ofer_stock>0 and o.ofer_habilitada=1", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@fecha", hoy);
+
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+            SqlDataAdapter adapter = new SqlDataAdapter();
+
+            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+            label2.Text = "su monto disponible es " + ClienteDAO.montoUsuario(usuario);
+            this.dataGridView1.Columns["ofer_id"].Visible = false;
+            dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+    
     }
 }

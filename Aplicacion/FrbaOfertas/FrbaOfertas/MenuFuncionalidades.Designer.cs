@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -45,6 +46,7 @@
             this.labelroles = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // button1
@@ -196,9 +198,9 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(501, 23);
+            this.button8.Location = new System.Drawing.Point(560, 23);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(240, 32);
+            this.button8.Size = new System.Drawing.Size(182, 32);
             this.button8.TabIndex = 22;
             this.button8.Text = "Cambiar contraseña";
             this.button8.UseVisualStyleBackColor = true;
@@ -206,12 +208,13 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(501, 61);
+            this.button12.Location = new System.Drawing.Point(560, 61);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(240, 32);
+            this.button12.Size = new System.Drawing.Size(182, 32);
             this.button12.TabIndex = 23;
             this.button12.Text = "Estado de usuarios";
             this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // MenuFuncionalidades
             // 
@@ -262,5 +265,6 @@
         private System.Windows.Forms.Label labelroles;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

@@ -60,11 +60,6 @@ namespace FrbaOfertas
             if (passNueva.Text == passActual.Text)
             {
                 MessageBox.Show("Las contraseñas nueva y actual no deben coincidir");
-                foreach (TextBox txb in this.Controls.OfType<TextBox>())
-                {
-                    txb.Text = "";
-
-                }
                 return;
             }
 

@@ -56,7 +56,11 @@ namespace FrbaOfertas
                 combo_formaDePago.SelectedIndex = 0;
             }
 
-                
+            foreach (Tarjeta t in tarjetas)
+            {
+                comboBoxTarjeta.Items.Add(t.numero);
+                comboBoxTarjeta.SelectedIndex = 0;
+            }
             
         }
 
@@ -87,7 +91,11 @@ namespace FrbaOfertas
         private void button1_Click(object sender, EventArgs e)
         {
             int cargaRealizada = 0;
-            
+            if (comboBoxTarjeta.SelectedItem == null)
+            {
+                MessageBox.Show("No hay tarjetas disponibles, cargar una tarjeta");
+                return;
+            }
             if (combo_formaDePago.SelectedItem.ToString() == "Efectivo")
             {
                 if (comboBox1.Visible)

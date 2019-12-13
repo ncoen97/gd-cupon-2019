@@ -1373,10 +1373,14 @@ BEGIN
 		RETURN 1;
 	END
 
-	UPDATE SOCORRO.ROl SET rol_nombre = @rol_nombre, rol_habilitado = @rol_habilitado where rol_id = @rol_id
-	IF @rol_habilitado = 0
+	UPDATE SOCORRO.Rol SET rol_nombre = @rol_nombre, rol_habilitado = @rol_habilitado where rol_id = @rol_id
+	IF @rol_habilitado = 0 and @rol_id not in (1,2,3)
 	Delete from SOCORRO.RolxUsuario where rol_id = @rol_id;
-	
+	IF @rol_habilitado = 0 and @rol_id = 1
+	UPDATE SOCORRO.Cliente SET clie_habilitado = 0
+	IF @rol_habilitado = 0 and @rol_id = 2
+	UPDATE SOCORRO.Proveedor SET prov_habilitado = 0
+
 	RETURN 0;
 END
 GO

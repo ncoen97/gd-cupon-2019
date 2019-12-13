@@ -168,16 +168,17 @@ namespace FrbaOfertas
 
         public static bool encontrar_cupon_para_canjear(string _idcupon)
         {
-            //Insert into Cupon values (@cupon_id,@cupon_fecha_compra,@cupon_oferta_id,@cupon_clie_id_compra,
-            // @cupon_fecha_consumo,@cupon_clie_id_consumo)
+            
             SqlConnection conn = DBConnection.getConnection();
-            SqlCommand cmd = new SqlCommand("Select Count(*) cuentas from SOCORRO.Cupon cu join Socorro.Oferta o on cu.cupon_ofer_id = o.ofer_id  where cu.cupon_ofer_id = @cupon_id and cu.cupon_fecha_consumo is NULL and cupon_clie_id_consumo is null and o.ofer_fecha_vencimiento>GETDATE()", conn);
+            DateTime hoy = utils.obtenerFecha();
+            SqlCommand cmd = new SqlCommand("Select Count(*) cuentas from SOCORRO.Cupon cu join Socorro.Oferta o on cu.cupon_ofer_id = o.ofer_id  where cu.cupon_ofer_id = @cupon_id and cu.cupon_fecha_consumo is NULL and cupon_clie_id_consumo is null and o.ofer_fecha_vencimiento>=@hoy --and o.ofer_fecha_publicacion<=@hoy", conn);
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@cupon_id", _idcupon);
-            
+            cmd.Parameters.AddWithValue("@hoy", hoy);
+
             SqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
-            int cuponesParaCanjear = Convert.ToInt16(reader["cuentas"]);
+            int cuponesParaCanjear = int.Parse(reader["cuentas"].ToString());
             reader.Close();
             reader.Dispose();
             cmd.Dispose();
@@ -188,10 +189,9 @@ namespace FrbaOfertas
 
         public static void canjear_cupon(string _idcupon, int idclie,DateTime fechaConsumo)
         {
-            //Insert into Cupon values (@cupon_id,@cupon_fecha_compra,@cupon_oferta_id,@cupon_clie_id_compra,
-            // @cupon_fecha_consumo,@cupon_clie_id_consumo)
+            
             SqlConnection conn = DBConnection.getConnection();
-            SqlCommand cmd = new SqlCommand("UPdate top(1) SOCORRO.Cupon SET cupon_clie_id_consumo = @idClie, cupon_fecha_consumo=@fechaConsumo where cupon_ofer_id = @cupon_id", conn);
+            SqlCommand cmd = new SqlCommand("UPdate top(1) SOCORRO.Cupon SET cupon_clie_id_consumo = @idClie, cupon_fecha_consumo=@fechaConsumo where cupon_ofer_id = @cupon_id and cupon_fecha_consumo is null", conn);
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@cupon_id", _idcupon);
             cmd.Parameters.AddWithValue("@idClie", idclie);

@@ -103,15 +103,16 @@ namespace FrbaOfertas
 
         private void button3_Click(object sender, EventArgs e)
         {
+            comboBox1.SelectedIndex = -1;
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_mostrar_mis_cupones", conexion);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@clie_id", usuActivo.id);
+            command.Parameters.AddWithValue("@user_id", usuActivo.id);
             command.ExecuteNonQuery();
             SqlDataAdapter adapter1 = new SqlDataAdapter();
             DataTable table1 = new DataTable(); 
             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
-            comboBox1.SelectedIndex = -1;
+            
         }
 
         private void label3_Click(object sender, EventArgs e)

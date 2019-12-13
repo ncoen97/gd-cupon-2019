@@ -64,9 +64,7 @@ namespace FrbaOfertas
                     if(resultado>=0)
                     {
                         MessageBox.Show("Oferta comprada con exito. Su codigo de cupon es: "+resultado.ToString());
-                        ComprarOferta co = new ComprarOferta(usuario);
-                        co.Show();
-                        this.Hide();
+                        label2.Text = "su monto disponible es " + ClienteDAO.montoUsuario(usuario);
                     }
                     break;
             }

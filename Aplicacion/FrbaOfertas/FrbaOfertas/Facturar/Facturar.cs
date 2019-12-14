@@ -96,8 +96,8 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@prov_id",prov_id);
             dateTimePicker1.Value = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0);
             dateTimePicker2.Value = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
-            command.Parameters.AddWithValue("@fecha_desde",dateTimePicker1.Value.ToString());
-            command.Parameters.AddWithValue("@fecha_hasta",dateTimePicker2.Value.ToString());
+            command.Parameters.AddWithValue("@fecha_desde",dateTimePicker1.Value);
+            command.Parameters.AddWithValue("@fecha_hasta",dateTimePicker2.Value);
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(command);
             DBConnection.fill_grid(dataGridView1, command, da, dt);

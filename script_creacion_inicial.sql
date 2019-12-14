@@ -2001,6 +2001,28 @@ BEGIN
 		@fecha_desde,
 		@fecha_hasta
 	);
+	INSERT INTO SOCORRO.Item (
+		item_fact_id,
+		item_id,
+		item_ofer_id,
+		item_precio,
+		item_cantidad
+	)
+	SELECT
+		@id_nueva_factura,
+		ROW_NUMBER() OVER (ORDER BY o.ofer_id),
+		o.ofer_id,
+		o.ofer_precio_oferta,
+		COUNT(cup.cupon_id)
+	FROM SOCORRO.Cupon cup
+	JOIN SOCORRO.Oferta o
+		ON o.ofer_id = cup.cupon_ofer_id
+	WHERE (o.ofer_prov_id = @prov_id)
+		AND (cup.cupon_fecha_compra < @fecha_hasta)
+		AND (cup.cupon_fecha_compra >= @fecha_desde)
+	GROUP BY
+		o.ofer_id,
+		o.ofer_precio_oferta;
 	return 0
 END
 GO

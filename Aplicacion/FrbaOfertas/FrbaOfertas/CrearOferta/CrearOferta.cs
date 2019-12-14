@@ -25,8 +25,10 @@ namespace FrbaOfertas
         {
             esProveedor = ProveedorDAO.esProveedorHabilitado(usuario);
 
-            dateTimePicker1.MinDate = utils.obtenerFecha();
             dateTimePicker2.MinDate = utils.obtenerFecha();
+            dateTimePicker2.Value = utils.obtenerFecha();
+            dateTimePicker1.MinDate = utils.obtenerFecha();
+            dateTimePicker1.Value = utils.obtenerFecha().AddDays(1);
             if (esProveedor)
             {
                 labelProveedor.Hide();

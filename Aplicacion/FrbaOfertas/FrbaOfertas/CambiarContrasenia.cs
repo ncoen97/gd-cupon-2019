@@ -64,7 +64,7 @@ namespace FrbaOfertas
             }
 
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("SOCORRO.sp_modificar_usuario", conexion);
+            SqlCommand command = new SqlCommand("SOCORRO.sp_modificar_contrasenia", conexion);
             command.CommandType = CommandType.StoredProcedure;
             string usuName;
             if (username.Visible)

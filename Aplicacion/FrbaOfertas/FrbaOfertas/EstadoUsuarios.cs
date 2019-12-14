@@ -35,12 +35,30 @@ namespace FrbaOfertas
             adapter1 = new SqlDataAdapter();
             table1 = new DataTable();
 
-            adapter1.UpdateCommand = new SqlCommand("SOCORRO.sp_estado_usuario", conexion);
+            adapter1.UpdateCommand = new SqlCommand("SOCORRO.sp_modificar_usuario", conexion);
             adapter1.UpdateCommand.CommandType = CommandType.StoredProcedure;
-            adapter1.UpdateCommand.Parameters.Add("@user_habilitado", SqlDbType.Bit, 1, "user_habilitado");
-            SqlParameter parameter = adapter1.UpdateCommand.Parameters.Add("@user_id", SqlDbType.Int);
-            parameter.SourceColumn = "user_id";
-            parameter.SourceVersion = DataRowVersion.Original;
+            SqlParameter parametro1 = new SqlParameter();
+            parametro1.ParameterName = "@user_id";
+            parametro1.SqlDbType = SqlDbType.Int;
+            parametro1.SourceVersion = DataRowVersion.Original;
+            parametro1.SourceColumn = "user_id";
+            adapter1.UpdateCommand.Parameters.Add(parametro1);
+            SqlParameter parametro2 = new SqlParameter();
+            parametro2.ParameterName = "@user_username";
+            parametro2.SourceColumn = "user_username";
+            adapter1.UpdateCommand.Parameters.Add(parametro2);
+            SqlParameter parametro3 = new SqlParameter();
+            parametro3.ParameterName = "@user_pass";
+            parametro3.SourceColumn = "user_pass";
+            adapter1.UpdateCommand.Parameters.Add(parametro3);
+            SqlParameter parametro4 = new SqlParameter();
+            parametro4.ParameterName = "@user_intentos";
+            parametro4.SourceColumn = "user_intentos";
+            adapter1.UpdateCommand.Parameters.Add(parametro4);
+            SqlParameter parametro5 = new SqlParameter();
+            parametro5.ParameterName = "@user_habilitado";
+            parametro5.SourceColumn = "user_habilitado";
+            adapter1.UpdateCommand.Parameters.Add(parametro5);
 
             DBConnection.fill_grid(dataGridView1, command, adapter1, table1);
 

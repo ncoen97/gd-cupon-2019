@@ -84,6 +84,8 @@ IF OBJECT_ID('SOCORRO.sp_registro_usuario') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_registro_usuario;
 IF OBJECT_ID('SOCORRO.sp_modificar_usuario') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_modificar_usuario;
+IF OBJECT_ID('SOCORRO.sp_modificar_contrasenia') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_modificar_contrasenia;
 IF OBJECT_ID('SOCORRO.sp_deshabilitar_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_deshabilitar_cliente;
 IF OBJECT_ID('SOCORRO.sp_rehabilitar_cliente') IS NOT NULL
@@ -1264,9 +1266,29 @@ BEGIN
 
 END
 GO
+CREATE PROC SOCORRO.sp_modificar_usuario(@user_id int,@user_username nvarchar(30),
+	@user_pass nvarchar(255),@user_intentos int,@user_habilitado bit)
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT 1 FROM SOCORRO.Usuario WHERE user_id = @user_id)
+			RETURN -1;
+		IF @user_pass = (SELECT user_pass FROM SOCORRO.Usuario 
+													WHERE user_id = @user_id)
+		UPDATE SOCORRO.Usuario SET user_username = @user_username, user_habilitado = @user_habilitado,
+									user_intentos = @user_intentos WHERE user_id = @user_id;
+		ELSE
+		UPDATE SOCORRO.Usuario SET user_username = @user_username,user_pass = HASHBYTES('SHA2_256', @user_pass),
+		 user_habilitado = @user_habilitado, user_intentos = @user_intentos WHERE user_id = @user_id;
+		RETURN 1
+	END TRY
+	BEGIN CATCH
+		RETURN -2
+	END CATCH
+END
+GO
 
-
-CREATE PROC SOCORRO.sp_modificar_usuario (
+CREATE PROC SOCORRO.sp_modificar_contrasenia (
 		@user_username nvarchar(30),
 		@user_pass_nueva nvarchar(255),
 		@user_pass_actual nvarchar(255)

@@ -285,7 +285,7 @@ namespace FrbaOfertas
             List<Proveedor> proveedores = new List<Proveedor>();
 
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select * from SOCORRO.Proveedor", conexion);
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Proveedor order by prov_razon_social desc", conexion);
             command.CommandType = CommandType.Text;
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())

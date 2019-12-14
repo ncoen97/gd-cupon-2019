@@ -78,7 +78,7 @@ namespace FrbaOfertas
                         mostrar_items(prov_id);        
                     break;
                 case -4:
-                    MessageBox.Show("No hay facturas en ese periodo");
+                    MessageBox.Show("No hay nada para facturar en ese periodo");
                     break;
                 default:
                     MessageBox.Show("Error generando la facutra");

@@ -15,7 +15,7 @@ namespace FrbaOfertas
 {
     public class ProveedorDAO
     {
-        public static Boolean insertarProveedor(Proveedor prov, Usuario usu)
+        public static Boolean insertarProveedor(Proveedor prov, Usuario usu, int tipoderegistro)
         {
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_registro_proveedor", conexion);
@@ -32,6 +32,7 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@prov_rubro_id ", prov.rubro_id);
             command.Parameters.AddWithValue("@prov_nombre_contacto ", prov.nombre_de_contacto);
             command.Parameters.AddWithValue("@prov_habilitado", 1);
+            command.Parameters.AddWithValue("@tipo_de_registro", tipoderegistro);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -252,7 +253,7 @@ namespace FrbaOfertas
         public static Boolean esProveedorHabilitado(Usuario usuario)
         {
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select prov_habilitado from SOCORRO.Proveedor p join SOCORRO.RolxUsuario rxu on p.prov_user_id=rxu.user_id where user_id = @user_id", conexion);
+            SqlCommand command = new SqlCommand("select top 1 prov_habilitado from SOCORRO.Proveedor p join SOCORRO.RolxUsuario rxu on p.prov_user_id=rxu.user_id where user_id = @user_id  order by prov_id desc", conexion);
             command.CommandType = CommandType.Text;
             command.Parameters.AddWithValue("@user_id", usuario.id);
             SqlDataReader reader = command.ExecuteReader();
@@ -292,7 +293,8 @@ namespace FrbaOfertas
             {
                 int id = int.Parse(reader["prov_id"].ToString());
                 string rs = reader["prov_razon_social"].ToString();
-                Proveedor prov = new Proveedor(id, rs);
+                bool habilitado = (bool)reader["prov_habilitado"];
+                Proveedor prov = new Proveedor(id, rs,habilitado);
                 proveedores.Add(prov);
             }
 

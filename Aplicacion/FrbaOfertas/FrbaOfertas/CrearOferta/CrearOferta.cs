@@ -29,22 +29,34 @@ namespace FrbaOfertas
             dateTimePicker2.Value = utils.obtenerFecha();
             dateTimePicker1.MinDate = utils.obtenerFecha();
             dateTimePicker1.Value = utils.obtenerFecha().AddDays(1);
-            if (esProveedor)
+            if(usuario.roles.Any(rol => DBConnection.isAdmin(rol)))
+            {   
+                List<Proveedor> proveedores = ProveedorDAO.getProveedores();
+                foreach (Proveedor p in proveedores)
+                {
+                    if (p.habilitada)
+                    {
+                        ComboboxItem item = new ComboboxItem(p.razon_social, p);
+                        comboBoxProveedor.Items.Add(item);
+                    }
+                }
+                if (comboBoxProveedor.Items.Count > 0)
+                {
+                    comboBoxProveedor.SelectedIndex = 0;
+                }
+                else {
+
+                    MessageBox.Show("Parece que no hay proveedores disponibles");                 
+                
+                }
+            
+            }
+            else if (esProveedor)
             {
                 labelProveedor.Hide();
                 comboBoxProveedor.Hide();
             }
-            else
-            {
-                List<Proveedor> proveedores = ProveedorDAO.getProveedores();
-                foreach (Proveedor p in proveedores)
-                {
-                    ComboboxItem item = new ComboboxItem(p.razon_social, p);
-                    comboBoxProveedor.Items.Add(item);
-                }
-                comboBoxProveedor.SelectedIndex = 0;
             
-            }
             
 
         }
@@ -63,6 +75,7 @@ namespace FrbaOfertas
                 MessageBox.Show("Falta descripcion");
                 return;
             }
+           
             
             if (numericUpDownCantidad.Value<=0 || numericUpDownMaximo.Value<=0
                     || numericUpDownPrecioLista.Value <= 0 || numericUpDownPrecioOferta.Value <= 0
@@ -87,6 +100,12 @@ namespace FrbaOfertas
             }
             else
             {
+                if (!utils.validarEntradaComboBoxNoNull(comboBoxProveedor))
+                {
+                    MessageBox.Show("No hay proveedor seleccionado");
+                    return;
+
+                }
                 ComboboxItem item = (ComboboxItem)comboBoxProveedor.SelectedItem;
                 Proveedor proveedorSeleccionado = (Proveedor)item.value;
                 resultado = ProveedorDAO.publicarOferta(proveedorSeleccionado.id, Oferta_descripcion.Text, dateTimePicker1.Value, dateTimePicker2.Value, (double)numericUpDownPrecioOferta.Value, (double)numericUpDownPrecioLista.Value, (int)numericUpDownCantidad.Value, (int)numericUpDownMaximo.Value);

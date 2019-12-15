@@ -87,8 +87,17 @@ namespace FrbaOfertas
                 return;
             }
             Proveedor prov = new Proveedor(usuarioNuevo, Provee_rs.Text, Provee_mail.Text, Provee_direccion.Text, Provee_cp.Text, Provee_ciudad.Text, Provee_cuit.Text, prov_id, Provee_nombrecontacto.Text, Provee_telefono.Text, true);
-            ProveedorDAO.insertarProveedor(prov, usuarioNuevo);
-
+            if (usuarioActivo == usuarioNuevo)
+            {
+                //forma de registro + agregar rol
+                ProveedorDAO.insertarProveedor(prov, usuarioNuevo,1);
+            }
+            else
+            {
+                //forma de registro comun
+                ProveedorDAO.insertarProveedor(prov, usuarioNuevo,0);
+            }
+            
             switch (deDondeViene)
             {
                 case 1:
@@ -103,9 +112,11 @@ namespace FrbaOfertas
                     AbmProveedor prove = new AbmProveedor(usuarioActivo);
                     prove.Show();
                     break;
-                default:
-                    MenuFuncionalidades menu = new MenuFuncionalidades(usuarioActivo);
-                    menu.Show();
+                case 4:
+                    //AgregarROl
+                    MenuFuncionalidades mf = new MenuFuncionalidades(usuarioActivo);
+                    mf.Show();
+                    this.Hide();
                     break;
             }
             this.Hide();

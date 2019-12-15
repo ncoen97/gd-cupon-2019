@@ -41,7 +41,7 @@
             // 
             // textboxContraseña
             // 
-            this.textboxContraseña.Location = new System.Drawing.Point(196, 112);
+            this.textboxContraseña.Location = new System.Drawing.Point(230, 112);
             this.textboxContraseña.Name = "textboxContraseña";
             this.textboxContraseña.PasswordChar = '*';
             this.textboxContraseña.Size = new System.Drawing.Size(214, 26);
@@ -49,7 +49,7 @@
             // 
             // textboxUsuario
             // 
-            this.textboxUsuario.Location = new System.Drawing.Point(196, 82);
+            this.textboxUsuario.Location = new System.Drawing.Point(230, 82);
             this.textboxUsuario.Name = "textboxUsuario";
             this.textboxUsuario.Size = new System.Drawing.Size(214, 26);
             this.textboxUsuario.TabIndex = 0;
@@ -83,7 +83,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(196, 187);
+            this.button5.Location = new System.Drawing.Point(230, 187);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(214, 40);
             this.button5.TabIndex = 3;
@@ -93,7 +93,7 @@
             // 
             // Atras
             // 
-            this.Atras.Location = new System.Drawing.Point(196, 233);
+            this.Atras.Location = new System.Drawing.Point(230, 233);
             this.Atras.Name = "Atras";
             this.Atras.Size = new System.Drawing.Size(214, 40);
             this.Atras.TabIndex = 4;
@@ -120,7 +120,7 @@
             this.comboBoxTipoDeUsuario.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxTipoDeUsuario.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTipoDeUsuario.FormattingEnabled = true;
-            this.comboBoxTipoDeUsuario.Location = new System.Drawing.Point(196, 151);
+            this.comboBoxTipoDeUsuario.Location = new System.Drawing.Point(230, 151);
             this.comboBoxTipoDeUsuario.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxTipoDeUsuario.Name = "comboBoxTipoDeUsuario";
             this.comboBoxTipoDeUsuario.Size = new System.Drawing.Size(214, 28);

@@ -1003,8 +1003,8 @@ BEGIN
         SELECT user_username
         FROM SOCORRO.Usuario u
         WHERE u.user_username = @username
-    ) RETURN 1;
-    RETURN 0;
+    ) RETURN 1; --existe
+    RETURN 0; --no existe
 END
 go
 
@@ -1034,13 +1034,18 @@ CREATE PROC [SOCORRO].sp_registro_cliente (
     @clie_codigo_postal char(5),
     @clie_fecha_nacimiento datetime,
     @clie_ciudad nvarchar(255),
-	@clie_habilitado numeric(1,0)
+	@clie_habilitado numeric(1,0),
+	@tipo_de_registro numeric(1,0)
 ) AS
 BEGIN
     SET XACT_ABORT ON;
     BEGIN TRY
         BEGIN TRANSACTION
-            IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
+		DECLARE
+		@user_id int;
+		IF(@tipo_de_registro=0)
+		BEGIN
+            IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1) --existe
 			BEGIN
 				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el username ya existe';
 				ROLLBACK;
@@ -1053,7 +1058,7 @@ BEGIN
 			BEGIN
 				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el dni ya esta registrado';
 				ROLLBACK;
-                RETURN 2;
+                RETURN 3;
 			END
 			IF @clie_email IN (
 				SELECT clie_email
@@ -1065,28 +1070,17 @@ BEGIN
                 RETURN 3;
 			END
 			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el username no existia; es valido';
-            DECLARE
-                @user_id int,
-                @pass_hashed nvarchar(255);
-            INSERT INTO SOCORRO.Usuario (
-                user_username,
-                user_pass,
-                user_intentos
-            ) VALUES (
-                @user_username,
-                HASHBYTES('SHA2_256', @user_pass),
-                0
-            );
-			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': usuario creado';
-            SET @user_id = SCOPE_IDENTITY();
-			INSERT INTO SOCORRO.RolxUsuario (
-				[user_id],
-				rol_id
-			) VALUES (
-				@user_id,
-				1
-			);
-			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': rol asignado';
+				INSERT INTO SOCORRO.Usuario (
+					user_username,
+					user_pass,
+					user_intentos
+				) VALUES (
+					@user_username,
+					HASHBYTES('SHA2_256', @user_pass),
+					0
+				);
+				  SET @user_id = SCOPE_IDENTITY();
+				  PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': rol asignado';
             INSERT INTO SOCORRO.Cliente (
                 clie_user_id,
                 clie_nombre,
@@ -1114,6 +1108,85 @@ BEGIN
 				200,
 				1
             );
+		END
+		ELSE
+		BEGIN
+		  SET @user_id = (SELECT user_id from SOCORRO.Usuario u where u.user_username = @user_username)
+		  IF ((Select 1 from SOCORRO.cliente WHERE clie_user_id = @user_id) = 1)
+          begin
+		    UPDATE SOCORRO.Cliente set
+                clie_nombre = @clie_nombre,
+                clie_apellido=@clie_apellido,
+                clie_dni=@clie_dni,
+                clie_email=@clie_email,
+                clie_telefono=@clie_telefono,
+                clie_direccion=@clie_direccion,
+                clie_codigo_postal=@clie_codigo_postal,
+                clie_fecha_nacimiento=@clie_fecha_nacimiento,
+                clie_ciudad=@clie_ciudad,
+				clie_habilitado =@clie_habilitado
+            where clie_user_id=@user_id
+			end
+			else
+			begin
+			IF @clie_dni IN (
+				SELECT clie_dni
+				FROM SOCORRO.Cliente
+			)
+			BEGIN
+				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el dni ya esta registrado';
+				ROLLBACK;
+                RETURN 3;
+			END
+			IF @clie_email IN (
+				SELECT clie_email
+				FROM SOCORRO.Cliente
+			)
+			BEGIN
+				PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': el mail ya esta registrado';
+				ROLLBACK;
+                RETURN 3;
+			END
+			 INSERT INTO SOCORRO.Cliente (
+                clie_user_id,
+                clie_nombre,
+                clie_apellido,
+                clie_dni,
+                clie_email,
+                clie_telefono,
+                clie_direccion,
+                clie_codigo_postal,
+                clie_fecha_nacimiento,
+                clie_ciudad,
+				clie_saldo,
+				clie_habilitado
+            ) VALUES (
+                @user_id,
+                @clie_nombre,
+                @clie_apellido,
+                @clie_dni,
+                @clie_email,
+                @clie_telefono,
+                @clie_direccion,
+                @clie_codigo_postal,
+                CAST(@clie_fecha_nacimiento AS datetime),
+                @clie_ciudad,
+				200,
+				1
+            );
+			end
+
+		END	
+		PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': usuario creado';
+          
+		INSERT INTO SOCORRO.RolxUsuario (
+			[user_id],
+			rol_id
+		) VALUES (
+			@user_id,
+			1
+		);
+			
 			PRINT 'REGISTRANDO CLIENTE '+@clie_nombre+': datos de cliente registrados';
         COMMIT;
     END TRY
@@ -1138,14 +1211,17 @@ CREATE PROC [SOCORRO].sp_registro_proveedor (
 	@prov_cuit nvarchar(20),
 	@prov_rubro_id int,
 	@prov_nombre_contacto nvarchar(255),
-	@prov_habilitado numeric(1,0)
+	@prov_habilitado numeric(1,0),
+	@tipo_de_registro numeric(1,0)
 ) AS
 BEGIN
     SET XACT_ABORT ON;
     BEGIN TRY --primero intento hacer la transaccion
         BEGIN TRANSACTION
-			--si el user esta tomado, rollbackea y devuelve 1 (error)
-            IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1)
+		DECLARE @user_id int             
+		if (@tipo_de_registro=0)
+		Begin--si el user esta tomado, rollbackea y devuelve 1 (error)
+            IF (SOCORRO.fnValidarNuevoUsername(@user_username) = 1) --existe
 			BEGIN
 				PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el usuario ya figura!';
 				ROLLBACK;
@@ -1170,9 +1246,7 @@ BEGIN
                 RETURN 3;
 			END
 			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el usuario no figura';
-			DECLARE
-                @user_id int,
-                @pass_hashed nvarchar(255);
+			
 			--inserto el usuario primero
             INSERT INTO SOCORRO.Usuario (
                 user_username,
@@ -1183,18 +1257,9 @@ BEGIN
                 HASHBYTES('SHA2_256', @user_pass),
                 0
             );
-			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el usuario fue creado';
-			--busco el user_id recien asignado
-            SET @user_id = SCOPE_IDENTITY();
-			--asigno rol correspondiente a dicho usuario
-			INSERT INTO SOCORRO.RolxUsuario (
-				[user_id],
-				rol_id
-			) VALUES (
-				@user_id,
-				2
-			);
-			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el rol fue asignado';
+
+			SET @user_id = SCOPE_IDENTITY();
+				PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el rol fue asignado';
 			--cargo finalmente los datos de proveedor
             INSERT INTO SOCORRO.Proveedor(
 				prov_user_id,
@@ -1222,14 +1287,86 @@ BEGIN
 				@prov_habilitado
             );
 			PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el proveedor se cargo';
-        COMMIT;
+			END
+		else
+			bEGIN
+			SET @user_id = (SELECT user_id from SOCORRO.Usuario u  where u.user_username = @user_username)
+			IF ((Select 1 from SOCORRO.Proveedor p WHERE prov_user_id = @user_id) = 1) --es decir, existe un usuario con id en la tabla
+				Begin
+					PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el rol fue asignado';
+					--cargo finalmente los datos de proveedor
+					UPDATE SOCORRO.Proveedor set
+						prov_razon_social = @prov_rs,
+						prov_email = @prov_email,
+						prov_telefono = @prov_telefono,
+						prov_direccion = @prov_dom,
+						prov_codigo_postal= @prov_cp,
+						prov_ciudad = @prov_ciudad,
+						prov_cuit = @prov_cuit,
+						prov_rubro_id = @prov_rubro_id,
+						prov_nombre_contacto = @prov_nombre_contacto,
+						prov_habilitado = @prov_habilitado
+						WHERE prov_user_id = @user_id
+				end
+			else --no existe 
+				begin
+					IF @prov_rs IN (SELECT prov_razon_social FROM SOCORRO.Proveedor)
+					BEGIN
+						PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': la razon social ya esta registrada';
+						ROLLBACK;
+						RETURN 2;
+					END
+					IF @prov_cuit IN (SELECT prov_cuit FROM SOCORRO.Proveedor)
+					BEGIN
+						PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el cuit ya esta registrado';
+						ROLLBACK;
+						RETURN 3;
+					END
+					INSERT INTO SOCORRO.Proveedor(
+						prov_user_id,
+						prov_razon_social,
+						prov_email,
+						prov_telefono,
+						prov_direccion,
+						prov_codigo_postal,
+						prov_ciudad,
+						prov_cuit,
+						prov_rubro_id,
+						prov_nombre_contacto,
+						prov_habilitado
+					) VALUES (
+						@user_id,
+						@prov_rs,
+						@prov_email,
+						@prov_telefono,
+						@prov_dom,
+						@prov_cp,
+						@prov_ciudad,
+						@prov_cuit,
+						@prov_rubro_id,
+						@prov_nombre_contacto,
+						@prov_habilitado
+					);
+				PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el proveedor se cargo';
+				END
+		END
+
+		INSERT INTO SOCORRO.RolxUsuario (
+			[user_id],
+			rol_id
+		) VALUES (
+			@user_id,
+			2
+		);
+		COMMIT;
+		
     END TRY
     BEGIN CATCH
 		--si algo inseperado sucede, se va a ver este print
         PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': Algun error salto.';
 		--y se rollbackean todos los inserts
         ROLLBACK;
-		RETURN 2;
+		RETURN 4;
     END CATCH
 END
 GO
@@ -1398,7 +1535,16 @@ BEGIN
 
 	UPDATE SOCORRO.Rol SET rol_nombre = @rol_nombre, rol_habilitado = @rol_habilitado where rol_id = @rol_id
 	IF @rol_habilitado = 0
+
 	Delete from SOCORRO.RolxUsuario where rol_id = @rol_id
+	IF (@rol_id = 1)
+		begin
+		update SOCORRO.Cliente set clie_habilitado =0
+		end
+	IF (@rol_id = 2)
+	Begin
+	update SOCORRO.Proveedor set prov_habilitado =0
+	END
 
 	RETURN 0;
 END
@@ -1429,8 +1575,9 @@ as
 begin
 	declare @monto numeric(18,2)
 	set @monto = (select c.clie_saldo
-					from SOCORRO.Usuario u join SOCORRO.Cliente c on (c.clie_user_id = u.user_id) 
-					where u.user_username = @user_name)
+					from SOCORRO.Usuario u join SOCORRO.Cliente c on (c.clie_user_id = u.user_id)
+					where u.user_username = @user_name and c.clie_habilitado =1
+					)
 	return @monto
 end
 GO
@@ -2077,7 +2224,8 @@ EXEC SOCORRO.sp_registro_cliente
 	@clie_codigo_postal = '4321',
 	@clie_fecha_nacimiento = '1995-05-05 00:00:00.000',
 	@clie_ciudad = 'Tranquilandia',
-	@clie_habilitado = 1;
+	@clie_habilitado = 1,
+	@tipo_de_registro=0;
 GO
 
 EXEC SOCORRO.sp_registro_proveedor
@@ -2092,7 +2240,8 @@ EXEC SOCORRO.sp_registro_proveedor
 	@prov_ciudad = 'Tranquilandia',
 	@prov_rubro_id = 2,
 	@prov_nombre_contacto = 'Sr. Fulano',
-	@prov_habilitado = 1;
+	@prov_habilitado = 1,
+	@tipo_de_registro = 0;
 GO
 
 

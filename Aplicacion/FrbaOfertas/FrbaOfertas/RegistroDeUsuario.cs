@@ -37,6 +37,16 @@ namespace FrbaOfertas
                     comboBoxTipoDeUsuario.SelectedItem = "Proveedor";
                     comboBoxTipoDeUsuario.Enabled = false;
                     break;
+                case 4:
+                    //ABMProveedor
+                    label1.Text = "Va a agregarle un rol al usuario: " + _usuario.username;
+                    textboxContraseña.Visible = false;
+                    textboxUsuario.Visible = false;
+                    label2.Visible = false;
+                    label4.Text = "Seleccionar rol nuevo:";
+                    label10.Text = "Agregar nuevo rol a usuario activo";
+                    break;
+
             }
 
             
@@ -81,13 +91,13 @@ namespace FrbaOfertas
         private void Button5_Click(object sender, EventArgs e)
         {
             //validar datos de registro fnValidarNuevoUsername
-            if (!verificarTodosLosCamposNoVacios())
+            if (textboxContraseña.Visible && textboxUsuario.Visible && !verificarTodosLosCamposNoVacios())
             {
                 MessageBox.Show("Parece que hay campos que no estan completos");
                 return;
             }
 
-            if (!UsuarioDAO.validarNuevoUsername(textboxUsuario.Text))
+            if (textboxContraseña.Visible && textboxUsuario.Visible && !UsuarioDAO.validarNuevoUsername(textboxUsuario.Text))
             {
                 MessageBox.Show("El nombre de usuario ya existe");
                 return;
@@ -98,14 +108,38 @@ namespace FrbaOfertas
                 MessageBox.Show("Rol deshabilitado. Ponerse en contacto con administrador");
                 return;
             }
-            Usuario nuevo_usuario = new Usuario(textboxUsuario.Text, textboxContraseña.Text);
+
+            Usuario nuevo_usuario;
+
+            if (deDondeViene != 4)
+            {
+
+                nuevo_usuario = new Usuario(textboxUsuario.Text, textboxContraseña.Text);
+
+            }
+            else
+            {
+                nuevo_usuario = usuarioActivo;
+            }
+
+            
             if ((string)comboBoxTipoDeUsuario.SelectedItem == "Cliente")
             {
+                if (nuevo_usuario.roles.Any(rol => DBConnection.isCliente(rol)))
+                {
+                    MessageBox.Show("Ya tienes asociado este rol");
+                    return;
+                };
                 RegistroDeCliente registroCliente = new RegistroDeCliente(nuevo_usuario, usuarioActivo, deDondeViene);
                 registroCliente.Show();
                 this.Hide();
             }else if ((string)comboBoxTipoDeUsuario.SelectedItem == "Proveedor")
             {
+                if (nuevo_usuario.roles.Any(rol => DBConnection.isProveedor(rol)))
+                {
+                    MessageBox.Show("Ya tienes asociado este rol");
+                    return;
+                }
                 RegistroDeProveedores registroProveedor = new RegistroDeProveedores(usuarioActivo, nuevo_usuario, deDondeViene);
                 registroProveedor.Show();
                 this.Hide();

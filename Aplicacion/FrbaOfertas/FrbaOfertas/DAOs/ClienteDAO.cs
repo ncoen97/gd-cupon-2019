@@ -15,14 +15,25 @@ namespace FrbaOfertas
 {
     public class ClienteDAO
     {
-        public static Boolean insertarCliente(Cliente cli,Usuario usu)
+        public static Boolean insertarCliente(Cliente cli,Usuario usu, int tipoDeRegistro)
         {
             
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("SOCORRO.sp_registro_cliente", conexion);
             command.CommandType = CommandType.StoredProcedure;            
             command.Parameters.AddWithValue("@user_username ",usu.username);
-            command.Parameters.AddWithValue("@user_pass ",usu.password);
+
+            string pass;
+            if (tipoDeRegistro == 1)
+            {
+                pass = "0";
+            }
+            else
+            {
+                pass = usu.password;
+            }
+
+            command.Parameters.AddWithValue("@user_pass ", pass);
             command.Parameters.AddWithValue("@clie_nombre",cli.nombre);
             command.Parameters.AddWithValue("@clie_apellido",cli.apellido);
             command.Parameters.AddWithValue("@clie_dni",cli.dni);
@@ -33,6 +44,7 @@ namespace FrbaOfertas
             command.Parameters.AddWithValue("@clie_fecha_nacimiento ",cli.fecha_nacimiento);
             command.Parameters.AddWithValue("@clie_ciudad ",cli.ciudad);
             command.Parameters.AddWithValue("@clie_habilitado ", cli.habilitado);
+            command.Parameters.AddWithValue("@tipo_de_registro", tipoDeRegistro);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -374,7 +386,7 @@ namespace FrbaOfertas
         {
 
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("Select clie_habilitado from SOCORRO.Cliente where clie_user_id = @clie_id", conexion);
+            SqlCommand command = new SqlCommand("Select top 1 * from SOCORRO.Cliente where clie_user_id = @clie_id order by clie_id desc", conexion);
             command.Parameters.AddWithValue("@clie_id", usuario.id);
 
             SqlDataReader reader = command.ExecuteReader();

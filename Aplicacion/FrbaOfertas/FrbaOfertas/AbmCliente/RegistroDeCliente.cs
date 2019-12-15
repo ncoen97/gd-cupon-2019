@@ -67,8 +67,25 @@ namespace FrbaOfertas
                     return;
                 }
             }
-            Cliente cli = new Cliente(usuarioNuevo, Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text, Cli_ciudad.Text, true);
-            ClienteDAO.insertarCliente(cli, usuarioNuevo);
+            try
+            {
+                Cliente cli = new Cliente(usuarioNuevo, Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text, Cli_ciudad.Text, true);
+
+                if (usuarioActivo == usuarioNuevo)
+                {
+                    //forma de registro + agregar rol
+                    ClienteDAO.insertarCliente(cli, usuarioNuevo, 1);
+                }
+                else
+                {
+                    //forma de registro comun
+                    ClienteDAO.insertarCliente(cli, usuarioNuevo, 0);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("hay campos con errores en el  tipo de datos");
+            }
             switch (deDondeViene)
             {
                 case 1:
@@ -89,6 +106,13 @@ namespace FrbaOfertas
                     abmProv.Show();
                     this.Hide();
                     break;
+                case 4:
+                    //AgregarROl
+                    MenuFuncionalidades mf = new MenuFuncionalidades(usuarioActivo);
+                    mf.Show();
+                    this.Hide();
+                    break;
+                
             }
          
         }

@@ -131,7 +131,7 @@ namespace FrbaOfertas
                     MessageBox.Show("Ya tienes asociado este rol");
                     return;
                 };
-                if (ClienteDAO.asignarCliente(usuarioActivo) == 0)
+                if (usuarioActivo==nuevo_usuario && ClienteDAO.asignarCliente(usuarioActivo) == 0)
                 {
                     MessageBox.Show("rol cliente asignado a usuario correctamente");
                     UsuarioDAO.cargarRolesUsuario(usuarioActivo);
@@ -147,7 +147,7 @@ namespace FrbaOfertas
                     MessageBox.Show("Ya tienes asociado este rol");
                     return;
                 }
-                if (ProveedorDAO.asignarProveedor(usuarioActivo) == 0)
+                if (usuarioActivo == nuevo_usuario && ProveedorDAO.asignarProveedor(usuarioActivo) == 0)
                 {
                     MessageBox.Show("rol proveedor asignado a usuario correctamente");
                     UsuarioDAO.cargarRolesUsuario(usuarioActivo);

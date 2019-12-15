@@ -80,7 +80,12 @@ namespace FrbaOfertas
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-          
+            int index = e.RowIndex;
+            if (index >= 0)
+            {
+                this.selectedRow = dataGridView1.Rows[index];
+                label2.Text = selectedRow.Cells["ofer_descripcion"].Value.ToString();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)

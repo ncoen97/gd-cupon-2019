@@ -112,6 +112,12 @@ namespace FrbaOfertas
             if (textboxContraseña.Visible && textboxUsuario.Visible && !UsuarioDAO.validarNuevoUsername(textboxUsuario.Text))
             {
                 MessageBox.Show("El nombre de usuario ya existe");
+                foreach (TextBox txb in this.Controls.OfType<TextBox>())
+                {
+                    txb.Text = "";
+                 
+                }
+
                 return;
             }
        

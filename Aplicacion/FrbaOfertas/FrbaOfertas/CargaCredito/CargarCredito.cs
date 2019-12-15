@@ -39,8 +39,13 @@ namespace FrbaOfertas
                         comboBox1.Items.Add(c.id);
 
                 }
-
-                comboBox1.SelectedIndex = 0;
+                if (comboBox1.Items.Count > 0)
+                {
+                    comboBox1.SelectedIndex = 0;
+                }else{
+                    MessageBox.Show("No hay clientes a quienes cargarles credito");
+                    label2.Text = "";
+                }
 
             }
             else {
@@ -78,6 +83,11 @@ namespace FrbaOfertas
         {
             if (comboBox1.Visible)
             {
+                if (comboBox1.SelectedItem == null)
+                {
+                    MessageBox.Show("No hay clientes para seleccionar");
+                    return;
+                }
                 Usuario usuACargar = DBConnection.usuario_from_cliente(Convert.ToInt16(comboBox1.SelectedItem));
                 CargaTarjeta ct = new CargaTarjeta(usuario,usuACargar);
                 ct.Show();

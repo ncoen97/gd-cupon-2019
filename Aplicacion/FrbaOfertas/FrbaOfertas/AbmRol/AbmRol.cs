@@ -83,10 +83,12 @@ namespace FrbaOfertas
             comboBox_funcionalidades.SelectedIndex = 0;
             List<Rol> roles = DBConnection.getRoles();
 
+            comboBox_roles.Items.Clear();
             foreach (Rol r in roles)
             {
                 comboBox_roles.Items.Add(r.nombre);
             }
+            if(comboBox_roles.Items.Count>0)
             comboBox_roles.SelectedIndex = 0;
            
        
@@ -102,6 +104,16 @@ namespace FrbaOfertas
             SqlCommand command2 = new SqlCommand("select rol_nombre,r.rol_id,f.func_id, func_descripcion from SOCORRO.Rol r join(SOCORRO.FuncionalidadxRol fxr join SOCORRO.Funcionalidad f on fxr.func_id = f.func_id) on r.rol_id = fxr.rol_id order by r.rol_id", conexion);
             command2.CommandType = CommandType.Text;
             DBConnection.fill_grid(dataGridView2, command2,adapter2,table2);
+            
+            
+            List<Rol> roles = DBConnection.getRoles();
+            comboBox_roles.Items.Clear();
+            foreach (Rol r in roles)
+            {
+                comboBox_roles.Items.Add(r.nombre);
+            }
+            if (comboBox_roles.Items.Count > 0)
+                comboBox_roles.SelectedIndex = 0;
 
         }
 

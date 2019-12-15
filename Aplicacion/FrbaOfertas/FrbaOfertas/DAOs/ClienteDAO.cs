@@ -429,7 +429,7 @@ namespace FrbaOfertas
             List<Cliente> clientes = new List<Cliente>();
 
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente", conexion);
+            SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente c join SOCORRO.RolxUsuario r on c.clie_user_id = r.user_id where rol_id = 1", conexion);
             command.CommandType = CommandType.Text;
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())

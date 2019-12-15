@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaOfertas._Clases;
+using FrbaOfertas.DAOs;
 
 namespace FrbaOfertas
 {
@@ -34,7 +35,7 @@ namespace FrbaOfertas
                 List<Proveedor> proveedores = ProveedorDAO.getProveedores();
                 foreach (Proveedor p in proveedores)
                 {
-                    if (p.habilitada)
+                    if (p.habilitada) 
                     {
                         ComboboxItem item = new ComboboxItem(p.razon_social, p);
                         comboBoxProveedor.Items.Add(item);
@@ -113,6 +114,15 @@ namespace FrbaOfertas
             if (resultado)
             {
                 MessageBox.Show("Oferta publicada con exito");
+                foreach (TextBox txb in this.Controls.OfType<TextBox>())
+                {
+                    txb.Text = "";
+
+                }
+                foreach (NumericUpDown nud in this.Controls.OfType<NumericUpDown>())
+                {
+                    nud.Value = 0;
+                }
                 
             }
             else

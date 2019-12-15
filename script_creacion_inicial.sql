@@ -1875,6 +1875,18 @@ BEGIN
 	END CATCH
 END
 GO
+CREATE PROCEDURE SOCORRO.sp_generarIdCupon(@fechaPublicacion datetime,@ID NVARCHAR(50) OUTPUT)
+AS
+BEGIN
+	declare @AlLChars varchar(100) = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+	DECLARE @RAND NVARCHAR(4);
+	SET @RAND = (SELECT RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) + 
+		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) +
+		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) + 
+		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1))
+	SET @ID = CONCAT(CONVERT(NVARCHAR,@fechaPublicacion,112),@RAND);
+END
+GO
 CREATE PROC SOCORRO.sp_publicar_oferta (
 	@prov_id int,
 	@fecha_publicacion datetime, --> mayor o igual a la actual!, se chequea por programa
@@ -2004,7 +2016,6 @@ BEGIN
 
 END
 GO
-
 CREATE PROCEDURE SOCORRO.sp_cupones_cliente(@clie_id int)
 AS
 BEGIN
@@ -2019,19 +2030,6 @@ BEGIN
 		where (cl.clie_user_id = @user_id)
 			AND (cupon_clie_id_consumo IS NULL)
 
-END
-GO
-
-CREATE PROCEDURE SOCORRO.sp_generarIdCupon(@fechaPublicacion datetime,@ID NVARCHAR(50) OUTPUT)
-AS
-BEGIN
-	declare @AlLChars varchar(100) = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-	DECLARE @RAND NVARCHAR(4);
-	SET @RAND = (SELECT RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) + 
-		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) +
-		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1) + 
-		RIGHT( LEFT(@AlLChars,ABS(BINARY_CHECKSUM(NEWID())%35) + 1 ),1))
-	SET @ID = CONCAT(CONVERT(NVARCHAR,@fechaPublicacion,112),@RAND);
 END
 GO
 --DROP PROC SOCORRO.sp_lista_prov_mayor_descuento;

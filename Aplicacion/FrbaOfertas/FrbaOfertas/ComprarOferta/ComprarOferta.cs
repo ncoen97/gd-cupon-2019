@@ -33,7 +33,11 @@ namespace FrbaOfertas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (selectedRow == null) return;
+            if (selectedRow == null || selectedRow.Index < 0)
+            {
+                MessageBox.Show("No hay ofertas seleccionadas");
+                return;
+            } 
 
             int resultado = DBConnection.comprarOferta(usuario, selectedRow.Cells["ofer_id"].Value.ToString());
 
@@ -109,6 +113,8 @@ namespace FrbaOfertas
             label2.Text = "su monto disponible es " + ClienteDAO.montoUsuario(usuario);
             this.dataGridView1.Columns["ofer_id"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.ClearSelection();
+
         }
 
     

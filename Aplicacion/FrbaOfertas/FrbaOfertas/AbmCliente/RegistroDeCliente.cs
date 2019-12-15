@@ -64,6 +64,7 @@ namespace FrbaOfertas
                 if (txb.BackColor == Color.WhiteSmoke)
                 {
                     MessageBox.Show("hay campos con errores en el  tipo de datos");
+                    txb.BackColor = Color.White;
                     return;
                 }
             }
@@ -127,6 +128,30 @@ namespace FrbaOfertas
             RegistroDeUsuario reg = new RegistroDeUsuario(deDondeViene, usuarioActivo);
             reg.Show();
             this.Hide();
+        }
+
+        private void Cli_dni_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void Cli_telefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void Cli_cp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
 
      

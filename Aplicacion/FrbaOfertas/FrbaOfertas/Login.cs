@@ -36,9 +36,13 @@ namespace FrbaOfertas
                 MessageBox.Show("Error: Usuario o contraseña incorrectos");
                 textbox_contraseña.Text = "";
             }
-            else if(respuesta == -2)
+            else if(respuesta == -3)
             {
                 MessageBox.Show("Error: Usuario bloqueado, contactarse con el administrador");
+            }
+            else if (respuesta == -2)
+            {
+                MessageBox.Show("Error: Usuario deshabilitado, contactarse con el administrador");
             }
             else
             {
@@ -77,8 +81,7 @@ namespace FrbaOfertas
             textbox_usuario.Visible = true;
             buttonIniciarSesion.Visible = true;
             buttonRegistrarse.Visible = true;
-            textbox_usuario.Text = "cliente";
-            textbox_contraseña.Text = "cliente";
+            
             usuario = null;
             
         }

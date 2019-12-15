@@ -44,6 +44,7 @@ namespace FrbaOfertas
         {
             if(!txb.Text.Contains("@") || !(txb.Text.Length >5)){
                 txb.BackColor = Color.WhiteSmoke;
+                txb.Text = "";
             return false;
             }
             txb.BackColor = Color.White;

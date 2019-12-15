@@ -75,6 +75,7 @@
             this.Cli_cp.Name = "Cli_cp";
             this.Cli_cp.Size = new System.Drawing.Size(214, 26);
             this.Cli_cp.TabIndex = 6;
+            this.Cli_cp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Cli_cp_KeyPress);
             // 
             // Cli_direccion
             // 
@@ -89,6 +90,7 @@
             this.Cli_telefono.Name = "Cli_telefono";
             this.Cli_telefono.Size = new System.Drawing.Size(214, 26);
             this.Cli_telefono.TabIndex = 4;
+            this.Cli_telefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Cli_telefono_KeyPress);
             // 
             // Cli_mail
             // 
@@ -103,6 +105,7 @@
             this.Cli_dni.Name = "Cli_dni";
             this.Cli_dni.Size = new System.Drawing.Size(214, 26);
             this.Cli_dni.TabIndex = 2;
+            this.Cli_dni.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Cli_dni_KeyPress);
             // 
             // Cli_apellido
             // 

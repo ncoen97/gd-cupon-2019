@@ -178,7 +178,7 @@ namespace FrbaOfertas
             button6.BackColor =default(Color);
             timer1.Stop();
         }
-
+        
    
     }
 }

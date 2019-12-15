@@ -65,6 +65,7 @@
             this.Provee_cp.Name = "Provee_cp";
             this.Provee_cp.Size = new System.Drawing.Size(214, 26);
             this.Provee_cp.TabIndex = 35;
+            this.Provee_cp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Provee_cp_KeyPress);
             // 
             // Provee_direccion
             // 
@@ -79,6 +80,7 @@
             this.Provee_telefono.Name = "Provee_telefono";
             this.Provee_telefono.Size = new System.Drawing.Size(214, 26);
             this.Provee_telefono.TabIndex = 33;
+            this.Provee_telefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Provee_telefono_KeyPress);
             // 
             // Provee_mail
             // 

@@ -923,7 +923,8 @@ create PROCEDURE [SOCORRO].validarLogin(@username nvarchar(20),@password nvarcha
 as
 begin
 	IF ((SELECT SOCORRO.fnIsBlockedUser(@username)) = 1)
-			RETURN -2 /*Usuario bloqueado*/
+			RETURN -3 /*Usuario bloqueado*/
+	
 	DECLARE @hash nvarchar(255)
 	DECLARE @user_id int
 
@@ -933,6 +934,8 @@ begin
 	IF (@user_id IS NOT NULL)
 		BEGIN
 		UPDATE [SOCORRO].Usuario SET user_intentos = 0 WHERE user_username = @username
+			IF (Select user_habilitado from SOCORRO.Usuario where @user_id=user_id) = 0 
+			RETURN -2 /*Usuario deshabilitado*/
 		RETURN @user_id /*Usuario ok*/
 		END
 	ELSE

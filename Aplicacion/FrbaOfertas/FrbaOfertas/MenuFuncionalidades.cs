@@ -81,7 +81,7 @@ namespace FrbaOfertas
         {
             UsuarioDAO.cargarRolesUsuario(usuario);
             foreach (Button button in this.Controls.OfType<Button>())
-            { //Si hay alguna funcionalidad que coincide con un buton
+            { 
                 button.Visible = false;
             }
             label_credito.Visible = false;
@@ -98,7 +98,7 @@ namespace FrbaOfertas
             }
 
 
-
+            // Cargamos los botones con funcionalidades segun rol
             foreach (Rol rol in usuario.roles)
             {
                 texto_roles.AppendLine(" " + rol.nombre);
@@ -107,6 +107,7 @@ namespace FrbaOfertas
                 {
                     label_credito.Visible = true;
                     buttonCupones.Visible = true;
+                    label_credito.Text = "Su crédito es: \n" + ClienteDAO.montoUsuario(usuario).ToString();
 
                 }
 
@@ -147,11 +148,13 @@ namespace FrbaOfertas
                     }
                 }
             }
+
+            //Funciones disponibles independientemente de los roles
             btn_cerrarsesion.Visible = true;
             label3.Text = "Su usuario es: \n" + usuario.username;
-            //get cliente de usuario
-            label_credito.Text ="Su crédito es: \n" + ClienteDAO.montoUsuario(usuario).ToString();
+            
             labelroles.Text = texto_roles.ToString();
+            //cambiar contrasenia y agregar roles
             button8.Visible = true;
             button13.Visible = true;
 

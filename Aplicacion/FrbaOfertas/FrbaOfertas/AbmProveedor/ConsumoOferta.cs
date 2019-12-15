@@ -28,7 +28,7 @@ namespace FrbaOfertas
 
         private void ConsumoOferta_Load(object sender, EventArgs e)
         {
-            
+            dateTimePicker1.Value = utils.obtenerFecha();
         }
 
         private void button1_Click(object sender, EventArgs e)

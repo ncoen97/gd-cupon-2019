@@ -30,6 +30,8 @@ namespace FrbaOfertas
                 comboBox1.Items.Add(p.razon_social);
             }
             comboBox1.SelectedIndex = 0;
+            dateTimePicker2.Value = utils.obtenerFecha();
+            dateTimePicker1.Value = utils.obtenerFecha().AddMonths(-1);
         }
 
         private void button2_Click(object sender, EventArgs e)

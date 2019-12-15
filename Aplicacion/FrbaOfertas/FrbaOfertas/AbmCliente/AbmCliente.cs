@@ -153,7 +153,10 @@ namespace FrbaOfertas
             SqlCommand command = new SqlCommand("select * from SOCORRO.Cliente c join SOCORRO.RolxUsuario r on c.clie_user_id = r.user_id where rol_id = 1", conexion);
             command.CommandType = CommandType.Text;
 
-            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);        
+            DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
+            dataGridView1.Columns["clie_id"].ReadOnly = true;
+            dataGridView1.Columns["clie_user_id"].ReadOnly = true;
+            dataGridView1.Columns["clie_saldo"].ReadOnly = true;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

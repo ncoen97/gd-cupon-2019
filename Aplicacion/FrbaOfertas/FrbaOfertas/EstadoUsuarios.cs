@@ -61,6 +61,9 @@ namespace FrbaOfertas
             adapter1.UpdateCommand.Parameters.Add(parametro5);
 
             DBConnection.fill_grid(dataGridView1, command, adapter1, table1);
+            dataGridView1.Columns["user_id"].ReadOnly = true;
+            dataGridView1.Columns["user_pass"].ReadOnly = true;
+            dataGridView1.Columns["user_username"].ReadOnly = true;
 
         }
 
@@ -75,6 +78,9 @@ namespace FrbaOfertas
             SqlCommand command = new SqlCommand("select * from SOCORRO.Usuario", conexion);
             command.CommandType = CommandType.Text;
             DBConnection.fill_grid(dataGridView1, command, adapter1, table1);
+            dataGridView1.Columns["user_id"].ReadOnly = true;
+            dataGridView1.Columns["user_pass"].ReadOnly = true;
+            dataGridView1.Columns["user_username"].ReadOnly = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -114,7 +120,7 @@ namespace FrbaOfertas
 
         private void textBox1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "Ingrese aqui para buscar un usuario")
+            if (textBox1.Text == "Puede filtrar por username")
             {
                 textBox1.Text = "";
             }

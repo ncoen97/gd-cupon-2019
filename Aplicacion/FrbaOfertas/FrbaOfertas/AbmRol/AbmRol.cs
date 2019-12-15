@@ -90,6 +90,8 @@ namespace FrbaOfertas
             }
             if(comboBox_roles.Items.Count>0)
             comboBox_roles.SelectedIndex = 0;
+
+            dataGridView1.Columns["rol_id"].ReadOnly = true;
            
        
         }
@@ -114,6 +116,8 @@ namespace FrbaOfertas
             }
             if (comboBox_roles.Items.Count > 0)
                 comboBox_roles.SelectedIndex = 0;
+
+            dataGridView1.Columns["rol_id"].ReadOnly = true;
 
         }
 

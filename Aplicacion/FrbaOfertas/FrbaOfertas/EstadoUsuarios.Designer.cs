@@ -55,7 +55,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(270, 26);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "Ingrese aqui para buscar un usuario";
+            this.textBox1.Text = "Puede filtrar por username";
             this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 

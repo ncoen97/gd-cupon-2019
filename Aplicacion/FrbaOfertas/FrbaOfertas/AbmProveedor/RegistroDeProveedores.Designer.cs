@@ -78,6 +78,7 @@
             // Provee_telefono
             // 
             this.Provee_telefono.Location = new System.Drawing.Point(298, 172);
+            this.Provee_telefono.MaxLength = 15;
             this.Provee_telefono.Name = "Provee_telefono";
             this.Provee_telefono.Size = new System.Drawing.Size(214, 26);
             this.Provee_telefono.TabIndex = 33;
@@ -163,9 +164,11 @@
             // Provee_cuit
             // 
             this.Provee_cuit.Location = new System.Drawing.Point(298, 302);
+            this.Provee_cuit.MaxLength = 11;
             this.Provee_cuit.Name = "Provee_cuit";
             this.Provee_cuit.Size = new System.Drawing.Size(214, 26);
             this.Provee_cuit.TabIndex = 39;
+            this.Provee_cuit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Provee_cuit_KeyPress);
             // 
             // label2
             // 

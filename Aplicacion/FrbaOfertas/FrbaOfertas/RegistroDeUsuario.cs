@@ -55,7 +55,7 @@ namespace FrbaOfertas
                     textboxUsuario.Visible = false;
                     label2.Visible = false;
                     label4.Text = "Seleccionar rol nuevo:";
-                    
+                    this.Text = "Agregar roles";
                     //label 1 y combobox1
                     break;
 

@@ -151,6 +151,8 @@ namespace FrbaOfertas
             command.CommandType = CommandType.Text;
             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
             dataGridView1.Columns["prov_rubro_id"].Visible = false;
+            dataGridView1.Columns["prov_id"].ReadOnly = true;
+           
         }
 
         private void buttonRegistrarProveedor_Click(object sender, EventArgs e)

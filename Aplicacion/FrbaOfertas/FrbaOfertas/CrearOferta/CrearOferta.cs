@@ -80,7 +80,7 @@ namespace FrbaOfertas
             
             if (numericUpDownCantidad.Value<=0 || numericUpDownMaximo.Value<=0
                     || numericUpDownPrecioLista.Value <= 0 || numericUpDownPrecioOferta.Value <= 0
-                    || numericUpDownPrecioOferta.Value > numericUpDownPrecioLista.Value)
+                    || numericUpDownPrecioOferta.Value >= numericUpDownPrecioLista.Value)
             {
                 MessageBox.Show("todos los valores deben ser mayores a 0; el precio de oferta debe ser menor o igual al de lista");
                 return;
@@ -134,6 +134,16 @@ namespace FrbaOfertas
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Oferta_descripcion.Text = "";
+            foreach (NumericUpDown nup in Controls.OfType<NumericUpDown>())
+            {
+                nup.Value = 0;
+            
+            }
         }
     }
 }

@@ -173,5 +173,13 @@ namespace FrbaOfertas
                 e.Handled = true;
             }
         }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            foreach (TextBox txb in this.Controls.OfType<TextBox>())
+            {
+                txb.Text = "";
+            }
+        }
     }
 }

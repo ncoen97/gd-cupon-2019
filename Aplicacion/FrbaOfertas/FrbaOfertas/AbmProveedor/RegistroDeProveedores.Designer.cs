@@ -50,6 +50,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.Provee_rubro = new System.Windows.Forms.ComboBox();
             this.label_usu = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Provee_ciudad
@@ -202,7 +203,7 @@
             // 
             // buttonAtras
             // 
-            this.buttonAtras.Location = new System.Drawing.Point(298, 455);
+            this.buttonAtras.Location = new System.Drawing.Point(298, 513);
             this.buttonAtras.Name = "buttonAtras";
             this.buttonAtras.Size = new System.Drawing.Size(214, 48);
             this.buttonAtras.TabIndex = 55;
@@ -241,11 +242,23 @@
             this.label_usu.TabIndex = 51;
             this.label_usu.Text = "label11";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(298, 457);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(214, 48);
+            this.button2.TabIndex = 56;
+            this.button2.Text = "Limpiar campos";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
             // RegistroDeProveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 535);
+            this.ClientSize = new System.Drawing.Size(627, 593);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label_usu);
             this.Controls.Add(this.Provee_rubro);
             this.Controls.Add(this.buttonAtras);
@@ -301,6 +314,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox Provee_rubro;
         private System.Windows.Forms.Label label_usu;
+        private System.Windows.Forms.Button button2;
 
     }
 }

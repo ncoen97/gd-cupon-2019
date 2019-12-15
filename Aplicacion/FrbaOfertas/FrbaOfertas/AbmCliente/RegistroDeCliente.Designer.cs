@@ -50,6 +50,7 @@
             this.Cli_fecha = new System.Windows.Forms.DateTimePicker();
             this.button5 = new System.Windows.Forms.Button();
             this.label_usu = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -224,7 +225,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(202, 413);
+            this.button5.Location = new System.Drawing.Point(202, 459);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(214, 40);
             this.button5.TabIndex = 10;
@@ -241,11 +242,22 @@
             this.label_usu.TabIndex = 72;
             this.label_usu.Text = "label11";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(202, 413);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(214, 40);
+            this.button2.TabIndex = 73;
+            this.button2.Text = "Limpiar campos";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // RegistroDeCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(580, 456);
+            this.ClientSize = new System.Drawing.Size(580, 516);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label_usu);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.Cli_fecha);
@@ -300,5 +312,6 @@
         private System.Windows.Forms.DateTimePicker Cli_fecha;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label_usu;
+        private System.Windows.Forms.Button button2;
     }
 }

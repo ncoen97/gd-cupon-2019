@@ -47,6 +47,7 @@
             this.numericUpDownMaximo = new System.Windows.Forms.NumericUpDown();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPrecioLista)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPrecioOferta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCantidad)).BeginInit();
@@ -233,11 +234,22 @@
             this.label3.TabIndex = 78;
             this.label3.Text = "Fecha de publicacion";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(430, 451);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(136, 40);
+            this.button1.TabIndex = 80;
+            this.button1.Text = "Limpiar campos";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // CrearOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(682, 552);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.numericUpDownMaximo);
@@ -290,5 +302,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownMaximo;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button1;
     }
 }

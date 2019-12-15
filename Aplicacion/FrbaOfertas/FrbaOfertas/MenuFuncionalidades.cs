@@ -115,6 +115,7 @@ namespace FrbaOfertas
                 {
                     button4.Visible = true;
                     button12.Visible = true;
+                    button13.Visible = true;
                 }
 
 
@@ -156,7 +157,7 @@ namespace FrbaOfertas
             labelroles.Text = texto_roles.ToString();
             //cambiar contrasenia y agregar roles
             button8.Visible = true;
-            button13.Visible = true;
+         
 
         }
 

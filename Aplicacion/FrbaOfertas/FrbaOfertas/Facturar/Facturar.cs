@@ -51,7 +51,8 @@ namespace FrbaOfertas
 
             command.Parameters.AddWithValue("@prov_id",prov_id);
             command.Parameters.AddWithValue("@fecha_desde",dateTimePicker1.Value);
-            command.Parameters.AddWithValue("@fecha_hasta",dateTimePicker2.Value);
+            DateTime segundaFecha = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
+            command.Parameters.AddWithValue("@fecha_hasta",segundaFecha);
             SqlParameter total_facturado = new SqlParameter("@total_facturado", SqlDbType.Int) { Direction = ParameterDirection.Output };
             command.Parameters.Add(total_facturado);
             SqlParameter id_nueva_factura = new SqlParameter("@id_nueva_factura", SqlDbType.Int) { Direction = ParameterDirection.Output };

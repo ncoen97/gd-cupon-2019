@@ -99,7 +99,7 @@ namespace FrbaOfertas
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();
             DateTime hoy = utils.obtenerFecha();
-            SqlCommand command = new SqlCommand("Select ofer_id, ofer_descripcion [Descripcion],ofer_fecha_vencimiento [Fecha de Vencimiento], ofer_precio_lista [Precio original],ofer_precio_oferta [Precio de oferta],p.prov_razon_social [Proveedor] from SOCORRO.Oferta o join SOCORRO.Proveedor p on o.ofer_prov_id = p.prov_id  where p.prov_habilitado=1 and o.ofer_fecha_vencimiento>@fecha and o.ofer_stock>0 and o.ofer_habilitada=1 and o.ofer_fecha_publicacion<=@fecha", conexion);
+            SqlCommand command = new SqlCommand("Select ofer_id, ofer_descripcion [Descripcion],ofer_fecha_vencimiento [Fecha de Vencimiento], ofer_precio_lista [Precio original],ofer_precio_oferta [Precio de oferta],p.prov_razon_social [Proveedor] from SOCORRO.Oferta o join SOCORRO.Proveedor p on o.ofer_prov_id = p.prov_id join SOCORRO.RolxUsuario r on r.user_id = p.prov_user_id where p.prov_habilitado=1 and o.ofer_fecha_vencimiento>@fecha and o.ofer_stock>0 and o.ofer_habilitada=1 and o.ofer_fecha_publicacion<=@fecha", conexion);
             command.CommandType = CommandType.Text;
             command.Parameters.AddWithValue("@fecha", hoy);
 

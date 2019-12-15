@@ -100,7 +100,7 @@ namespace FrbaOfertas
             }
             else
             {
-                if (!utils.validarEntradaComboBoxNoNull(comboBoxProveedor))
+                if (comboBoxProveedor.Items.Count==0)
                 {
                     MessageBox.Show("No hay proveedor seleccionado");
                     return;

@@ -44,23 +44,18 @@ namespace FrbaOfertas
                   
                     comboBox1.SelectedIndex = 0;
                   
-                    
                 }
             }  
             List<TipoDePago> tiposDePago = ClienteDAO.getFormasDePago();
             List<Tarjeta> tarjetas = ClienteDAO.getTarjetas(usuario);
-           
+            
             foreach (TipoDePago t in tiposDePago)
             {
                 combo_formaDePago.Items.Add(t.descripcion);
                 combo_formaDePago.SelectedIndex = 0;
             }
 
-            foreach (Tarjeta t in tarjetas)
-            {
-                comboBoxTarjeta.Items.Add(t.numero);
-                comboBoxTarjeta.SelectedIndex = 0;
-            }
+            comboBoxTarjeta.Items.Clear();
             
         }
 
@@ -188,17 +183,17 @@ namespace FrbaOfertas
 
                 foreach (Tarjeta t in tarjetas)
                 {
-                    comboBoxTarjeta.Items.Clear();
                     comboBoxTarjeta.Items.Add(t.numero);
-                    comboBoxTarjeta.SelectedIndex = 0;
                 }
 
                 if (comboBoxTarjeta.Items.Count == 0)
                 {
+                    comboBoxTarjeta.SelectedIndex = -1;
                     comboBoxTarjeta.Enabled = false;
 
                 }
                 else {
+                    comboBoxTarjeta.SelectedIndex = 0;
                     comboBoxTarjeta.Enabled = true;
                 }
             }

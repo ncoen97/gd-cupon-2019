@@ -26,28 +26,36 @@ namespace FrbaOfertas
         {
             comboBox1.Visible = false;
             label2.Visible = false;
-            foreach (Rol r in usuario.roles)
+            comboBoxTarjeta.Items.Clear();
+            if (usuario.roles.Any(rol => DBConnection.isAdmin(rol)))
             {
-             
-                if (DBConnection.isAdmin(r))
+                label1.Text = "Cargar a cliente: ";
+                comboBox1.Visible = true;
+                label2.Visible = true;
+                List<Cliente> clientes = ClienteDAO.getClientes();
+                foreach (Cliente c in clientes)
                 {
-                    label1.Text = "Cargar a cliente: ";
-                    comboBox1.Visible = true;
-                    label2.Visible = true;
-                    List<Cliente> clientes = ClienteDAO.getClientes();
-                    foreach (Cliente c in clientes)
-                    {
-                        if(c.habilitado)
+                    if (c.habilitado)
                         comboBox1.Items.Add(c.id);
 
-                    }
-                  
-                    comboBox1.SelectedIndex = 0;
-                  
                 }
-            }  
+
+                comboBox1.SelectedIndex = 0;
+
+            }
+            else {
+                List<Tarjeta> tarjetas = ClienteDAO.getTarjetas(usuario);
+                foreach (Tarjeta t in tarjetas)
+                {
+                    comboBoxTarjeta.Items.Add(t.numero);
+                    comboBoxTarjeta.SelectedIndex = 0;
+                }            
+            }
+            
+
+
             List<TipoDePago> tiposDePago = ClienteDAO.getFormasDePago();
-            List<Tarjeta> tarjetas = ClienteDAO.getTarjetas(usuario);
+            
             
             foreach (TipoDePago t in tiposDePago)
             {
@@ -55,7 +63,7 @@ namespace FrbaOfertas
                 combo_formaDePago.SelectedIndex = 0;
             }
 
-            comboBoxTarjeta.Items.Clear();
+            
             
         }
 

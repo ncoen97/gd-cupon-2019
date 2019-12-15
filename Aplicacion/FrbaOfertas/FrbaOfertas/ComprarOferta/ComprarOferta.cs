@@ -64,7 +64,7 @@ namespace FrbaOfertas
                     if(resultado>=0)
                     {
                         MessageBox.Show("Oferta comprada con exito. Su codigo de cupon es: "+resultado.ToString());
-                        label2.Text = "su monto disponible es " + ClienteDAO.montoUsuario(usuario);
+                        cargarOfertas();
                     }
                     break;
             }
@@ -86,6 +86,11 @@ namespace FrbaOfertas
         }
 
         private void ComprarOferta_Load(object sender, EventArgs e)
+        {
+            cargarOfertas();
+        }
+
+        void cargarOfertas()
         {
             DataTable dt = new DataTable();
             SqlConnection conexion = DBConnection.getConnection();

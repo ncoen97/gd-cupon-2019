@@ -83,7 +83,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(230, 187);
+            this.button5.Location = new System.Drawing.Point(230, 192);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(214, 40);
             this.button5.TabIndex = 3;
@@ -93,7 +93,7 @@
             // 
             // Atras
             // 
-            this.Atras.Location = new System.Drawing.Point(230, 233);
+            this.Atras.Location = new System.Drawing.Point(230, 238);
             this.Atras.Name = "Atras";
             this.Atras.Size = new System.Drawing.Size(214, 40);
             this.Atras.TabIndex = 4;
@@ -131,7 +131,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 285);
+            this.ClientSize = new System.Drawing.Size(502, 303);
             this.Controls.Add(this.comboBoxTipoDeUsuario);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Atras);

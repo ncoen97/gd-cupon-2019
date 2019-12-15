@@ -120,6 +120,7 @@ namespace FrbaOfertas
             else
             {
                 nuevo_usuario = usuarioActivo;
+                
             }
 
             
@@ -130,6 +131,12 @@ namespace FrbaOfertas
                     MessageBox.Show("Ya tienes asociado este rol");
                     return;
                 };
+                if (ClienteDAO.asignarCliente(usuarioActivo) == 0)
+                {
+                    MessageBox.Show("rol cliente asignado a usuario correctamente");
+                    UsuarioDAO.cargarRolesUsuario(usuarioActivo);
+                    return;
+                }
                 RegistroDeCliente registroCliente = new RegistroDeCliente(nuevo_usuario, usuarioActivo, deDondeViene);
                 registroCliente.Show();
                 this.Hide();
@@ -138,6 +145,12 @@ namespace FrbaOfertas
                 if (nuevo_usuario.roles.Any(rol => DBConnection.isProveedor(rol)))
                 {
                     MessageBox.Show("Ya tienes asociado este rol");
+                    return;
+                }
+                if (ProveedorDAO.asignarProveedor(usuarioActivo) == 0)
+                {
+                    MessageBox.Show("rol proveedor asignado a usuario correctamente");
+                    UsuarioDAO.cargarRolesUsuario(usuarioActivo);
                     return;
                 }
                 RegistroDeProveedores registroProveedor = new RegistroDeProveedores(usuarioActivo, nuevo_usuario, deDondeViene);

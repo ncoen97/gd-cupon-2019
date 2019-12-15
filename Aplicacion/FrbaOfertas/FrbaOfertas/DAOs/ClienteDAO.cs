@@ -134,6 +134,28 @@ namespace FrbaOfertas
 
         }
 
+
+        public static int asignarCliente(Usuario usu)
+        {
+            //si edvuelve 0 exitio y fue linkeado otra vez
+            //si devuelve 1 hay que crearlo de 0
+            SqlConnection conn = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("SOCORRO.sp_reasignar_cliente", conn);
+            command.CommandType = CommandType.StoredProcedure;
+
+            command.Parameters.AddWithValue("@user_id", usu.id);
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            command.Parameters.Add(ret);
+            command.ExecuteReader();
+            command.Dispose();
+            conn.Close();
+            conn.Dispose();
+
+            return (int)ret.Value;
+
+        }
+
         public static double montoUsuario(Usuario _usuario)
         {
             SqlConnection conexion = DBConnection.getConnection();

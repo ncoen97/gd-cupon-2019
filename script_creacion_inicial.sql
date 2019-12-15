@@ -94,6 +94,10 @@ IF OBJECT_ID('SOCORRO.sp_deshabilitar_proveedor') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_deshabilitar_proveedor;
 IF OBJECT_ID('SOCORRO.sp_rehabilitar_proveedor') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_rehabilitar_proveedor;
+IF OBJECT_ID('SOCORRO.sp_reasignar_proveedor') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_reasignar_proveedor;
+IF OBJECT_ID('SOCORRO.sp_reasignar_cliente') IS NOT NULL
+	DROP PROCEDURE SOCORRO.sp_reasignar_cliente;
 IF OBJECT_ID('SOCORRO.sp_modificar_cliente') IS NOT NULL
 	DROP PROCEDURE SOCORRO.sp_modificar_cliente;
 IF OBJECT_ID('SOCORRO.sp_modificar_proveedor') IS NOT NULL
@@ -1115,16 +1119,7 @@ BEGIN
 		  IF ((Select 1 from SOCORRO.cliente WHERE clie_user_id = @user_id) = 1)
           begin
 		    UPDATE SOCORRO.Cliente set
-                clie_nombre = @clie_nombre,
-                clie_apellido=@clie_apellido,
-                clie_dni=@clie_dni,
-                clie_email=@clie_email,
-                clie_telefono=@clie_telefono,
-                clie_direccion=@clie_direccion,
-                clie_codigo_postal=@clie_codigo_postal,
-                clie_fecha_nacimiento=@clie_fecha_nacimiento,
-                clie_ciudad=@clie_ciudad,
-				clie_habilitado =@clie_habilitado
+				clie_habilitado = 1
             where clie_user_id=@user_id
 			end
 			else
@@ -1296,16 +1291,7 @@ BEGIN
 					PRINT 'REGISTRANDO PROVEEDOR '+@prov_rs+': el rol fue asignado';
 					--cargo finalmente los datos de proveedor
 					UPDATE SOCORRO.Proveedor set
-						prov_razon_social = @prov_rs,
-						prov_email = @prov_email,
-						prov_telefono = @prov_telefono,
-						prov_direccion = @prov_dom,
-						prov_codigo_postal= @prov_cp,
-						prov_ciudad = @prov_ciudad,
-						prov_cuit = @prov_cuit,
-						prov_rubro_id = @prov_rubro_id,
-						prov_nombre_contacto = @prov_nombre_contacto,
-						prov_habilitado = @prov_habilitado
+						prov_habilitado = 1
 						WHERE prov_user_id = @user_id
 				end
 			else --no existe 
@@ -1486,6 +1472,68 @@ BEGIN
 END
 GO
 
+CREATE PROC SOCORRO.sp_reasignar_cliente (
+	@user_id int
+) AS
+BEGIN
+	IF NOT(@user_id IN (SELECT clie_user_id FROM SOCORRO.Cliente))
+	BEGIN
+		PRINT 'no existe el cliente';
+		RETURN 1;
+	END
+	IF (SELECT rol_id FROM SOCORRO.RolxUsuario where @user_id =user_id) = 1
+	BEGIN
+		PRINT 'ya esta asignado';
+		RETURN 2;
+	END
+	BEGIN
+		UPDATE Cliente
+		SET clie_habilitado = 1
+		WHERE clie_user_id = @user_id;
+		
+		INSERT INTO SOCORRO.RolxUsuario (
+		[user_id],
+		rol_id
+		) VALUES (
+		@user_id,
+		1
+	);
+	END
+	RETURN 0;
+END
+GO
+
+CREATE PROC SOCORRO.sp_reasignar_proveedor(
+	@user_id int
+) AS
+BEGIN
+	IF NOT(@user_id IN (SELECT prov_user_id FROM SOCORRO.Proveedor))
+	BEGIN
+		PRINT 'no existe el proveedor';
+		RETURN 1;
+	END
+	IF (SELECT rol_id FROM SOCORRO.RolxUsuario where @user_id =user_id) = 2
+	BEGIN
+		PRINT 'ya esta asignado';
+		RETURN 2;
+	END
+	BEGIN
+		UPDATE Proveedor
+		SET prov_habilitado = 1
+		WHERE prov_user_id = @user_id;
+		INSERT INTO SOCORRO.RolxUsuario (
+			[user_id],
+			rol_id
+		) VALUES (
+			@user_id,
+			2
+		);
+	END
+	RETURN 0;
+END
+GO
+
+
 CREATE PROC SOCORRO.sp_deshabilitar_proveedor (
 	@prov_id int
 ) AS
@@ -1535,17 +1583,8 @@ BEGIN
 
 	UPDATE SOCORRO.Rol SET rol_nombre = @rol_nombre, rol_habilitado = @rol_habilitado where rol_id = @rol_id
 	IF @rol_habilitado = 0
-
 	Delete from SOCORRO.RolxUsuario where rol_id = @rol_id
-	IF (@rol_id = 1)
-		begin
-		update SOCORRO.Cliente set clie_habilitado =0
-		end
-	IF (@rol_id = 2)
-	Begin
-	update SOCORRO.Proveedor set prov_habilitado =0
-	END
-
+	
 	RETURN 0;
 END
 GO

@@ -147,7 +147,7 @@ namespace FrbaOfertas
         {
             
             SqlConnection conexion = DBConnection.getConnection();
-            SqlCommand command = new SqlCommand("select p.prov_id,p.prov_user_id, p.prov_cuit,p.prov_razon_social,p.prov_nombre_contacto,r.rubro_descripcion, p.prov_ciudad,p.prov_codigo_postal,p.prov_direccion,p.prov_telefono,p.prov_email, p.prov_habilitado,p.prov_rubro_id from SOCORRO.Proveedor p join SOCORRO.Rubro r on p.prov_rubro_id = r.rubro_id", conexion);
+            SqlCommand command = new SqlCommand("select p.prov_id,p.prov_user_id, p.prov_cuit,p.prov_razon_social,p.prov_nombre_contacto,r.rubro_descripcion, p.prov_ciudad,p.prov_codigo_postal,p.prov_direccion,p.prov_telefono,p.prov_email, p.prov_habilitado, p.prov_rubro_id from (SOCORRO.Proveedor p join SOCORRO.Rubro r on p.prov_rubro_id = r.rubro_id) join SOCORRO.RolxUsuario ro on p.prov_user_id = ro.user_id where ro.rol_id = 2", conexion);
             command.CommandType = CommandType.Text;
             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
             dataGridView1.Columns["prov_rubro_id"].Visible = false;

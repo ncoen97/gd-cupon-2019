@@ -157,6 +157,7 @@ namespace FrbaOfertas
             dataGridView1.Columns["clie_id"].ReadOnly = true;
             dataGridView1.Columns["clie_user_id"].ReadOnly = true;
             dataGridView1.Columns["clie_saldo"].ReadOnly = true;
+            dataGridView1.Columns["rol_id"].Visible = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

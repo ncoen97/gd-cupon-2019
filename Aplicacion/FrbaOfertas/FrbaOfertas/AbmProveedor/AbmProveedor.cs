@@ -152,6 +152,7 @@ namespace FrbaOfertas
             DBConnection.fill_grid(dataGridView1, command,adapter1,table1);
             dataGridView1.Columns["prov_rubro_id"].Visible = false;
             dataGridView1.Columns["prov_id"].ReadOnly = true;
+            dataGridView1.Columns["prov_user_id"].ReadOnly = true;
            
         }
 

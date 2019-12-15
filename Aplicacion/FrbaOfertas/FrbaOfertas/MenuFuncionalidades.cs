@@ -153,6 +153,7 @@ namespace FrbaOfertas
             label_credito.Text ="Su crédito es: \n" + ClienteDAO.montoUsuario(usuario).ToString();
             labelroles.Text = texto_roles.ToString();
             button8.Visible = true;
+            button13.Visible = true;
 
         }
 
@@ -195,6 +196,13 @@ namespace FrbaOfertas
         {
             EstadoUsuarios eu = new EstadoUsuarios(usuario);
             eu.Show();
+            this.Hide();
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            RegistroDeUsuario ru = new RegistroDeUsuario(4, usuario);
+            ru.Show();
             this.Hide();
         }
 

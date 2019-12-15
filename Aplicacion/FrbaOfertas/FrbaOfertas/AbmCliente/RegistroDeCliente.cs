@@ -72,7 +72,7 @@ namespace FrbaOfertas
             {
                 Cliente cli = new Cliente(usuarioNuevo, Cli_nombre.Text, Cli_apellido.Text, long.Parse(Cli_dni.Text), DateTime.Parse(Cli_fecha.Text), Cli_direccion.Text, Cli_cp.Text, Cli_mail.Text, Cli_telefono.Text, Cli_ciudad.Text, true);
 
-                if (usuarioActivo == usuarioNuevo)
+                if (deDondeViene ==4)
                 {
                     //forma de registro + agregar rol
                     ClienteDAO.insertarCliente(cli, usuarioNuevo, 1);

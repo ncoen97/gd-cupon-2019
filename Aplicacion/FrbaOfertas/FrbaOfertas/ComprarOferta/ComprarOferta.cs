@@ -37,8 +37,12 @@ namespace FrbaOfertas
             {
                 MessageBox.Show("No hay ofertas seleccionadas");
                 return;
-            } 
-
+            }
+            if (ClienteDAO.montoUsuario(usuario) <= 0)
+            {
+                MessageBox.Show("Saldo insuficiente");
+                return;
+            }
             int resultado = DBConnection.comprarOferta(usuario, selectedRow.Cells["ofer_id"].Value.ToString());
 
             switch (resultado)

@@ -82,7 +82,7 @@ namespace FrbaOfertas
                     || numericUpDownPrecioLista.Value <= 0 || numericUpDownPrecioOferta.Value <= 0
                     || numericUpDownPrecioOferta.Value >= numericUpDownPrecioLista.Value)
             {
-                MessageBox.Show("todos los valores deben ser mayores a 0; el precio de oferta debe ser menor o igual al de lista");
+                MessageBox.Show("todos los valores deben ser mayores a 0 y el precio de oferta debe ser menor al de lista");
                 return;
             }
 

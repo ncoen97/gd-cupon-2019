@@ -92,6 +92,7 @@ namespace FrbaOfertas
             timer1.Start();
             button1.BackColor = Color.LawnGreen;
             actualizar();
+            textBox1.Text = "";
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -102,8 +103,8 @@ namespace FrbaOfertas
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
-                return;
+        //    if (textBox1.Text == "")
+          //      return;
             SqlConnection conexion = DBConnection.getConnection();
             SqlCommand command = new SqlCommand("select * from SOCORRO.Usuario where user_username LIKE '%'+@nombre+'%'", conexion);
             command.CommandType = CommandType.Text;

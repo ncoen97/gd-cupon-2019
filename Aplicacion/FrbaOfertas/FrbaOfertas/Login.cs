@@ -49,21 +49,11 @@ namespace FrbaOfertas
                 UsuarioDAO.cargarRolesUsuario(usuario);
                 //agrego todas las views
              
-                if (usuario.roles.Count >= 1)
-                {
                     MenuFuncionalidades menu = new MenuFuncionalidades(usuario);
                     menu.Show();
                     this.Hide();
-                }
              
-
-                if (usuario.roles.Count == 0)
-                {
-                    MessageBox.Show("Al parecer no tiene Roles asignados, porfavor contáctese con el Administrador", "Error Roles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                    Application.Restart();
-                    return;
-                }
+             
               
             }
         }

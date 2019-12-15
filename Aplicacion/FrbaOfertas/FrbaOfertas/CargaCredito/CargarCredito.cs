@@ -44,7 +44,6 @@ namespace FrbaOfertas
                   
                     comboBox1.SelectedIndex = 0;
                   
-                    
                 }
             }  
             List<TipoDePago> tiposDePago = ClienteDAO.getFormasDePago();

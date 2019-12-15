@@ -25,9 +25,14 @@ namespace FrbaOfertas
             this.intentos_login = 0;
             this.roles = new List<Rol>();
         }
-        public Usuario()
-        {
 
+        public Usuario() { }
+        public Usuario(string _username)
+        {
+            this.id = UsuarioDAO.obtenerId(_username);
+            this.username = _username;
+            this.roles = new List<Rol>();
         }
+
     }
 }

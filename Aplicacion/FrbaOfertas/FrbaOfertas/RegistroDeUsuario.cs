@@ -24,9 +24,9 @@ namespace FrbaOfertas
             comboBoxTipoDeUsuario.Items.Add("Proveedor");
 
             comboBoxTipoDeUsuario.SelectedIndex = 0;
+            comboBox1.Visible = false;
             switch (_deDondeViene)
             { 
-                
                 case 2:
                     //ABMcliente
                     comboBoxTipoDeUsuario.SelectedItem = "Cliente";
@@ -38,13 +38,25 @@ namespace FrbaOfertas
                     comboBoxTipoDeUsuario.Enabled = false;
                     break;
                 case 4:
-                    //ABMProveedor
-                    label1.Text = "Va a agregarle un rol al usuario: " + _usuario.username;
+                    //Usuarios + roles
+                    label10.Text = "Agregar nuevo rol a un usuario seleccionado";
+                    label1.Visible = false;
+                    comboBox1.Visible = true;
+                    foreach (Usuario u in UsuarioDAO.getUsuarios())
+                    {
+                        comboBox1.Items.Add(u.username);
+                        
+                    };
+                    if (comboBox1.Items.Count > 0)
+                    {
+                        comboBox1.SelectedIndex = 0;
+                    }
                     textboxContraseña.Visible = false;
                     textboxUsuario.Visible = false;
                     label2.Visible = false;
                     label4.Text = "Seleccionar rol nuevo:";
-                    label10.Text = "Agregar nuevo rol a usuario activo";
+                    
+                    //label 1 y combobox1
                     break;
 
             }
@@ -119,7 +131,8 @@ namespace FrbaOfertas
             }
             else
             {
-                nuevo_usuario = usuarioActivo;
+                nuevo_usuario = new Usuario(comboBox1.SelectedItem.ToString());
+                UsuarioDAO.cargarRolesUsuario(nuevo_usuario);
                 
             }
 
@@ -131,7 +144,7 @@ namespace FrbaOfertas
                     MessageBox.Show("Ya tienes asociado este rol");
                     return;
                 };
-                if (usuarioActivo==nuevo_usuario && ClienteDAO.asignarCliente(usuarioActivo) == 0)
+                if (deDondeViene == 4 && ClienteDAO.asignarCliente(nuevo_usuario) == 0)
                 {
                     MessageBox.Show("rol cliente asignado a usuario correctamente");
                     UsuarioDAO.cargarRolesUsuario(usuarioActivo);
@@ -147,7 +160,7 @@ namespace FrbaOfertas
                     MessageBox.Show("Ya tienes asociado este rol");
                     return;
                 }
-                if (usuarioActivo == nuevo_usuario && ProveedorDAO.asignarProveedor(usuarioActivo) == 0)
+                if (deDondeViene == 4 && ProveedorDAO.asignarProveedor(nuevo_usuario) == 0)
                 {
                     MessageBox.Show("rol proveedor asignado a usuario correctamente");
                     UsuarioDAO.cargarRolesUsuario(usuarioActivo);

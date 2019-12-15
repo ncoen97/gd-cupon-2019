@@ -77,6 +77,25 @@ namespace FrbaOfertas.DAOs
             return true;
         }
 
+        public static int obtenerId(string username)
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("Select user_id from SOCORRO.USUARIO where user_username = @username", conexion);
+            command.CommandType = CommandType.Text;
+            command.Parameters.AddWithValue("@username", username);
+            SqlDataReader reader = command.ExecuteReader();
+            
+            reader.Read();
+            int user_id = int.Parse(reader["user_id"].ToString());
+            
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+
+            return user_id;
+        }
+        
+
         public static Cliente cliente_from_usuario(Usuario _usuario) {
             
    
@@ -139,6 +158,31 @@ namespace FrbaOfertas.DAOs
             command.Dispose();
             conexion.Close();
             conexion.Dispose();
+        }
+
+        public static List<Usuario> getUsuarios()
+        {
+            SqlConnection conexion = DBConnection.getConnection();
+            SqlCommand command = new SqlCommand("Select * from SOCORRO.USUARIO", conexion);
+            command.CommandType = CommandType.Text;
+            SqlDataReader reader = command.ExecuteReader();
+            List<Usuario> usuarios = new List<Usuario>();
+            while (reader.Read())
+            {
+                
+                string username = reader["user_username"].ToString();
+                Usuario u = new Usuario(username);
+                
+                usuarios.Add(u);
+            }
+            
+            
+            command.Dispose();
+            conexion.Close();
+            conexion.Dispose();
+
+            return usuarios;
+        
         }
     }
 }

@@ -66,6 +66,7 @@
             this.textBox1.TabIndex = 2;
             this.textBox1.Text = "AAAA";
             this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // dataGridView1
             // 

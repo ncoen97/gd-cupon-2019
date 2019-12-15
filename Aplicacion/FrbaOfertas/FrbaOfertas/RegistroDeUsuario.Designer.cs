@@ -37,11 +37,12 @@
             this.Atras = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxTipoDeUsuario = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // textboxContraseña
             // 
-            this.textboxContraseña.Location = new System.Drawing.Point(230, 112);
+            this.textboxContraseña.Location = new System.Drawing.Point(169, 112);
             this.textboxContraseña.Name = "textboxContraseña";
             this.textboxContraseña.PasswordChar = '*';
             this.textboxContraseña.Size = new System.Drawing.Size(214, 26);
@@ -49,7 +50,7 @@
             // 
             // textboxUsuario
             // 
-            this.textboxUsuario.Location = new System.Drawing.Point(230, 82);
+            this.textboxUsuario.Location = new System.Drawing.Point(169, 82);
             this.textboxUsuario.Name = "textboxUsuario";
             this.textboxUsuario.Size = new System.Drawing.Size(214, 26);
             this.textboxUsuario.TabIndex = 0;
@@ -57,7 +58,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(182, 31);
+            this.label10.Location = new System.Drawing.Point(139, 31);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(147, 20);
             this.label10.TabIndex = 35;
@@ -83,9 +84,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(230, 192);
+            this.button5.Location = new System.Drawing.Point(169, 193);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(214, 40);
+            this.button5.Size = new System.Drawing.Size(213, 40);
             this.button5.TabIndex = 3;
             this.button5.Text = "Registrar";
             this.button5.UseVisualStyleBackColor = true;
@@ -93,9 +94,9 @@
             // 
             // Atras
             // 
-            this.Atras.Location = new System.Drawing.Point(230, 238);
+            this.Atras.Location = new System.Drawing.Point(169, 239);
             this.Atras.Name = "Atras";
-            this.Atras.Size = new System.Drawing.Size(214, 40);
+            this.Atras.Size = new System.Drawing.Size(213, 40);
             this.Atras.TabIndex = 4;
             this.Atras.Text = "Atras";
             this.Atras.UseVisualStyleBackColor = true;
@@ -120,18 +121,35 @@
             this.comboBoxTipoDeUsuario.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxTipoDeUsuario.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTipoDeUsuario.FormattingEnabled = true;
-            this.comboBoxTipoDeUsuario.Location = new System.Drawing.Point(230, 151);
+            this.comboBoxTipoDeUsuario.Location = new System.Drawing.Point(169, 152);
             this.comboBoxTipoDeUsuario.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxTipoDeUsuario.Name = "comboBoxTipoDeUsuario";
-            this.comboBoxTipoDeUsuario.Size = new System.Drawing.Size(214, 28);
+            this.comboBoxTipoDeUsuario.Size = new System.Drawing.Size(213, 28);
             this.comboBoxTipoDeUsuario.TabIndex = 2;
             this.comboBoxTipoDeUsuario.SelectedIndexChanged += new System.EventHandler(this.comboBoxTipoDeUsuario_SelectedIndexChanged);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.comboBox1.AutoCompleteCustomSource.AddRange(new string[] {
+            "Proveedor",
+            "Cliente"});
+            this.comboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(169, 83);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(213, 28);
+            this.comboBox1.TabIndex = 55;
             // 
             // RegistroDeUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 303);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.comboBoxTipoDeUsuario);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Atras);
@@ -160,5 +178,6 @@
         private System.Windows.Forms.Button Atras;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxTipoDeUsuario;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

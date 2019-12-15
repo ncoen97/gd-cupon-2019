@@ -57,7 +57,7 @@ namespace FrbaOfertas
             DBConnection.canjear_cupon(int.Parse(textBox3.Text),textBox2.Text, Convert.ToInt16(textBox1.Text), dateTimePicker1.Value);
 
             MessageBox.Show("Cupon canjeado!");
-            textBox1.Text = ""; textBox2.Text = "";
+            textBox1.Text = ""; textBox2.Text = ""; textBox3.Text = "";
 
 
         }
